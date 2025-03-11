@@ -36,11 +36,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         isGrounded=Physics2D.OverlapCircle(feetPos.position,radio,suelo);
+        if(extraJumps==false && isGrounded==true){
+            extraJumps=true;
+        }
         if(isGrounded==true && Input.GetKeyDown(KeyCode.Space)){
             isJumping=true;
             jumpTimeCounter=jumpTime;
             rb.velocity=Vector2.up*jumpforce;
-            extraJumps=true;
         }else if(isGrounded==false && Input.GetKeyDown(KeyCode.Space) && extraJumps==true){
             isJumping=true;
             jumpTimeCounter=jumpTime;
