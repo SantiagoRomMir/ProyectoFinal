@@ -23,16 +23,21 @@ public class PlayerController : MonoBehaviour
     public int attackNumberChain;
     public float attackTimeChainReset;
     private float lastTimeAttack;
-    private float attackDelay;
+    private float attackCooldown;
+    private float lastFinishedCombo;
+    private float finishComboCooldown;
     public int attackCounter;
     // Start is called before the first frame update
     void Start()
     {
         rb= GetComponent<Rigidbody2D>();
-        lastTimeAttack = Time.time;
         attackCounter = 0;
-        attackTimeChainReset = 2f;
+        attackTimeChainReset = 1f;
         attackNumberChain = 3;
+        lastTimeAttack = Time.time;
+        attackCooldown = 0.2f;
+        lastFinishedCombo = Time.time;
+        finishComboCooldown = 0.5f;
     }
 
     void FixedUpdate()
@@ -83,7 +88,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Attack()
     {
-        if (Time.time < lastTimeAttack+attackDelay)
+        if (Time.time < lastTimeAttack+attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown)
         {
             return;
         }
@@ -93,6 +98,7 @@ public class PlayerController : MonoBehaviour
         {
             weapon.GetComponent<WeaponController>().damage = damage;
             weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
+            
         }
         else if (attackCounter == 2)
         {
@@ -103,6 +109,8 @@ public class PlayerController : MonoBehaviour
         {
             weapon.GetComponent<WeaponController>().damage += damage * 50 / 100;
             weapon.GetComponent<SpriteRenderer>().color = Color.red;
+            attackCounter = 0;
+            lastFinishedCombo = Time.time;
         }
         StopCoroutine("AttackAnim");
         StartCoroutine("AttackAnim");
@@ -110,17 +118,16 @@ public class PlayerController : MonoBehaviour
     IEnumerator AttackAnim()
     {
         weapon.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        weapon.GetComponent<Collider2D>().enabled = false;
+        weapon.GetComponent<Collider2D>().enabled = true;
+        yield return new WaitForSeconds(0.1f);
         weapon.SetActive(false);
     }
     private void CheckAttackCombo()
     {
-        if (attackCounter>attackNumberChain)
+        if (Time.time > lastTimeAttack + attackTimeChainReset && attackCounter > 0)
         {
-            attackCounter = 0;
-        }
-        if (Time.time > lastTimeAttack + attackTimeChainReset)
-        {
+            Debug.Log("ResetCombo");
             attackCounter = 0;
         }
     }
