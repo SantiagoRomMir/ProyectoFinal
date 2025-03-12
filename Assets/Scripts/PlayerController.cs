@@ -7,15 +7,19 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public float speed;
     private float direction;
-    private bool isGrounded;
+    private float verticalDirection;
+    
     public Transform feetPos;
     public float radio;
     public LayerMask suelo;
     public float jumpforce;
     public float jumpTime;
     private float jumpTimeCounter;
+    private bool isGrounded;
     private bool isJumping;
+    private bool isCrouching;
     private bool extraJumps;
+    private bool isFalling;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,16 +39,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded=Physics2D.OverlapCircle(feetPos.position,radio,suelo);
-        if(extraJumps==false && isGrounded==true){
-            extraJumps=true;
+        Grounded();
+        if(isGrounded){
+            Crouching();
         }
+        if(isCrouching){
+            Traspass();
+        }else{
+            Jump();
+        }
+        
+        
+    }
+    private void Jump(){
         if(isGrounded==true && Input.GetKeyDown(KeyCode.Space)){
             isJumping=true;
             jumpTimeCounter=jumpTime;
             rb.velocity=Vector2.up*jumpforce;
         }else if(isGrounded==false && Input.GetKeyDown(KeyCode.Space) && extraJumps==true){
             isJumping=true;
+            isFalling=false;
             jumpTimeCounter=jumpTime;
             rb.velocity=Vector2.up*jumpforce;
             extraJumps=false;
@@ -56,10 +70,47 @@ public class PlayerController : MonoBehaviour
 
             }else{
                 isJumping=false;
+                isFalling=true;
             }
         }
         if(Input.GetKeyUp(KeyCode.Space)){
             isJumping=false;
+            isFalling=true;
+        }
+    }
+    private void Grounded(){
+        isGrounded=Physics2D.OverlapCircle(feetPos.position,radio,suelo);
+        isFalling=false;
+        if(extraJumps==false && isGrounded==true){
+            extraJumps=true;
+        }
+    }
+    private void Crouching(){
+       
+        if(Input.GetKeyDown(KeyCode.DownArrow)){
+            BoxCollider2D[] colliders;
+            colliders=gameObject.GetComponents<BoxCollider2D>();
+            colliders[1].enabled=true;
+            colliders[0].enabled=false;
+            isCrouching=true;
+        }
+        
+        if(Input.GetKeyUp(KeyCode.DownArrow) || isFalling==true){
+            BoxCollider2D[] colliders;
+            colliders=gameObject.GetComponents<BoxCollider2D>();
+            colliders[0].enabled=true;
+            colliders[1].enabled=false;
+            isCrouching=false;
+        }
+    }
+    private void Traspass(){
+        if(Input.GetKeyDown(KeyCode.Space)){
+            Collider2D floor=Physics2D.OverlapCircle(feetPos.position,radio,suelo);
+            if(floor.CompareTag("sueloTraspasable")){
+                floor.GetComponent<TraspassFloor>().StartCoroutine("Rotar");
+                isFalling=true;
+                Crouching();
+            }
         }
     }
 }
