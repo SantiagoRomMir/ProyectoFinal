@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject aim;
     private Rigidbody2D rb;
+    public List<Transform> ganchos;
     public float speed;
     private float direction;
     private float verticalDirection;
@@ -12,33 +15,47 @@ public class PlayerController : MonoBehaviour
     public Transform feetPos;
     public float radio;
     public LayerMask suelo;
+    public LayerMask player;
     public float jumpforce;
     public float jumpTime;
     private float jumpTimeCounter;
+
+    public int maxHp;
+    private int hp;
+    public int maxRon;
+    private int ron;
+
     private bool isGrounded;
     private bool isJumping;
     private bool isCrouching;
     private bool extraJumps;
     private bool isFalling;
+    private bool aiming;
     // Start is called before the first frame update
     void Start()
     {
         rb= GetComponent<Rigidbody2D>();
+        ron=maxRon;
+        hp=maxHp;
+        hp=10;
     }
 
     void FixedUpdate()
     {
-        direction=Input.GetAxis("Horizontal");
-        rb.velocity=new Vector2(direction*speed,rb.velocity.y);
-        if(direction<0){
-            GetComponent<SpriteRenderer>().flipX=true;
-        }else if(direction>0){
-            GetComponent<SpriteRenderer>().flipX=false;
+        if(!aiming){
+            direction=Input.GetAxis("Horizontal");
+            rb.velocity=new Vector2(direction*speed,rb.velocity.y);
+            if(direction<0){
+                GetComponent<SpriteRenderer>().flipX=true;
+            }else if(direction>0){
+                GetComponent<SpriteRenderer>().flipX=false;
+            }
         }
     }
     // Update is called once per frame
     void Update()
     {
+        Aim();
         Grounded();
         if(isGrounded){
             Crouching();
@@ -47,6 +64,9 @@ public class PlayerController : MonoBehaviour
             Traspass();
         }else{
             Jump();
+        }
+        if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.LeftControl) && hp<maxHp){
+            Heal();
         }
         
         
@@ -103,6 +123,13 @@ public class PlayerController : MonoBehaviour
             isCrouching=false;
         }
     }
+    private void Heal(){
+        hp+=50;
+        if(hp>maxHp){
+            hp=maxHp;
+        }
+        ron--;
+    }
     private void Traspass(){
         if(Input.GetKeyDown(KeyCode.Space)){
             Collider2D floor=Physics2D.OverlapCircle(feetPos.position,radio,suelo);
@@ -113,4 +140,80 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    public void ReplenishRon(int num){
+        ron+=num;
+        if(ron>maxRon){
+            ron=maxRon;
+        }
+    }
+    private void Aim(){
+        if(Input.GetKey(KeyCode.F)){
+            aiming=true;
+            if(Input.GetKey(KeyCode.UpArrow) && Input.GetAxisRaw("Horizontal")!=0){
+                if(Input.GetAxisRaw("Horizontal")<0){
+                    Transform ganchoCercano=Distancia(113,157);
+                    if(ganchoCercano!=null){
+                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color=Color.red;
+                    }
+                }else{
+                    Transform ganchoCercano=Distancia(23,67);
+                    if(ganchoCercano!=null){
+                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color=Color.red;
+                    }
+                }
+            }else if(Input.GetKey(KeyCode.UpArrow)){
+                 Transform ganchoCercano=Distancia(68,112);
+                 if(ganchoCercano!=null){
+                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color=Color.red;
+                 }
+            }else if(Input.GetAxisRaw("Horizontal")<0){
+                Transform ganchoCercano=Distancia(158,180);
+                 if(ganchoCercano!=null){
+                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color=Color.red;
+                 }
+            }else if(Input.GetAxisRaw("Horizontal")>0){
+                Transform ganchoCercano=Distancia(0,22);
+                if(ganchoCercano!=null){
+                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color=Color.red;
+                }
+            }
+        }
+        if(Input.GetKeyUp(KeyCode.F)){
+            aiming=false;
+            for (int i = 0; i < ganchos.Count; i++)
+            {
+                if(ganchos[i]){
+                    ganchos[i].gameObject.GetComponent<SpriteRenderer>().color=Color.white;
+                }
+            }
+        }
+    }
+    private Transform Distancia(int minAngle, int maxAngle){
+        Transform ganchoCercano=null;
+        for (int i = 0; i <ganchos.Count; i++)
+            {
+                if(ganchos[i]!=null){
+                    Vector2 targetDir = ganchos[i].position - transform.position;
+                    float angle= Vector2.Angle(targetDir,transform.right);
+                    if(angle>minAngle && angle<maxAngle){
+                        if(ganchoCercano==null){
+                            ganchoCercano=ganchos[i];
+                        }else{
+                            if(Vector2.Distance(ganchos[i].position,transform.position)<Vector2.Distance(ganchoCercano.position,transform.position)){
+                                ganchoCercano=ganchos[i];
+                            }
+                        }
+                    }
+                }
+            }
+            restablecerColorGanchos();
+        return ganchoCercano;
+    }
+    private void restablecerColorGanchos(){
+        for (int i = 0; i < ganchos.Count; i++)
+            {
+                ganchos[i].gameObject.GetComponent<SpriteRenderer>().color=Color.white;
+            }
+    }
+    
 }
