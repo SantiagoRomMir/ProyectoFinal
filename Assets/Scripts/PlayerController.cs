@@ -23,21 +23,27 @@ public class PlayerController : MonoBehaviour
     public int attackNumberChain;
     public float attackTimeChainReset;
     private float lastTimeAttack;
-    private float attackCooldown;
+    public float attackCooldown;
     private float lastFinishedCombo;
-    private float finishComboCooldown;
-    public int attackCounter;
+    public float finishComboCooldown;
+    private int attackCounter;
+
+    [Header("Parry")]
+    public GameObject parry;
+    private bool isVulnerable;
+    public float parryCooldown;
+    public float parryDuration;
+    private float lastTimeParry;
     // Start is called before the first frame update
     void Start()
     {
         rb= GetComponent<Rigidbody2D>();
         attackCounter = 0;
-        attackTimeChainReset = 1f;
-        attackNumberChain = 3;
         lastTimeAttack = Time.time;
-        attackCooldown = 0.2f;
         lastFinishedCombo = Time.time;
-        finishComboCooldown = 0.5f;
+
+        isVulnerable = true;
+        lastTimeParry = Time.time;
     }
 
     void FixedUpdate()
@@ -58,6 +64,11 @@ public class PlayerController : MonoBehaviour
             Attack();
         }
         CheckAttackCombo();
+
+        if (Input.GetKeyDown(KeyCode.F) && Time.time>=lastTimeParry+parryCooldown)
+        {
+            StartCoroutine("Parry");
+        }
 
         isGrounded=Physics2D.OverlapCircle(feetPos.position,radio,suelo);
         if(extraJumps==false && isGrounded==true){
@@ -112,7 +123,6 @@ public class PlayerController : MonoBehaviour
             attackCounter = 0;
             lastFinishedCombo = Time.time;
         }
-        StopCoroutine("AttackAnim");
         StartCoroutine("AttackAnim");
     }
     IEnumerator AttackAnim()
@@ -130,5 +140,24 @@ public class PlayerController : MonoBehaviour
             Debug.Log("ResetCombo");
             attackCounter = 0;
         }
+    }
+    public void HurtPlayer(int damage)
+    {
+        if (!isVulnerable)
+        {
+            return;
+        }
+        Debug.Log("PlayerHurt: " + damage);
+    }
+    IEnumerator Parry()
+    {
+        lastTimeParry = Time.time;
+        isVulnerable = false;
+        parry.SetActive(true);
+        parry.GetComponent<Collider2D>().enabled = false;
+        parry.GetComponent<Collider2D>().enabled = true;
+        yield return new WaitForSeconds(parryDuration);
+        parry.SetActive(false);
+        isVulnerable = true;
     }
 }
