@@ -266,6 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   internalDamage: 10
+  isPerfect: 0
+  internalDamagePlayerPercent: 75
 --- !u!1 &501327372
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,11 +678,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 50
+  internalDamage: 0
   weapon: {fileID: 501327372}
   damage: 5
   attackCooldown: 1
   attackRange: 3.5
   healInternalDamageDelay: 2
+  triggerInternalDamage: 0
 --- !u!61 &1232221770
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -775,7 +779,10 @@ MonoBehaviour:
   finishComboCooldown: 0.5
   parry: {fileID: 110111048}
   parryCooldown: 0.75
-  parryDuration: 0.5
+  parryDuration: 1.5
+  perfectParryTimeWindow: 0.2
+  internalDamage: 0
+  healInternalDamageDelay: 2
 --- !u!61 &1401366060
 BoxCollider2D:
   m_ObjectHideFlags: 0

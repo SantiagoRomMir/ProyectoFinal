@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public int health;
-    private int internalDamage;
+    public int internalDamage;
     public GameObject weapon;
     public int damage;
     public float attackCooldown;
@@ -43,10 +43,10 @@ public class EnemyController : MonoBehaviour
     }
     public void HurtEnemy(int damage)
     {
-        Debug.Log("EnemyHurt: " + damage);
-        health -= damage;
-        lastTimeHurt = Time.time;
         StopCoroutine("HealInternalDamage");
+        health -= damage;
+        Debug.Log("EnemyHurt: " + damage);
+        lastTimeHurt = Time.time;
         isHealingInternalDamage = false;
 
         if (health<=0)
@@ -67,13 +67,13 @@ public class EnemyController : MonoBehaviour
     }
     IEnumerator HealInternalDamage()
     {
-        Debug.Log("HealingInternalDamage: "+internalDamage);
+        Debug.Log("Enemy HealingInternalDamage: "+internalDamage);
         isHealingInternalDamage = true;
         while (internalDamage>0) {
             internalDamage--;
             yield return new WaitForSeconds(0.1f);
         }
-        Debug.Log("Finished HealingInternalDamage: " + internalDamage);
+        Debug.Log("Enemy Finished HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = false;
     }
     IEnumerator AttackAnim()
@@ -86,9 +86,9 @@ public class EnemyController : MonoBehaviour
     }
     public void InternalHurtEnemy(int addInternalDamage)
     {
+        StopCoroutine("HealInternalDamage");
         internalDamage += addInternalDamage;
         lastTimeHurt = Time.time;
-        StopCoroutine("HealInternalDamage");
         isHealingInternalDamage = false;
     }
     public void ActivateInternalDamage()

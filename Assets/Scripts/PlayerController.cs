@@ -34,6 +34,11 @@ public class PlayerController : MonoBehaviour
     public float parryCooldown;
     public float parryDuration;
     private float lastTimeParry;
+    public float perfectParryTimeWindow;
+    public int internalDamage;
+    private float lastTimeHurt;
+    private bool isHealingInternalDamage;
+    public float healInternalDamageDelay;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
         isVulnerable = true;
         lastTimeParry = Time.time;
+        lastTimeHurt = Time.time;
+        internalDamage = 0;
     }
 
     void FixedUpdate()
@@ -69,8 +76,19 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine("Parry");
         }
+        if (Input.GetKeyUp(KeyCode.F) || Time.time>=lastTimeParry+parryDuration)
+        {
+            StopCoroutine("Parry");
+            parry.SetActive(false);
+            isVulnerable = true;
+        }
 
-        isGrounded=Physics2D.OverlapCircle(feetPos.position,radio,suelo);
+        if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
+        {
+            StartCoroutine("HealInternalDamage");
+        }
+
+        isGrounded =Physics2D.OverlapCircle(feetPos.position,radio,suelo);
         if(extraJumps==false && isGrounded==true){
             extraJumps=true;
         }
@@ -113,12 +131,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (attackCounter == 2)
         {
-            weapon.GetComponent<WeaponController>().damage += damage*25/100;
+            weapon.GetComponent<WeaponController>().damage += damage*50/100;
             weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
         }
         else if (attackCounter == 3)
         {
-            weapon.GetComponent<WeaponController>().damage += damage * 50 / 100;
+            weapon.GetComponent<WeaponController>().damage += damage * 100 / 100;
             weapon.GetComponent<SpriteRenderer>().color = Color.red;
             attackCounter = 0;
             lastFinishedCombo = Time.time;
@@ -147,17 +165,43 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("PlayerHurt: " + damage);
+        Debug.Log("PlayerHurt: " + (damage + internalDamage));
+        internalDamage = 0;
+        lastTimeHurt = Time.time;
     }
     IEnumerator Parry()
     {
+        parry.GetComponent<ParryController>().isPerfect = true;
+        parry.GetComponent<SpriteRenderer>().color = Color.green;
         lastTimeParry = Time.time;
         isVulnerable = false;
         parry.SetActive(true);
         parry.GetComponent<Collider2D>().enabled = false;
         parry.GetComponent<Collider2D>().enabled = true;
+        yield return new WaitForSeconds(perfectParryTimeWindow);
+        parry.GetComponent<SpriteRenderer>().color = Color.red;
+        parry.GetComponent<ParryController>().isPerfect = false;
         yield return new WaitForSeconds(parryDuration);
         parry.SetActive(false);
         isVulnerable = true;
+    }
+    public void InternalHurtPlayer(int addInternalDamage)
+    {
+        StopCoroutine("HealInternalDamage");
+        internalDamage += addInternalDamage;
+        lastTimeHurt = Time.time;
+        isHealingInternalDamage = false;
+    }
+    IEnumerator HealInternalDamage()
+    {
+        Debug.Log("Player HealingInternalDamage: " + internalDamage);
+        isHealingInternalDamage = true;
+        while (internalDamage > 0)
+        {
+            internalDamage--;
+            yield return new WaitForSeconds(0.1f);
+        }
+        Debug.Log("Player Finished HealingInternalDamage: " + internalDamage);
+        isHealingInternalDamage = false;
     }
 }
