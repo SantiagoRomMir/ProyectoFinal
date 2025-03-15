@@ -39,6 +39,12 @@ public class PlayerController : MonoBehaviour
     private float lastTimeHurt;
     private bool isHealingInternalDamage;
     public float healInternalDamageDelay;
+
+    [Header("Shoot")]
+    public GameObject bulletPrefab;
+    public float reloadTime;
+    private bool canShoot;
+    private bool isReloading;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +57,7 @@ public class PlayerController : MonoBehaviour
         lastTimeParry = Time.time;
         lastTimeHurt = Time.time;
         internalDamage = 0;
+        canShoot = true;
     }
 
     void FixedUpdate()
@@ -81,6 +88,16 @@ public class PlayerController : MonoBehaviour
             StopCoroutine("Parry");
             parry.SetActive(false);
             isVulnerable = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.V) && canShoot)
+        {
+            Shoot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && !canShoot && !isReloading)
+        {
+            StartCoroutine("Reload");
         }
 
         if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
@@ -150,6 +167,27 @@ public class PlayerController : MonoBehaviour
         weapon.GetComponent<Collider2D>().enabled = true;
         yield return new WaitForSeconds(0.1f);
         weapon.SetActive(false);
+    }
+    private void Shoot()
+    {
+        canShoot = false;
+        float forwardPos;
+        if (GetComponent<SpriteRenderer>().flipX)
+        {
+            forwardPos = -1f;
+        } else
+        {
+            forwardPos = 1f;
+        }
+        bulletPrefab.GetComponent<BulletController>().direction = forwardPos;
+        Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardPos, transform.position.y), Quaternion.identity);
+    }
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        canShoot = true;
+        isReloading = false;
     }
     private void CheckAttackCombo()
     {

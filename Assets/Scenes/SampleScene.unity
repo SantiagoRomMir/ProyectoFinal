@@ -783,6 +783,8 @@ MonoBehaviour:
   perfectParryTimeWindow: 0.2
   internalDamage: 0
   healInternalDamageDelay: 2
+  bulletPrefab: {fileID: 9052627422862849176, guid: 5e22268d933dd8c41a50c1d5b4906158, type: 3}
+  reloadTime: 1
 --- !u!61 &1401366060
 BoxCollider2D:
   m_ObjectHideFlags: 0
