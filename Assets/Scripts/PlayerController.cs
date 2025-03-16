@@ -162,6 +162,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
+        weapon.GetComponent<WeaponController>().FlipPosition();
         weapon.SetActive(true);
         weapon.GetComponent<Collider2D>().enabled = false;
         weapon.GetComponent<Collider2D>().enabled = true;
@@ -213,6 +214,7 @@ public class PlayerController : MonoBehaviour
         parry.GetComponent<SpriteRenderer>().color = Color.green;
         lastTimeParry = Time.time;
         isVulnerable = false;
+        parry.GetComponent<ParryController>().FlipPosition();
         parry.SetActive(true);
         parry.GetComponent<Collider2D>().enabled = false;
         parry.GetComponent<Collider2D>().enabled = true;
