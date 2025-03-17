@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
-        weapon.GetComponent<WeaponController>().FlipPosition();
+        weapon.GetComponent<FlipWeapon>().FlipPosition();
         weapon.SetActive(true);
         weapon.GetComponent<Collider2D>().enabled = false;
         weapon.GetComponent<Collider2D>().enabled = true;
