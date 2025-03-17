@@ -83,11 +83,12 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine("Parry");
         }
-        if (Input.GetKeyUp(KeyCode.F) || Time.time>=lastTimeParry+parryDuration)
+        if ((Input.GetKeyUp(KeyCode.F) || Time.time>=lastTimeParry+parryDuration) && parry.activeSelf)
         {
             StopCoroutine("Parry");
             parry.SetActive(false);
             isVulnerable = true;
+            lastTimeParry = Time.time;
         }
 
         if (Input.GetKeyDown(KeyCode.V) && canShoot)
@@ -212,7 +213,6 @@ public class PlayerController : MonoBehaviour
     {
         parry.GetComponent<ParryController>().isPerfect = true;
         parry.GetComponent<SpriteRenderer>().color = Color.green;
-        lastTimeParry = Time.time;
         isVulnerable = false;
         parry.GetComponent<ParryController>().FlipPosition();
         parry.SetActive(true);
@@ -222,6 +222,7 @@ public class PlayerController : MonoBehaviour
         parry.GetComponent<SpriteRenderer>().color = Color.red;
         parry.GetComponent<ParryController>().isPerfect = false;
         yield return new WaitForSeconds(parryDuration);
+        lastTimeParry = Time.time;
         parry.SetActive(false);
         isVulnerable = true;
     }
