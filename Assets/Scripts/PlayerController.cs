@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine("HealInternalDamage");
         }
 
-        if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown && isGrounded)
+        if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown)
         {
             StartCoroutine("Dodge");
         }
@@ -282,6 +282,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Dodge()
     {
         canMove = false;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         lastTimeDodge = Time.time;
         isVulnerable = false;
         int dir = GetFacingDirection();
@@ -289,11 +290,11 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         do
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.velocity += Vector2.right*(dodgeSpeed * dir);
             yield return new WaitForEndOfFrame();
         } while (Time.time - lastTimeDodge <= dodgeDuration);
         isVulnerable = true;
+        rb.constraints = RigidbodyConstraints2D.None;
         canMove = true;
         lastTimeDodge = Time.time;
     }
