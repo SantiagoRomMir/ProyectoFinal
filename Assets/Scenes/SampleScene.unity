@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 501327376}
   - component: {fileID: 501327375}
   - component: {fileID: 501327374}
+  - component: {fileID: 501327377}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: EnemyAttack
@@ -298,6 +299,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &501327377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501327372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037cd92513d408140b2f7892817fc714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformL: {fileID: 2076711347}
+  transformR: {fileID: 2058802845}
 --- !u!1 &617597273
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +654,6 @@ GameObject:
   - component: {fileID: 1232221766}
   - component: {fileID: 1232221769}
   - component: {fileID: 1232221770}
-  - component: {fileID: 1232221771}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Enemy
@@ -655,7 +669,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232221765}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -717,7 +731,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -735,7 +749,7 @@ Transform:
   m_GameObject: {fileID: 1232221765}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.03, y: -2.2874892, z: 0}
+  m_LocalPosition: {x: 1.03, y: -3.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -793,7 +807,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.21133333}
@@ -809,20 +823,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1232221771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1232221765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 037cd92513d408140b2f7892817fc714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transformL: {fileID: 2076711347}
-  transformR: {fileID: 2058802845}
 --- !u!1 &1299173783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,6 +1026,14 @@ MonoBehaviour:
   healInternalDamageDelay: 2
   bulletPrefab: {fileID: 9052627422862849176, guid: 5e22268d933dd8c41a50c1d5b4906158, type: 3}
   reloadTime: 1
+  dodgeDuration: 0.2
+  dodgeSpeed: 2
+  dodgeCooldown: 1
+  attackKey: 122
+  parryKey: 113
+  shootKey: 118
+  reloadKey: 114
+  dodgeKey: 304
 --- !u!61 &1401366060
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1356,7 +1364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0797acad0e9494b92adba0a7b6de2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 20
   hitTag: Player
 --- !u!212 &1609896007
 SpriteRenderer:
@@ -1419,7 +1427,7 @@ Transform:
   m_GameObject: {fileID: 1609896004}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -8.1, y: -1.94, z: 0}
+  m_LocalPosition: {x: -5.81, y: -1.94, z: 0}
   m_LocalScale: {x: 1.8125, y: 0.2875, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

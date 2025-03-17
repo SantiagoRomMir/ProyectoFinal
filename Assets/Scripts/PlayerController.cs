@@ -45,10 +45,25 @@ public class PlayerController : MonoBehaviour
     public float reloadTime;
     private bool canShoot;
     private bool isReloading;
+
+    [Header("Dodge")]
+    public float dodgeDuration;
+    public float dodgeSpeed;
+    public float dodgeCooldown;
+    private float lastTimeDodge;
+    private bool canMove;
+
+    [Header("Controls")]
+    public KeyCode attackKey;
+    public KeyCode parryKey;
+    public KeyCode shootKey;
+    public KeyCode reloadKey;
+    public KeyCode dodgeKey;
+
     // Start is called before the first frame update
     void Start()
     {
-        rb= GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
@@ -58,32 +73,53 @@ public class PlayerController : MonoBehaviour
         lastTimeHurt = Time.time;
         internalDamage = 0;
         canShoot = true;
+
+        lastTimeDodge = Time.time;
+        canMove = true;
     }
 
     void FixedUpdate()
     {
-        direction=Input.GetAxis("Horizontal");
-        rb.velocity=new Vector2(direction*speed,rb.velocity.y);
-        if(direction<0){
-            GetComponent<SpriteRenderer>().flipX=true;
-        }else if(direction>0){
-            GetComponent<SpriteRenderer>().flipX=false;
+        if (canMove)
+        {
+            direction = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+            if (direction < 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else if (direction > 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            direction = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+            if (direction < 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else if (direction > 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
         }
     }
-    // Update is called once per frame
-    void Update()
+        // Update is called once per frame
+    void Update() 
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        isGrounded = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+
+        if (Input.GetKeyDown(attackKey))
         {
             Attack();
         }
         CheckAttackCombo();
 
-        if (Input.GetKeyDown(KeyCode.F) && Time.time>=lastTimeParry+parryCooldown)
+        if (Input.GetKeyDown(parryKey) && Time.time>=lastTimeParry+parryCooldown)
         {
             StartCoroutine("Parry");
         }
-        if ((Input.GetKeyUp(KeyCode.F) || Time.time>=lastTimeParry+parryDuration) && parry.activeSelf)
+        if ((Input.GetKeyUp(parryKey) || Time.time>=lastTimeParry+parryDuration) && parry.activeSelf)
         {
             StopCoroutine("Parry");
             parry.SetActive(false);
@@ -91,12 +127,12 @@ public class PlayerController : MonoBehaviour
             lastTimeParry = Time.time;
         }
 
-        if (Input.GetKeyDown(KeyCode.V) && canShoot)
+        if (Input.GetKeyDown(shootKey) && canShoot)
         {
             Shoot();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !canShoot && !isReloading)
+        if (Input.GetKeyDown(reloadKey) && !canShoot && !isReloading)
         {
             StartCoroutine("Reload");
         }
@@ -106,31 +142,44 @@ public class PlayerController : MonoBehaviour
             StartCoroutine("HealInternalDamage");
         }
 
-        isGrounded =Physics2D.OverlapCircle(feetPos.position,radio,suelo);
-        if(extraJumps==false && isGrounded==true){
-            extraJumps=true;
+        if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown && isGrounded)
+        {
+            StartCoroutine("Dodge");
         }
-        if(isGrounded==true && Input.GetKeyDown(KeyCode.Space)){
-            isJumping=true;
-            jumpTimeCounter=jumpTime;
-            rb.velocity=Vector2.up*jumpforce;
-        }else if(isGrounded==false && Input.GetKeyDown(KeyCode.Space) && extraJumps==true){
-            isJumping=true;
-            jumpTimeCounter=jumpTime;
-            rb.velocity=Vector2.up*jumpforce;
-            extraJumps=false;
-        }
-        if(Input.GetKey(KeyCode.Space) && isJumping==true){
-            if(jumpTimeCounter>0){
-                rb.velocity=Vector2.up*jumpforce;
-                jumpTimeCounter-=Time.deltaTime;
 
-            }else{
-                isJumping=false;
+        if (extraJumps == false && isGrounded == true)
+        {
+            extraJumps = true;
+        }
+        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
+        {
+            isJumping = true;
+            jumpTimeCounter = jumpTime;
+            rb.velocity = Vector2.up * jumpforce;
+        }
+        else if (isGrounded == false && Input.GetKeyDown(KeyCode.Space) && extraJumps == true)
+        {
+            isJumping = true;
+            jumpTimeCounter = jumpTime;
+            rb.velocity = Vector2.up * jumpforce;
+            extraJumps = false;
+        }
+        if (Input.GetKey(KeyCode.Space) && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity = Vector2.up * jumpforce;
+                jumpTimeCounter -= Time.deltaTime;
+
+            }
+            else
+            {
+                isJumping = false;
             }
         }
-        if(Input.GetKeyUp(KeyCode.Space)){
-            isJumping=false;
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isJumping = false;
         }
     }
     public void Attack()
@@ -173,16 +222,20 @@ public class PlayerController : MonoBehaviour
     private void Shoot()
     {
         canShoot = false;
-        float forwardPos;
+        float forwardDir = GetFacingDirection();
+        bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
+        Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardDir, transform.position.y), Quaternion.identity);
+    }
+    private int GetFacingDirection()
+    {
         if (GetComponent<SpriteRenderer>().flipX)
         {
-            forwardPos = -1f;
-        } else
-        {
-            forwardPos = 1f;
+            return -1;
         }
-        bulletPrefab.GetComponent<BulletController>().direction = forwardPos;
-        Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardPos, transform.position.y), Quaternion.identity);
+        else
+        {
+            return 1;
+        }
     }
     IEnumerator Reload()
     {
@@ -225,6 +278,24 @@ public class PlayerController : MonoBehaviour
         lastTimeParry = Time.time;
         parry.SetActive(false);
         isVulnerable = true;
+    }
+    IEnumerator Dodge()
+    {
+        canMove = false;
+        lastTimeDodge = Time.time;
+        isVulnerable = false;
+        int dir = GetFacingDirection();
+        Debug.Log(GetFacingDirection());
+        rb.velocity = Vector3.zero;
+        do
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.velocity += Vector2.right*(dodgeSpeed * dir);
+            yield return new WaitForEndOfFrame();
+        } while (Time.time - lastTimeDodge <= dodgeDuration);
+        isVulnerable = true;
+        canMove = true;
+        lastTimeDodge = Time.time;
     }
     public void InternalHurtPlayer(int addInternalDamage)
     {
