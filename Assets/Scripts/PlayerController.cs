@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject aim;
+    public GameObject loro;
     private Rigidbody2D rb;
     private LineRenderer line;
     public List<Transform> ganchos;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool extraJumps;
     private bool isFalling;
     private bool aiming;
+    public bool usingLoro;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,43 +49,48 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!aiming)
-        {
-            direction = Input.GetAxis("Horizontal");
-            rb.velocity = new Vector2(direction * speed, rb.velocity.y);
-            if (direction < 0)
+        if(!usingLoro){ 
+            if (!aiming)
             {
-                GetComponent<SpriteRenderer>().flipX = true;
-            }
-            else if (direction > 0)
-            {
-                GetComponent<SpriteRenderer>().flipX = false;
+                direction = Input.GetAxis("Horizontal");
+                rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+                if (direction < 0)
+                {
+                    GetComponent<SpriteRenderer>().flipX = true;
+                }
+                else if (direction > 0)
+                {
+                    GetComponent<SpriteRenderer>().flipX = false;
+                }
             }
         }
     }
     // Update is called once per frame
     void Update()
     {
-        Aim();
-        Grounded();
-        if (isGrounded)
-        {
-            Crouching();
+        if(!usingLoro){
+            Aim();
+            Grounded();
+            if (isGrounded)
+            {
+                Crouching();
+            }
+            if (isCrouching)
+            {
+                Traspass();
+            }
+            else
+            {
+                Jump();
+            }
+            if (isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.LeftControl) && hp < maxHp)
+            {
+                Heal();
+            }
+            if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.Q)){
+                Loro();
+            }
         }
-        if (isCrouching)
-        {
-            Traspass();
-        }
-        else
-        {
-            Jump();
-        }
-        if (isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.LeftControl) && hp < maxHp)
-        {
-            Heal();
-        }
-
-
     }
     private void Jump()
     {
@@ -296,6 +303,10 @@ public class PlayerController : MonoBehaviour
         line.enabled = false;
 
 
+    }
+    private void Loro(){
+        usingLoro=true;
+        loro.SetActive(true);
     }
 
 }
