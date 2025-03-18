@@ -15,6 +15,7 @@ public class Door : MonoBehaviour
         if(collision.gameObject.CompareTag("Player")){
             
             if(Input.GetKey(KeyCode.UpArrow)){
+                PlayerPrefs.SetString("Door",gameObject.name);
                 SceneManager.LoadScene(Scene);
             }
         }

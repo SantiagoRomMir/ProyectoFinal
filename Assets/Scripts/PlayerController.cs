@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.position=GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
         rb = GetComponent<Rigidbody2D>();
         line = GetComponent<LineRenderer>();
         ron = maxRon;
@@ -105,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!usingLoro || canMove){ 
+        if(!usingLoro && canMove){ 
             if (!aiming)
             {
                 direction = Input.GetAxis("Horizontal");
@@ -290,51 +291,29 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.F))
         {
-            if (Input.GetKey(KeyCode.UpArrow) && Input.GetAxisRaw("Horizontal") != 0)
+            if (Input.GetKey(KeyCode.UpArrow))
             {
                 if (Input.GetAxisRaw("Horizontal") < 0)
                 {
                     Distancia(113, 157);
-                    if (ganchoCercano != null)
-                    {
-                        ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                    }
                 }
-                else
+                else if(Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    Distancia(23, 67);
-                    if (ganchoCercano != null)
-                    {
-                        ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                    }
-                }
-            }
-            else if (Input.GetKey(KeyCode.UpArrow))
-            {
-                Distancia(68, 112);
-                if (ganchoCercano != null)
-                {
-                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                    Distancia(23, 67);                  
+                }else{
+                    Distancia(68, 112);
                 }
             }
             else if (Input.GetAxisRaw("Horizontal") < 0)
             {
-                Distancia(158, 180);
-                if (ganchoCercano != null)
-                {
-                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                }
+                Distancia(158, 180);  
             }
             else if (Input.GetAxisRaw("Horizontal") > 0)
             {
                 Distancia(0, 22);
-                if (ganchoCercano != null)
-                {
-                    ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                }
             }
         }
-        if (ganchoCercano != null && Input.GetKeyDown(KeyCode.E))
+        if (ganchoCercano != null && Input.GetKeyUp(KeyCode.F))
         {
             StopCoroutine("Gancho");
             StartCoroutine("Gancho");
@@ -342,7 +321,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.F))
         {
             aiming = false;
-
             ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             ganchoCercano = null;
         }
@@ -373,6 +351,10 @@ public class PlayerController : MonoBehaviour
             }
         }
         RestablecerColorGanchos();
+        if (ganchoCercano != null)
+            {
+                ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            }
     }
     private void RestablecerColorGanchos()
     {
@@ -383,20 +365,20 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Gancho()
     {
+        Debug.Log(ganchoCercano);
         Transform objetivo = ganchoCercano;
         line.enabled = true;
         line.SetPosition(1, objetivo.position);
+        rb.velocity=new Vector2(0,0);
         rb.bodyType = RigidbodyType2D.Kinematic;
         while (transform.position != objetivo.position)
         {
             line.SetPosition(0, firePosition.position);
-            transform.position = Vector2.MoveTowards(transform.position, objetivo.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, objetivo.position, speed * Time.deltaTime*1.5f);
             yield return new WaitForEndOfFrame();
         }
         rb.bodyType = RigidbodyType2D.Dynamic;
         line.enabled = false;
-
-
     }
     private void Loro(){
         usingLoro=true;
@@ -414,18 +396,18 @@ public class PlayerController : MonoBehaviour
         if (attackCounter == 1)
         {
             weapon.GetComponent<WeaponController>().damage = damage;
-            weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
+            //weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
             
         }
         else if (attackCounter == 2)
         {
             weapon.GetComponent<WeaponController>().damage += damage*50/100;
-            weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
+            //weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
         }
         else if (attackCounter == 3)
         {
             weapon.GetComponent<WeaponController>().damage += damage * 100 / 100;
-            weapon.GetComponent<SpriteRenderer>().color = Color.red;
+            //weapon.GetComponent<SpriteRenderer>().color = Color.red;
             attackCounter = 0;
             lastFinishedCombo = Time.time;
         }
@@ -433,7 +415,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
-        weapon.GetComponent<FlipWeapon>().FlipPosition();
+        //weapon.GetComponent<FlipWeapon>().FlipPosition();
         weapon.SetActive(true);
         weapon.GetComponent<Collider2D>().enabled = false;
         weapon.GetComponent<Collider2D>().enabled = true;
@@ -486,14 +468,14 @@ public class PlayerController : MonoBehaviour
     IEnumerator Parry()
     {
         parry.GetComponent<ParryController>().isPerfect = true;
-        parry.GetComponent<SpriteRenderer>().color = Color.green;
+        //parry.GetComponent<SpriteRenderer>().color = Color.green;
         isVulnerable = false;
-        parry.GetComponent<ParryController>().FlipPosition();
+        //parry.GetComponent<ParryController>().FlipPosition();
         parry.SetActive(true);
         parry.GetComponent<Collider2D>().enabled = false;
         parry.GetComponent<Collider2D>().enabled = true;
         yield return new WaitForSeconds(perfectParryTimeWindow);
-        parry.GetComponent<SpriteRenderer>().color = Color.red;
+        //parry.GetComponent<SpriteRenderer>().color = Color.red;
         parry.GetComponent<ParryController>().isPerfect = false;
         yield return new WaitForSeconds(parryDuration);
         lastTimeParry = Time.time;
@@ -515,7 +497,9 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         } while (Time.time - lastTimeDodge <= dodgeDuration);
         isVulnerable = true;
+        rb.velocity=Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.None;
+        rb.constraints= RigidbodyConstraints2D.FreezeRotation;
         canMove = true;
         lastTimeDodge = Time.time;
     }
