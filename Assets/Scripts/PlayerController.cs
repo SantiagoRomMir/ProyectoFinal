@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     private float direction;
     private float verticalDirection;
+    private bool isHooking;
 
     public Transform feetPos;
     public Transform firePosition;
@@ -84,12 +86,18 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position=GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
+        GameObject door = GameObject.Find(PlayerPrefs.GetString("Door"));
+        if (door != null)
+        {
+            transform.position = door.transform.position;
+        }
         rb = GetComponent<Rigidbody2D>();
         line = GetComponent<LineRenderer>();
         ron = maxRon;
         hp = maxHp;
         hp = 10;
+        isHooking = false;
+
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
@@ -138,7 +146,10 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Jump();
+                if (!isHooking) 
+                {
+                    Jump();
+                }
             }
             if (isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.LeftControl) && hp < maxHp)
             {
@@ -147,7 +158,7 @@ public class PlayerController : MonoBehaviour
             if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.Q)){
                 Loro();
             }
-             if (Input.GetKeyDown(attackKey))
+            if (Input.GetKeyDown(attackKey))
             {
                 Attack();
             }
@@ -181,7 +192,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine("HealInternalDamage");
             }
 
-            if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown)
+            if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown && !isHooking)
             {
                 StartCoroutine("Dodge");
             }
@@ -352,9 +363,9 @@ public class PlayerController : MonoBehaviour
         }
         RestablecerColorGanchos();
         if (ganchoCercano != null)
-            {
-                ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-            }
+        {
+            ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
     }
     private void RestablecerColorGanchos()
     {
@@ -366,6 +377,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Gancho()
     {
         Debug.Log(ganchoCercano);
+        isHooking = true;
+        canMove = false;
         Transform objetivo = ganchoCercano;
         line.enabled = true;
         line.SetPosition(1, objetivo.position);
@@ -379,6 +392,8 @@ public class PlayerController : MonoBehaviour
         }
         rb.bodyType = RigidbodyType2D.Dynamic;
         line.enabled = false;
+        isHooking = false;
+        canMove = true;
     }
     private void Loro(){
         usingLoro=true;
@@ -484,8 +499,9 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Dodge()
     {
+        Quaternion startRot = transform.rotation;
         canMove = false;
-        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         lastTimeDodge = Time.time;
         isVulnerable = false;
         int dir = GetFacingDirection();
@@ -493,13 +509,13 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         do
         {
-            rb.velocity += Vector2.right*(dodgeSpeed * dir);
+            rb.velocity += Vector2.right*(dodgeSpeed * dir * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         } while (Time.time - lastTimeDodge <= dodgeDuration);
         isVulnerable = true;
         rb.velocity=Vector2.zero;
-        rb.constraints = RigidbodyConstraints2D.None;
         rb.constraints= RigidbodyConstraints2D.FreezeRotation;
+        transform.rotation = startRot;
         canMove = true;
         lastTimeDodge = Time.time;
     }
