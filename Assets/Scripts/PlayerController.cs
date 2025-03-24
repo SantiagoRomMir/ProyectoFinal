@@ -83,9 +83,13 @@ public class PlayerController : MonoBehaviour
     public KeyCode reloadKey;
     public KeyCode dodgeKey;
 
+    [Header("Sound")]
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
         GameObject door = GameObject.Find(PlayerPrefs.GetString("Door"));
         if (door != null)
         {

@@ -7,6 +7,7 @@ TagManager:
   - sueloTraspasable
   - Enemy
   - EnemyAttack
+  - SoundManager
   layers:
   - Default
   - TransparentFX
