@@ -7,6 +7,9 @@ TagManager:
   - sueloTraspasable
   - Enemy
   - EnemyAttack
+  - trap
+  - sueloSeguro
+  - Hoguera
   layers:
   - Default
   - TransparentFX
