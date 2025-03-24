@@ -86,6 +86,11 @@ public class PlayerController : MonoBehaviour
     [Header("Sound")]
     private AudioSource audioSource;
 
+    [Header("Skills")]
+    public bool hasHook;
+    public bool hasParrot;
+    public bool hasGun;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,6 +119,10 @@ public class PlayerController : MonoBehaviour
 
         lastTimeDodge = Time.time;
         canMove = true;
+
+        hasHook = false;
+        hasGun = false;
+        hasParrot = false;
     }
 
     void FixedUpdate()
@@ -138,7 +147,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if(!usingLoro){
-            Aim();
+            if (hasHook)
+            {
+                Aim();
+            }
             Grounded();
             if (isGrounded)
             {
@@ -159,7 +171,7 @@ public class PlayerController : MonoBehaviour
             {
                 Heal();
             }
-            if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.Q)){
+            if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.Q) && hasParrot){
                 Loro();
             }
             if (Input.GetKeyDown(attackKey))
@@ -181,7 +193,7 @@ public class PlayerController : MonoBehaviour
                 lastTimeParry = Time.time;
             }
 
-            if (Input.GetKeyDown(shootKey) && canShoot)
+            if (Input.GetKeyDown(shootKey) && canShoot && hasGun)
             {
                 Shoot();
             }
@@ -210,7 +222,7 @@ public class PlayerController : MonoBehaviour
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpforce;
         }
-        else if (isGrounded == false && Input.GetKeyDown(KeyCode.Space) && extraJumps == true)
+        else if (isGrounded == false && Input.GetKeyDown(KeyCode.Space) && extraJumps == true && hasGun)
         {
             isJumping = true;
             isFalling = false;
