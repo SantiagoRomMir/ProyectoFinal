@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 378103597}
   - component: {fileID: 378103596}
   - component: {fileID: 378103595}
+  - component: {fileID: 378103599}
   m_Layer: 0
   m_Name: puertaEdificio1
   m_TagString: Untagged
@@ -266,6 +267,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &378103599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378103593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 0
+  sceneList:
+  - Inicio
+  - Edificio
 --- !u!1 &741806629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1746,6 +1763,7 @@ GameObject:
   - component: {fileID: 2057046933}
   - component: {fileID: 2057046932}
   - component: {fileID: 2057046931}
+  - component: {fileID: 2057046935}
   m_Layer: 0
   m_Name: puertaEdificio2
   m_TagString: Untagged
@@ -1878,6 +1896,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2057046935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057046930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 0
+  sceneList:
+  - Inicio
+  - Edificio
 --- !u!1 &2081882990
 GameObject:
   m_ObjectHideFlags: 0
