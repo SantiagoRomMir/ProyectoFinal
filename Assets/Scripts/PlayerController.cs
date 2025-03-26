@@ -85,10 +85,13 @@ public class PlayerController : MonoBehaviour
     public KeyCode reloadKey;
     public KeyCode dodgeKey;
 
+    [Header("Sound")]
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< HEAD
+        audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
         if(PlayerPrefs.GetString("accion")=="puerta"){
             transform.position=GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
         }
@@ -97,7 +100,6 @@ public class PlayerController : MonoBehaviour
         }
         rb = GetComponent<Rigidbody2D>();
         line = GetComponent<LineRenderer>();
-=======
         GameObject door = GameObject.Find(PlayerPrefs.GetString("Door"));
         if (door != null)
         {
@@ -110,7 +112,6 @@ public class PlayerController : MonoBehaviour
         hp = 10;
         isHooking = false;
 
->>>>>>> 5dac27fa1fd18f89f6acc2c1f1fcc0ba1f6c04ac
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
