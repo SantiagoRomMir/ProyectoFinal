@@ -111,6 +111,7 @@ public class PlayerController : MonoBehaviour
         hp = maxHp;
         hp = 10;
         isHooking = false;
+        usingLoro = false;
 
         attackCounter = 0;
         lastTimeAttack = Time.time;
@@ -154,6 +155,7 @@ public class PlayerController : MonoBehaviour
             {
                 Crouching();
             }
+
             if (isCrouching)
             {
                 Traspass();
@@ -165,24 +167,12 @@ public class PlayerController : MonoBehaviour
                     Jump();
                 }
             }
-            if (isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.LeftControl) && hp < maxHp)
-            {
-                Heal();
-            }
-            if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.Q)){
-                Loro();
-            }
-            if (Input.GetKeyDown(attackKey))
-            {
-                Attack();
-            }
-
-            CheckAttackCombo();
-
+            
             if (Input.GetKeyDown(parryKey) && Time.time>=lastTimeParry+parryCooldown)
             {
                 StartCoroutine("Parry");
             }
+
             if ((Input.GetKeyUp(parryKey) || Time.time>=lastTimeParry+parryDuration) && parry.activeSelf)
             {
                 StopCoroutine("Parry");
@@ -190,37 +180,40 @@ public class PlayerController : MonoBehaviour
                 isVulnerable = true;
                 lastTimeParry = Time.time;
             }
-
-            if (Input.GetKeyDown(shootKey) && canShoot)
-            {
-                Shoot();
-            }
-
-            if (Input.GetKeyDown(reloadKey) && !canShoot && !isReloading)
-            {
-                StartCoroutine("Reload");
-            }
-
-            if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
-            {
-                StartCoroutine("HealInternalDamage");
-            }
-
-            if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown && !isHooking)
-            {
-                StartCoroutine("Dodge");
-            }
         }
+
+        if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
+        {
+            StartCoroutine("HealInternalDamage");
+        }
+
+        CheckAttackCombo();
+    }
+    public void StartReload()
+    {
+        if (canShoot || isReloading) 
+        {
+            return;
+        }
+        StartCoroutine("Reload");
+    }
+    public void StartDodge()
+    {
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking)
+        {
+            return;
+        }
+        StartCoroutine("Dodge");
     }
     private void Jump()
     {
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpforce;
         }
-        else if (isGrounded == false && Input.GetKeyDown(KeyCode.Space) && extraJumps == true)
+        else if (isGrounded && Input.GetKeyDown(KeyCode.Space) && extraJumps)
         {
             isJumping = true;
             isFalling = false;
@@ -228,7 +221,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.up * jumpforce;
             extraJumps = false;
         }
-        if (Input.GetKey(KeyCode.Space) && isJumping == true)
+        if (Input.GetKey(KeyCode.Space) && isJumping)
         {
             if (jumpTimeCounter > 0)
             {
@@ -285,6 +278,11 @@ public class PlayerController : MonoBehaviour
     }
     public void Heal()
     {
+        if (isCrouching || hp >= maxHp)
+        {
+            return;
+        }
+
         hp += 50;
         if (hp > maxHp)
         {
@@ -414,14 +412,25 @@ public class PlayerController : MonoBehaviour
         isHooking = false;
         canMove = true;
     }
-    private void Loro(){
-        usingLoro=true;
-        loro.SetActive(true);
+    public void Loro(){
+        if (!isGrounded || isCrouching)
+        {
+            return;
+        }
+        Debug.Log("loro");
+        if (usingLoro)
+        {
+            loro.GetComponent<Loro>().DesactivarLoro();
+        } else 
+        {
+            usingLoro = true;
+            loro.SetActive(true);
+        }
     }
 
     public void Attack()
     {
-        if (Time.time < lastTimeAttack+attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown)
+        if (Time.time < lastTimeAttack+attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown || isHooking || usingLoro)
         {
             return;
         }
@@ -456,8 +465,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         weapon.SetActive(false);
     }
-    private void Shoot()
+    public void Shoot()
     {
+        if (!canShoot || usingLoro)
+        {
+            return;
+        }
         canShoot = false;
         float forwardDir = GetFacingDirection();
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
@@ -545,7 +558,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         do
         {
-            rb.velocity += Vector2.right*(dodgeSpeed * dir * Time.deltaTime);
+            rb.velocity += Vector2.right*(dodgeSpeed * 100 * dir * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         } while (Time.time - lastTimeDodge <= dodgeDuration);
         isVulnerable = true;
