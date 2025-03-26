@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public Transform feetPos;
     public Transform firePosition;
     private Transform ganchoCercano;
+    public Vector3 lastPosition;
 
     public float radio;
     public LayerMask suelo;
@@ -90,6 +92,14 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
+        if(PlayerPrefs.GetString("accion")=="puerta"){
+            transform.position=GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
+        }
+        if(PlayerPrefs.GetString("accion")=="Respawning"){
+            transform.position=GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
+        }
+        rb = GetComponent<Rigidbody2D>();
+        line = GetComponent<LineRenderer>();
         GameObject door = GameObject.Find(PlayerPrefs.GetString("Door"));
         if (door != null)
         {
@@ -105,7 +115,7 @@ public class PlayerController : MonoBehaviour
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
-
+        hp=maxHp;
         isVulnerable = true;
         lastTimeParry = Time.time;
         lastTimeHurt = Time.time;
@@ -240,7 +250,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Grounded()
     {
-        isGrounded = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+        //isGrounded = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+        Collider2D collider=Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+        isGrounded=collider;
+        if(collider!= null && collider.CompareTag("sueloSeguro")){
+            lastPosition=transform.position;
+        }
         isFalling = false;
         if (extraJumps == false && isGrounded == true)
         {
@@ -268,7 +283,7 @@ public class PlayerController : MonoBehaviour
             isCrouching = false;
         }
     }
-    private void Heal()
+    public void Heal()
     {
         hp += 50;
         if (hp > maxHp)
@@ -480,9 +495,26 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("PlayerHurt: " + (damage + internalDamage));
+        Debug.Log(hp+"hola");
+        Debug.Log(internalDamage);
+        hp-=damage+internalDamage;
+         Debug.Log("PlayerHurt: " + hp);
+        if(hp<=0){
+            Dead();
+        }
         internalDamage = 0;
         lastTimeHurt = Time.time;
+    }
+    public void Rest()
+    {
+        ron=maxRon;
+        hp=maxHp;   
+    }
+    private void Dead(){
+        Rest();
+        Debug.Log(hp);
+        PlayerPrefs.SetString("accion","Respawning");
+        SceneManager.LoadScene(PlayerPrefs.GetString("sceneRespawn"));
     }
     IEnumerator Parry()
     {
