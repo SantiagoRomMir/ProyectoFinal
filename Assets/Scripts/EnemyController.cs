@@ -80,16 +80,14 @@ public class EnemyController : MonoBehaviour
         if (chase)
         {
             Chase();
+
         }
         else if (move)
         {
             Movement();
-            FlipEnemy();
+
         }
-        else
-        {
-            FlipStoppedEnemy();
-        }
+        FlipEnemy();
     }
     private void Chase()
     {
@@ -132,7 +130,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            if (transform.position.x > posEnd.localPosition.x && movetoEnd == true)
+            if (transform.position.x > posEnd.position.x && movetoEnd == true)
             {
                 direction *= -1;
                 movetoEnd = false;
@@ -250,7 +248,7 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                direction = 1;
+                direction = -1;
             }
         }
         else
@@ -262,7 +260,7 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                direction = 1;
+                direction = -1;
             }
         }
     }
