@@ -115,7 +115,6 @@ public class EnemyController : MonoBehaviour
                 direction *= -1;
                 movetoEnd = false;
             }
-            Debug.Log(posInitial.x);
             if (transform.position.x > posInitial.x && movetoEnd == false)
             {
                 direction *= -1;
