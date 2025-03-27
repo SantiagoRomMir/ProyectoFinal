@@ -93,6 +93,14 @@ public class EnemyController : MonoBehaviour
     }
     private void Chase()
     {
+        if (Vector2.Distance(transform.position, player.transform.position) < 1.5f)
+        {
+            stop = 0;
+        }
+        else
+        {
+            stop = 1;
+        }
         if (transform.position.x - player.transform.position.x < 0)
         {
             direction = 1;
@@ -101,12 +109,13 @@ public class EnemyController : MonoBehaviour
         {
             direction = -1;
         }
-        phisics.velocity = new Vector2(direction * speedEenemy /** PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
+        phisics.velocity = new Vector2(direction * speedEenemy /* PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
+
 
     }
     private void Movement()
     {
-        phisics.velocity = new Vector2(direction * speedEenemy /** PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
+        phisics.velocity = new Vector2(direction * speedEenemy /* PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
 
         if (posEnd.localPosition.x < posInitial.x)
         {
@@ -230,44 +239,31 @@ public class EnemyController : MonoBehaviour
         HurtEnemy(internalDamage);
         internalDamage = 0;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void ReturnPatrol()
     {
-        if (collision.CompareTag("Player"))
+        if (Vector2.Distance(posEnd.position, transform.position) < Vector2.Distance(posInitial, transform.position))
         {
-            chase = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            chase = false;
-            if (Vector2.Distance(posEnd.position, transform.position) < Vector2.Distance(posInitial, transform.position))
+            movetoEnd = false;
+            if (transform.position.x < posInitial.x)
             {
-                movetoEnd = false;
-                if (transform.position.x < posInitial.x)
-                {
-                    direction = 1;
-                }
-                else
-                {
-                    direction = 1;
-                }
+                direction = 1;
             }
             else
             {
-                movetoEnd = true;
-                if (transform.position.x < posEnd.localPosition.x)
-                {
-                    direction = 1;
-                }
-                else
-                {
-                    direction = 1;
-                }
+                direction = 1;
             }
         }
-
-
+        else
+        {
+            movetoEnd = true;
+            if (transform.position.x < posEnd.localPosition.x)
+            {
+                direction = 1;
+            }
+            else
+            {
+                direction = 1;
+            }
+        }
     }
 }
