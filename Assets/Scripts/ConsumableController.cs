@@ -2,39 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coleccionable : MonoBehaviour
+public class ConsumableController : MonoBehaviour
 {
-    public enum TipePowerUp
-    {
-        Datil,
-        Ron,
-    }
-    public TipePowerUp powerUp;
+    public Consumable.TypeConsumable consumable;
     public int numRon;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Player")){
-            switch (powerUp)
+            switch (consumable)
             {
-                case TipePowerUp.Ron:
+                case Consumable.TypeConsumable.Ron:
                     collision.GetComponent<PlayerController>().ReplenishRon(numRon);
                     Destroy(gameObject);
                     break;
-                case TipePowerUp.Datil:
+                default:
+                    collision.GetComponent<PlayerController>().AddConsumable(this);
                     Destroy(gameObject);
                     break;
             }
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
