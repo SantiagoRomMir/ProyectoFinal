@@ -201,7 +201,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.22
+      value: 3.91
       objectReference: {fileID: 0}
     - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -249,7 +249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4528104855038689256, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: consumable
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: m_Name
@@ -2595,6 +2595,7 @@ MonoBehaviour:
   selectedConsumable: 0
   defense: 0
   consumableCooldown: 1
+  addedDamage: 0
   consumables: []
 --- !u!212 &2707362446005991352
 SpriteRenderer:
