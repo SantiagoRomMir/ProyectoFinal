@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
-    public String  Scene;
+    public String Scene;
     private SceneSelector sceneSelector;
     private void Awake()
     {
@@ -17,7 +17,6 @@ public class Door : MonoBehaviour
     // Start is called before the first frame update    
     private void OnTriggerStay2D(Collider2D collision)
     {
-
         if(collision.gameObject.CompareTag("Player")){
             
             if(Input.GetKey(KeyCode.UpArrow)){

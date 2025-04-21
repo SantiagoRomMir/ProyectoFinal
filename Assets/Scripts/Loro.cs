@@ -13,7 +13,7 @@ public class Loro : MonoBehaviour
     public float maxDistanceY;
     public float maxDistanceX;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         playerController=Player.GetComponent<PlayerController>();
         rb=gameObject.GetComponent<Rigidbody2D>();
@@ -33,11 +33,11 @@ public class Loro : MonoBehaviour
                 {
                     GetComponent<SpriteRenderer>().flipX = false;
                 }
-        if(Input.GetKeyDown(KeyCode.Q) || Mathf.Abs(transform.position.y-Player.transform.position.y)>maxDistanceY || Mathf.Abs(transform.position.x-Player.transform.position.x)>maxDistanceX){
+        if(Mathf.Abs(transform.position.y-Player.transform.position.y)>maxDistanceY || Mathf.Abs(transform.position.x-Player.transform.position.x)>maxDistanceX){
             DesactivarLoro();
         }
     }
-    private void DesactivarLoro(){
+    public void DesactivarLoro(){
         transform.position=Player.transform.position;
         playerController.usingLoro=false;
         gameObject.SetActive(false);

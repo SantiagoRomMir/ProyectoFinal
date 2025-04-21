@@ -86,22 +86,39 @@ public class PlayerController : MonoBehaviour
     public KeyCode reloadKey;
     public KeyCode dodgeKey;
 
+    [Header("Sound")]
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetString("accion","");
-        if(PlayerPrefs.GetString("accion")=="puerta"){
-            transform.position=GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
+        audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
+        if (PlayerPrefs.GetString("accion") == "puerta")
+        {
+            transform.position = GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
         }
-        if(PlayerPrefs.GetString("accion")=="Respawning"){
-            transform.position=GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
+        if (PlayerPrefs.GetString("accion") == "Respawning")
+        {
+            transform.position = GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
         }
         rb = GetComponent<Rigidbody2D>();
         line = GetComponent<LineRenderer>();
+        GameObject door = GameObject.Find(PlayerPrefs.GetString("Door"));
+        if (door != null)
+        {
+            transform.position = door.transform.position;
+        }
+        rb = GetComponent<Rigidbody2D>();
+        line = GetComponent<LineRenderer>();
+        ron = maxRon;
+        hp = maxHp;
+        hp = 10;
+        isHooking = false;
+        usingLoro = false;
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
-        hp=maxHp;
+        hp = maxHp;
         isVulnerable = true;
         lastTimeParry = Time.time;
         lastTimeHurt = Time.time;
@@ -114,7 +131,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!usingLoro && canMove){ 
+        if (!usingLoro && canMove)
+        {
             if (!aiming)
             {
                 direction = Input.GetAxis("Horizontal");
@@ -133,80 +151,73 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!usingLoro){
+        if (!usingLoro)
+        {
             Aim();
             Grounded();
             if (isGrounded)
             {
                 Crouching();
             }
+
             if (isCrouching)
             {
                 Traspass();
             }
             else
             {
-                if (!isHooking) 
+                if (!isHooking)
                 {
                     Jump();
                 }
             }
-            if (isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.LeftControl) && hp < maxHp)
-            {
-                Heal();
-            }
-            if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.Q)){
-                Loro();
-            }
-            if (Input.GetKeyDown(attackKey))
-            {
-                Attack();
-            }
 
-            CheckAttackCombo();
-
-            if (Input.GetKeyDown(parryKey) && Time.time>=lastTimeParry+parryCooldown)
+            if (Input.GetKeyDown(parryKey) && Time.time >= lastTimeParry + parryCooldown)
             {
                 StartCoroutine("Parry");
             }
-            if ((Input.GetKeyUp(parryKey) || Time.time>=lastTimeParry+parryDuration) && parry.activeSelf)
+
+            if ((Input.GetKeyUp(parryKey) || Time.time >= lastTimeParry + parryDuration) && parry.activeSelf)
             {
                 StopCoroutine("Parry");
                 parry.SetActive(false);
                 isVulnerable = true;
                 lastTimeParry = Time.time;
             }
-
-            if (Input.GetKeyDown(shootKey) && canShoot)
-            {
-                Shoot();
-            }
-
-            if (Input.GetKeyDown(reloadKey) && !canShoot && !isReloading)
-            {
-                StartCoroutine("Reload");
-            }
-
-            if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
-            {
-                StartCoroutine("HealInternalDamage");
-            }
-
-            if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown && !isHooking)
-            {
-                StartCoroutine("Dodge");
-            }
         }
+
+        if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
+        {
+            StartCoroutine("HealInternalDamage");
+        }
+
+        CheckAttackCombo();
+    }
+    public void StartReload()
+    {
+        if (canShoot || isReloading)
+        {
+            return;
+        }
+        StartCoroutine("Reload");
+    }
+    public void StartDodge()
+    {
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking)
+        {
+            return;
+        }
+        StartCoroutine("Dodge");
     }
     private void Jump()
     {
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpforce;
         }
-        else if (isGrounded == false && Input.GetKeyDown(KeyCode.Space) && extraJumps == true)
+        else if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && extraJumps)
         {
             isJumping = true;
             isFalling = false;
@@ -214,7 +225,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.up * jumpforce;
             extraJumps = false;
         }
-        if (Input.GetKey(KeyCode.Space) && isJumping == true)
+        if (Input.GetKey(KeyCode.Space) && isJumping)
         {
             if (jumpTimeCounter > 0)
             {
@@ -237,10 +248,11 @@ public class PlayerController : MonoBehaviour
     private void Grounded()
     {
         //isGrounded = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
-        Collider2D collider=Physics2D.OverlapCircle(feetPos.position, radio, suelo);
-        isGrounded=collider;
-        if(collider!= null && collider.CompareTag("sueloSeguro")){
-            lastPosition=transform.position;
+        Collider2D collider = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+        isGrounded = collider;
+        if (collider != null && collider.CompareTag("sueloSeguro"))
+        {
+            lastPosition = transform.position;
         }
         isFalling = false;
         if (extraJumps == false && isGrounded == true)
@@ -271,6 +283,11 @@ public class PlayerController : MonoBehaviour
     }
     public void Heal()
     {
+        if (isCrouching || hp >= maxHp)
+        {
+            return;
+        }
+
         hp += 50;
         if (hp > maxHp)
         {
@@ -313,16 +330,18 @@ public class PlayerController : MonoBehaviour
                 {
                     Distancia(113, 157);
                 }
-                else if(Input.GetAxisRaw("Horizontal") > 0)
+                else if (Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    Distancia(23, 67);                  
-                }else{
+                    Distancia(23, 67);
+                }
+                else
+                {
                     Distancia(68, 112);
                 }
             }
             else if (Input.GetAxisRaw("Horizontal") < 0)
             {
-                Distancia(158, 180);  
+                Distancia(158, 180);
             }
             else if (Input.GetAxisRaw("Horizontal") > 0)
             {
@@ -387,12 +406,12 @@ public class PlayerController : MonoBehaviour
         Transform objetivo = ganchoCercano;
         line.enabled = true;
         line.SetPosition(1, objetivo.position);
-        rb.velocity=new Vector2(0,0);
+        rb.velocity = new Vector2(0, 0);
         rb.bodyType = RigidbodyType2D.Kinematic;
         while (transform.position != objetivo.position)
         {
             line.SetPosition(0, firePosition.position);
-            transform.position = Vector2.MoveTowards(transform.position, objetivo.position, speed * Time.deltaTime*1.5f);
+            transform.position = Vector2.MoveTowards(transform.position, objetivo.position, speed * Time.deltaTime * 1.5f);
             yield return new WaitForEndOfFrame();
         }
         rb.bodyType = RigidbodyType2D.Dynamic;
@@ -400,14 +419,27 @@ public class PlayerController : MonoBehaviour
         isHooking = false;
         canMove = true;
     }
-    private void Loro(){
-        usingLoro=true;
-        loro.SetActive(true);
+    public void Loro()
+    {
+        if (!isGrounded || isCrouching)
+        {
+            return;
+        }
+        Debug.Log("loro");
+        if (usingLoro)
+        {
+            loro.GetComponent<Loro>().DesactivarLoro();
+        }
+        else
+        {
+            usingLoro = true;
+            loro.SetActive(true);
+        }
     }
 
     public void Attack()
     {
-        if (Time.time < lastTimeAttack+attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown)
+        if (Time.time < lastTimeAttack + attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown || isHooking || usingLoro)
         {
             return;
         }
@@ -417,11 +449,11 @@ public class PlayerController : MonoBehaviour
         {
             weapon.GetComponent<WeaponController>().damage = damage;
             //weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
-            
+
         }
         else if (attackCounter == 2)
         {
-            weapon.GetComponent<WeaponController>().damage += damage*50/100;
+            weapon.GetComponent<WeaponController>().damage += damage * 50 / 100;
             //weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
         }
         else if (attackCounter == 3)
@@ -442,8 +474,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         weapon.SetActive(false);
     }
-    private void Shoot()
+    public void Shoot()
     {
+        if (!canShoot || usingLoro)
+        {
+            return;
+        }
         canShoot = false;
         float forwardDir = GetFacingDirection();
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
@@ -481,11 +517,12 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log(hp+"hola");
+        Debug.Log(hp + "hola");
         Debug.Log(internalDamage);
-        hp-=damage+internalDamage;
-         Debug.Log("PlayerHurt: " + hp);
-        if(hp<=0){
+        hp -= damage + internalDamage;
+        Debug.Log("PlayerHurt: " + hp);
+        if (hp <= 0)
+        {
             Dead();
         }
         internalDamage = 0;
@@ -493,13 +530,14 @@ public class PlayerController : MonoBehaviour
     }
     public void Rest()
     {
-        ron=maxRon;
-        hp=maxHp;   
+        ron = maxRon;
+        hp = maxHp;
     }
-    private void Dead(){
+    private void Dead()
+    {
         Rest();
         Debug.Log(hp);
-        PlayerPrefs.SetString("accion","Respawning");
+        PlayerPrefs.SetString("accion", "Respawning");
         SceneManager.LoadScene(PlayerPrefs.GetString("sceneRespawn"));
     }
     IEnumerator Parry()
@@ -531,12 +569,12 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         do
         {
-            rb.velocity += Vector2.right*(dodgeSpeed * dir * Time.deltaTime);
+            rb.velocity += Vector2.right * (dodgeSpeed * 100 * dir * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         } while (Time.time - lastTimeDodge <= dodgeDuration);
         isVulnerable = true;
-        rb.velocity=Vector2.zero;
-        rb.constraints= RigidbodyConstraints2D.FreezeRotation;
+        rb.velocity = Vector2.zero;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         transform.rotation = startRot;
         canMove = true;
         lastTimeDodge = Time.time;
