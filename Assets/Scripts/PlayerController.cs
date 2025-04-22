@@ -89,9 +89,22 @@ public class PlayerController : MonoBehaviour
     [Header("Sound")]
     private AudioSource audioSource;
 
+    [Header("Consumables")]
+    public int selectedConsumable;
+    public float defense;
+    public float consumableCooldown;
+    public int addedDamage;
+    public List<Consumable> consumables;
+    private float lastConsumableTime;
+
     // Start is called before the first frame update
     void Start()
     {
+        consumables = new List<Consumable>();
+        selectedConsumable = 0;
+        defense = 1f;
+        lastConsumableTime = Time.time;
+
         audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
         if (PlayerPrefs.GetString("accion") == "puerta")
         {
@@ -184,6 +197,7 @@ public class PlayerController : MonoBehaviour
                 isVulnerable = true;
                 lastTimeParry = Time.time;
             }
+            UseConsumable();
         }
 
         if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
@@ -192,6 +206,87 @@ public class PlayerController : MonoBehaviour
         }
 
         CheckAttackCombo();
+    }
+    public void AddConsumable(ConsumableController consumable)
+    {
+        foreach (Consumable c in consumables)
+        {
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            {
+                c.remainingAmount++;
+                return;
+            }
+        }
+        Consumable newConsumable = new Consumable(consumable);
+        consumables.Add(newConsumable);
+    }
+    public void RemoveConsumable(Consumable consumable)
+    {
+        consumables.Remove(consumable);
+    }
+    public void UseConsumable()
+    {
+        if (consumables.Count<=0)
+        {
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.G) && Time.time > lastConsumableTime+consumableCooldown)
+        {
+            lastConsumableTime = Time.time;
+            consumables[selectedConsumable].OnUseAction();
+        }
+    }
+    public void SelectNextConsumable()
+    {
+        selectedConsumable++;
+        if (selectedConsumable > consumables.Count - 1)
+        {
+            selectedConsumable = 0;
+        }
+    }
+    public void SelectPreviousConsumable()
+    {
+        selectedConsumable--;
+        if (selectedConsumable < 0)
+        {
+            selectedConsumable = consumables.Count - 1;
+        }
+    }
+    public void StartHpRegen(float duration)
+    {
+        StopCoroutine("RegenHealth");
+        StartCoroutine(RegenHealth(duration));
+    }
+    IEnumerator RegenHealth(float duration)
+    {
+        float regenStart = Time.time;
+        while (Time.time <= regenStart + duration)
+        {
+            HealPlayer(5);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    public void StartDefenseBuff(float duration)
+    {
+        StopCoroutine("DefenseBuff");
+        StartCoroutine(DefenseBuff(duration));
+    }
+    IEnumerator DefenseBuff(float duration)
+    {
+        defense = 1.5f;
+        yield return new WaitForSeconds(duration);
+        defense = 1f;
+    }
+    public void StartDamageBuff(float duration)
+    {
+        StopCoroutine("DamageBuff");
+        StartCoroutine(DamageBuff(duration));
+    }
+    IEnumerator DamageBuff(float duration)
+    {
+        addedDamage = 2;
+        yield return new WaitForSeconds(duration);
+        addedDamage = 0;
     }
     public void StartReload()
     {
@@ -283,18 +378,26 @@ public class PlayerController : MonoBehaviour
     }
     public void Heal()
     {
-        if (isCrouching || hp >= maxHp)
+        if (isCrouching)
         {
             return;
         }
-
-        hp += 50;
+        HealPlayer(50);
+        
+        ron--;
+    }
+    private void HealPlayer(int healAmount)
+    {
+        if (hp >= maxHp)
+        {
+            return;
+        }
+        hp += healAmount;
         if (hp > maxHp)
         {
             hp = maxHp;
         }
-        ron--;
-    }
+    } 
     private void Traspass()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -447,18 +550,18 @@ public class PlayerController : MonoBehaviour
         attackCounter++;
         if (attackCounter == 1)
         {
-            weapon.GetComponent<WeaponController>().damage = damage;
+            weapon.GetComponent<WeaponController>().damage = damage + addedDamage;
             //weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
 
         }
         else if (attackCounter == 2)
         {
-            weapon.GetComponent<WeaponController>().damage += damage * 50 / 100;
+            weapon.GetComponent<WeaponController>().damage += (damage + addedDamage)* 50 / 100;
             //weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
         }
         else if (attackCounter == 3)
         {
-            weapon.GetComponent<WeaponController>().damage += damage * 100 / 100;
+            weapon.GetComponent<WeaponController>().damage += (damage + addedDamage) * 100 / 100;
             //weapon.GetComponent<SpriteRenderer>().color = Color.red;
             attackCounter = 0;
             lastFinishedCombo = Time.time;
@@ -519,7 +622,7 @@ public class PlayerController : MonoBehaviour
         }
         Debug.Log(hp + "hola");
         Debug.Log(internalDamage);
-        hp -= damage + internalDamage;
+        hp -= (int)((damage + internalDamage)/defense);
         Debug.Log("PlayerHurt: " + hp);
         if (hp <= 0)
         {
