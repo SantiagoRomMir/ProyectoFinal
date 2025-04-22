@@ -89,6 +89,11 @@ public class PlayerController : MonoBehaviour
     [Header("Sound")]
     private AudioSource audioSource;
 
+    [Header("Skills")]
+    public bool hasHook;
+    public bool hasParrot;
+    public bool hasGun;
+
     [Header("Consumables")]
     public int selectedConsumable;
     public float defense;
@@ -140,6 +145,10 @@ public class PlayerController : MonoBehaviour
 
         lastTimeDodge = Time.time;
         canMove = true;
+
+        hasHook = false;
+        hasGun = false;
+        hasParrot = false;
     }
 
     void FixedUpdate()
@@ -164,9 +173,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!usingLoro)
-        {
-            Aim();
+        if(!usingLoro){
+            if (hasHook)
+            {
+                Aim();
+            }
             Grounded();
             if (isGrounded)
             {
@@ -312,7 +323,7 @@ public class PlayerController : MonoBehaviour
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpforce;
         }
-        else if (!isGrounded && Input.GetKeyDown(KeyCode.Space) && extraJumps)
+        else if (isGrounded == false && Input.GetKeyDown(KeyCode.Space) && extraJumps == true && hasGun)
         {
             isJumping = true;
             isFalling = false;
