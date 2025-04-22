@@ -22,6 +22,7 @@ public class Door : MonoBehaviour
             if(Input.GetKey(KeyCode.UpArrow)){
                 PlayerPrefs.SetString("accion","puerta");
                 PlayerPrefs.SetString("Door",gameObject.name);
+                collision.gameObject.GetComponent<PlayerController>().SavePersistenceData();
                 SceneManager.LoadScene(Scene);
             }
         }

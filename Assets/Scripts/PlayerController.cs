@@ -102,6 +102,9 @@ public class PlayerController : MonoBehaviour
     public List<Consumable> consumables;
     private float lastConsumableTime;
 
+    [Header("Persistence")]
+    public bool clearPersistenceData; // If Set to True Ignore Persistent Data and Overwrite it
+    private Persistence persistence;
     // Start is called before the first frame update
     void Start()
     {
@@ -149,6 +152,8 @@ public class PlayerController : MonoBehaviour
         hasHook = false;
         hasGun = false;
         hasParrot = false;
+
+        LoadPersistenceData();
     }
 
     void FixedUpdate()
@@ -217,6 +222,39 @@ public class PlayerController : MonoBehaviour
         }
 
         CheckAttackCombo();
+    }
+    private void LoadPersistenceData()
+    {
+        if (clearPersistenceData)
+        {
+            persistence = null;
+            return;
+        }
+
+        persistence = Persistence.LoadPersistence();
+
+        if (persistence != null)
+        {
+            hp = persistence.hp;
+            ron = persistence.ron;
+            internalDamage = persistence.internalDamage;
+            selectedConsumable = persistence.selectedConsumable;
+            addedDamage = persistence.addedDamage;
+            defense = persistence.defense;
+            hasHook = persistence.hasHook;
+            hasParrot = persistence.hasParrot;
+            hasGun = persistence.hasGun;
+            canShoot = persistence.canShoot;
+        } else
+        {
+            SavePersistenceData();
+        }
+    }
+    public void SavePersistenceData()
+    {
+        persistence = new Persistence(hp, ron, internalDamage, selectedConsumable, addedDamage, defense, hasHook, hasParrot, hasGun, canShoot);
+
+        persistence.SavePersistence();
     }
     public void AddConsumable(ConsumableController consumable)
     {
