@@ -336,8 +336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedIndex: 0
+  selectedIndex: 1
   sceneList:
+  - MainMenu
   - Inicio
   - Edificio
 --- !u!1 &563915697
@@ -1075,7 +1076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f2164d676a7b84cae2eea8356bd5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUp: 1
+  consumable: 0
   numRon: 2
 --- !u!212 &1001448504
 SpriteRenderer:
@@ -2266,8 +2267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedIndex: 0
+  selectedIndex: 1
   sceneList:
+  - MainMenu
   - Inicio
   - Edificio
 --- !u!1 &2081882990
@@ -2484,6 +2486,7 @@ MonoBehaviour:
   maxHp: 100
   maxRon: 5
   usingLoro: 0
+  Slowed: 1
   weapon: {fileID: 1734372911}
   damage: 4
   attackNumberChain: 3
@@ -2506,6 +2509,15 @@ MonoBehaviour:
   shootKey: 120
   reloadKey: 114
   dodgeKey: 304
+  hasHook: 0
+  hasParrot: 0
+  hasGun: 0
+  selectedConsumable: 0
+  defense: 0
+  consumableCooldown: 0
+  addedDamage: 0
+  consumables: []
+  clearPersistenceData: 0
 --- !u!212 &2707362446005991352
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2849,3 +2861,4 @@ SceneRoots:
   - {fileID: 2038540138}
   - {fileID: 792240279}
   - {fileID: 768419892}
+  - {fileID: 311437907}

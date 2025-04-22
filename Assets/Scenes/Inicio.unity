@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 378103597}
   - component: {fileID: 378103596}
   - component: {fileID: 378103595}
+  - component: {fileID: 378103599}
   m_Layer: 0
   m_Name: puertaEdificio1
   m_TagString: Untagged
@@ -404,6 +405,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &378103599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378103593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Inicio
+  - Edificio
 --- !u!1 &448011567
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +434,7 @@ GameObject:
   - component: {fileID: 448011570}
   - component: {fileID: 448011569}
   - component: {fileID: 448011568}
+  - component: {fileID: 448011572}
   m_Layer: 0
   m_Name: puertaEdificio2
   m_TagString: Untagged
@@ -548,6 +567,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &448011572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448011567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Inicio
+  - Edificio
 --- !u!1 &524073153
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,6 +2650,8 @@ MonoBehaviour:
   healInternalDamageDelay: 5
   bulletPrefab: {fileID: 9052627422862849176, guid: 5e22268d933dd8c41a50c1d5b4906158, type: 3}
   reloadTime: 3
+  canShoot: 0
+  isReloading: 0
   dodgeDuration: 0.2
   dodgeSpeed: 2
   dodgeCooldown: 1
@@ -2622,9 +2660,9 @@ MonoBehaviour:
   shootKey: 120
   reloadKey: 114
   dodgeKey: 304
-  hasHook: 0
-  hasParrot: 0
-  hasGun: 0
+  hasHook: 1
+  hasParrot: 1
+  hasGun: 1
   selectedConsumable: 0
   defense: 0
   consumableCooldown: 1

@@ -16,8 +16,12 @@ public class BulletController : MonoBehaviour
         {
             collision.GetComponent<EnemyController>().HurtEnemy(damage);
             collision.GetComponent<EnemyController>().ActivateInternalDamage();
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        if (collision.gameObject.layer == 6)
+        {
+            Destroy(gameObject);
+        }
     }
     private void Awake()
     {

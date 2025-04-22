@@ -69,8 +69,8 @@ public class PlayerController : MonoBehaviour
     [Header("Shoot")]
     public GameObject bulletPrefab;
     public float reloadTime;
-    private bool canShoot;
-    private bool isReloading;
+    public bool canShoot;
+    public bool isReloading;
 
     [Header("Dodge")]
     public float dodgeDuration;
@@ -103,8 +103,16 @@ public class PlayerController : MonoBehaviour
     private float lastConsumableTime;
 
     [Header("Persistence")]
-    public bool clearPersistenceData; // If Set to True Ignore Persistent Data and Overwrite it
+    public bool clearPersistenceData; // If True Ignore Persistent Data and Overwrite it
     private Persistence persistence;
+    private void Awake()
+    {
+        if (PlayerPrefs.GetInt("clearPersistenceData")==1)
+        {
+            PlayerPrefs.SetInt("clearPersistenceData", 0);
+            clearPersistenceData = true;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -508,7 +516,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.F))
         {
             aiming = false;
-            ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            if (ganchoCercano!=null)
+            {
+                ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            }
             ganchoCercano = null;
         }
     }
