@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private bool isFalling;
     private bool aiming;
     public bool usingLoro;
+    public float Slowed = 1;
 
     [Header("MeleeAttack")]
     public GameObject weapon;
@@ -127,7 +128,6 @@ public class PlayerController : MonoBehaviour
         hp = 10;
         isHooking = false;
         usingLoro = false;
-
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
             if (!aiming)
             {
                 direction = Input.GetAxis("Horizontal");
-                rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+                rb.velocity = new Vector2(direction * speed * Slowed, rb.velocity.y);
                 if (direction < 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = true;

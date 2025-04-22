@@ -9,7 +9,6 @@ public class TileTrap : MonoBehaviour
        if(collision.gameObject.CompareTag("Player")){
             collision.gameObject.GetComponent<PlayerController>().HurtPlayer(10);
             collision.gameObject.transform.position=collision.gameObject.GetComponent<PlayerController>().lastPosition;
-
         }
     }
 }
