@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - EnemyAttack
   - SoundManager
+  - trap
+  - sueloSeguro
+  - Hoguera
   layers:
   - Default
   - TransparentFX

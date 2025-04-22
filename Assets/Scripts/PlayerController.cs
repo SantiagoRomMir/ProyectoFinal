@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public Transform feetPos;
     public Transform firePosition;
     private Transform ganchoCercano;
+    public Vector3 lastPosition;
 
     public float radio;
     public LayerMask suelo;
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private bool isFalling;
     private bool aiming;
     public bool usingLoro;
+    public float Slowed = 1;
 
     [Header("MeleeAttack")]
     public GameObject weapon;
@@ -91,10 +94,33 @@ public class PlayerController : MonoBehaviour
     public bool hasParrot;
     public bool hasGun;
 
+    [Header("Consumables")]
+    public int selectedConsumable;
+    public float defense;
+    public float consumableCooldown;
+    public int addedDamage;
+    public List<Consumable> consumables;
+    private float lastConsumableTime;
+
     // Start is called before the first frame update
     void Start()
     {
+        consumables = new List<Consumable>();
+        selectedConsumable = 0;
+        defense = 1f;
+        lastConsumableTime = Time.time;
+
         audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
+        if (PlayerPrefs.GetString("accion") == "puerta")
+        {
+            transform.position = GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
+        }
+        if (PlayerPrefs.GetString("accion") == "Respawning")
+        {
+            transform.position = GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
+        }
+        rb = GetComponent<Rigidbody2D>();
+        line = GetComponent<LineRenderer>();
         GameObject door = GameObject.Find(PlayerPrefs.GetString("Door"));
         if (door != null)
         {
@@ -106,11 +132,11 @@ public class PlayerController : MonoBehaviour
         hp = maxHp;
         hp = 10;
         isHooking = false;
-
+        usingLoro = false;
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
-
+        hp = maxHp;
         isVulnerable = true;
         lastTimeParry = Time.time;
         lastTimeHurt = Time.time;
@@ -127,11 +153,12 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!usingLoro && canMove){ 
+        if (!usingLoro && canMove)
+        {
             if (!aiming)
             {
                 direction = Input.GetAxis("Horizontal");
-                rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+                rb.velocity = new Vector2(direction * speed * Slowed, rb.velocity.y);
                 if (direction < 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = true;
@@ -156,67 +183,141 @@ public class PlayerController : MonoBehaviour
             {
                 Crouching();
             }
+
             if (isCrouching)
             {
                 Traspass();
             }
             else
             {
-                if (!isHooking) 
+                if (!isHooking)
                 {
                     Jump();
                 }
             }
-            if (isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.LeftControl) && hp < maxHp)
-            {
-                Heal();
-            }
-            if(isGrounded && !isCrouching && Input.GetKeyDown(KeyCode.Q) && hasParrot){
-                Loro();
-            }
-            if (Input.GetKeyDown(attackKey))
-            {
-                Attack();
-            }
 
-            CheckAttackCombo();
-
-            if (Input.GetKeyDown(parryKey) && Time.time>=lastTimeParry+parryCooldown)
+            if (Input.GetKeyDown(parryKey) && Time.time >= lastTimeParry + parryCooldown)
             {
                 StartCoroutine("Parry");
             }
-            if ((Input.GetKeyUp(parryKey) || Time.time>=lastTimeParry+parryDuration) && parry.activeSelf)
+
+            if ((Input.GetKeyUp(parryKey) || Time.time >= lastTimeParry + parryDuration) && parry.activeSelf)
             {
                 StopCoroutine("Parry");
                 parry.SetActive(false);
                 isVulnerable = true;
                 lastTimeParry = Time.time;
             }
+            UseConsumable();
+        }
 
-            if (Input.GetKeyDown(shootKey) && canShoot && hasGun)
-            {
-                Shoot();
-            }
+        if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
+        {
+            StartCoroutine("HealInternalDamage");
+        }
 
-            if (Input.GetKeyDown(reloadKey) && !canShoot && !isReloading)
+        CheckAttackCombo();
+    }
+    public void AddConsumable(ConsumableController consumable)
+    {
+        foreach (Consumable c in consumables)
+        {
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
             {
-                StartCoroutine("Reload");
-            }
-
-            if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
-            {
-                StartCoroutine("HealInternalDamage");
-            }
-
-            if (Input.GetKeyDown(dodgeKey) && Time.time > lastTimeDodge + dodgeCooldown && !isHooking)
-            {
-                StartCoroutine("Dodge");
+                c.remainingAmount++;
+                return;
             }
         }
+        Consumable newConsumable = new Consumable(consumable);
+        consumables.Add(newConsumable);
+    }
+    public void RemoveConsumable(Consumable consumable)
+    {
+        consumables.Remove(consumable);
+    }
+    public void UseConsumable()
+    {
+        if (consumables.Count<=0)
+        {
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.G) && Time.time > lastConsumableTime+consumableCooldown)
+        {
+            lastConsumableTime = Time.time;
+            consumables[selectedConsumable].OnUseAction();
+        }
+    }
+    public void SelectNextConsumable()
+    {
+        selectedConsumable++;
+        if (selectedConsumable > consumables.Count - 1)
+        {
+            selectedConsumable = 0;
+        }
+    }
+    public void SelectPreviousConsumable()
+    {
+        selectedConsumable--;
+        if (selectedConsumable < 0)
+        {
+            selectedConsumable = consumables.Count - 1;
+        }
+    }
+    public void StartHpRegen(float duration)
+    {
+        StopCoroutine("RegenHealth");
+        StartCoroutine(RegenHealth(duration));
+    }
+    IEnumerator RegenHealth(float duration)
+    {
+        float regenStart = Time.time;
+        while (Time.time <= regenStart + duration)
+        {
+            HealPlayer(5);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    public void StartDefenseBuff(float duration)
+    {
+        StopCoroutine("DefenseBuff");
+        StartCoroutine(DefenseBuff(duration));
+    }
+    IEnumerator DefenseBuff(float duration)
+    {
+        defense = 1.5f;
+        yield return new WaitForSeconds(duration);
+        defense = 1f;
+    }
+    public void StartDamageBuff(float duration)
+    {
+        StopCoroutine("DamageBuff");
+        StartCoroutine(DamageBuff(duration));
+    }
+    IEnumerator DamageBuff(float duration)
+    {
+        addedDamage = 2;
+        yield return new WaitForSeconds(duration);
+        addedDamage = 0;
+    }
+    public void StartReload()
+    {
+        if (canShoot || isReloading)
+        {
+            return;
+        }
+        StartCoroutine("Reload");
+    }
+    public void StartDodge()
+    {
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking)
+        {
+            return;
+        }
+        StartCoroutine("Dodge");
     }
     private void Jump()
     {
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
@@ -230,7 +331,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.up * jumpforce;
             extraJumps = false;
         }
-        if (Input.GetKey(KeyCode.Space) && isJumping == true)
+        if (Input.GetKey(KeyCode.Space) && isJumping)
         {
             if (jumpTimeCounter > 0)
             {
@@ -252,7 +353,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Grounded()
     {
-        isGrounded = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+        //isGrounded = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+        Collider2D collider = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
+        isGrounded = collider;
+        if (collider != null && collider.CompareTag("sueloSeguro"))
+        {
+            lastPosition = transform.position;
+        }
         isFalling = false;
         if (extraJumps == false && isGrounded == true)
         {
@@ -280,15 +387,28 @@ public class PlayerController : MonoBehaviour
             isCrouching = false;
         }
     }
-    private void Heal()
+    public void Heal()
     {
-        hp += 50;
+        if (isCrouching)
+        {
+            return;
+        }
+        HealPlayer(50);
+        
+        ron--;
+    }
+    private void HealPlayer(int healAmount)
+    {
+        if (hp >= maxHp)
+        {
+            return;
+        }
+        hp += healAmount;
         if (hp > maxHp)
         {
             hp = maxHp;
         }
-        ron--;
-    }
+    } 
     private void Traspass()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -324,16 +444,18 @@ public class PlayerController : MonoBehaviour
                 {
                     Distancia(113, 157);
                 }
-                else if(Input.GetAxisRaw("Horizontal") > 0)
+                else if (Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    Distancia(23, 67);                  
-                }else{
+                    Distancia(23, 67);
+                }
+                else
+                {
                     Distancia(68, 112);
                 }
             }
             else if (Input.GetAxisRaw("Horizontal") < 0)
             {
-                Distancia(158, 180);  
+                Distancia(158, 180);
             }
             else if (Input.GetAxisRaw("Horizontal") > 0)
             {
@@ -398,12 +520,12 @@ public class PlayerController : MonoBehaviour
         Transform objetivo = ganchoCercano;
         line.enabled = true;
         line.SetPosition(1, objetivo.position);
-        rb.velocity=new Vector2(0,0);
+        rb.velocity = new Vector2(0, 0);
         rb.bodyType = RigidbodyType2D.Kinematic;
         while (transform.position != objetivo.position)
         {
             line.SetPosition(0, firePosition.position);
-            transform.position = Vector2.MoveTowards(transform.position, objetivo.position, speed * Time.deltaTime*1.5f);
+            transform.position = Vector2.MoveTowards(transform.position, objetivo.position, speed * Time.deltaTime * 1.5f);
             yield return new WaitForEndOfFrame();
         }
         rb.bodyType = RigidbodyType2D.Dynamic;
@@ -411,14 +533,27 @@ public class PlayerController : MonoBehaviour
         isHooking = false;
         canMove = true;
     }
-    private void Loro(){
-        usingLoro=true;
-        loro.SetActive(true);
+    public void Loro()
+    {
+        if (!isGrounded || isCrouching)
+        {
+            return;
+        }
+        Debug.Log("loro");
+        if (usingLoro)
+        {
+            loro.GetComponent<Loro>().DesactivarLoro();
+        }
+        else
+        {
+            usingLoro = true;
+            loro.SetActive(true);
+        }
     }
 
     public void Attack()
     {
-        if (Time.time < lastTimeAttack+attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown)
+        if (Time.time < lastTimeAttack + attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown || isHooking || usingLoro)
         {
             return;
         }
@@ -426,18 +561,18 @@ public class PlayerController : MonoBehaviour
         attackCounter++;
         if (attackCounter == 1)
         {
-            weapon.GetComponent<WeaponController>().damage = damage;
+            weapon.GetComponent<WeaponController>().damage = damage + addedDamage;
             //weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
-            
+
         }
         else if (attackCounter == 2)
         {
-            weapon.GetComponent<WeaponController>().damage += damage*50/100;
+            weapon.GetComponent<WeaponController>().damage += (damage + addedDamage)* 50 / 100;
             //weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
         }
         else if (attackCounter == 3)
         {
-            weapon.GetComponent<WeaponController>().damage += damage * 100 / 100;
+            weapon.GetComponent<WeaponController>().damage += (damage + addedDamage) * 100 / 100;
             //weapon.GetComponent<SpriteRenderer>().color = Color.red;
             attackCounter = 0;
             lastFinishedCombo = Time.time;
@@ -453,8 +588,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         weapon.SetActive(false);
     }
-    private void Shoot()
+    public void Shoot()
     {
+        if (!canShoot || usingLoro)
+        {
+            return;
+        }
         canShoot = false;
         float forwardDir = GetFacingDirection();
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
@@ -492,9 +631,28 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log("PlayerHurt: " + (damage + internalDamage));
+        Debug.Log(hp + "hola");
+        Debug.Log(internalDamage);
+        hp -= (int)((damage + internalDamage)/defense);
+        Debug.Log("PlayerHurt: " + hp);
+        if (hp <= 0)
+        {
+            Dead();
+        }
         internalDamage = 0;
         lastTimeHurt = Time.time;
+    }
+    public void Rest()
+    {
+        ron = maxRon;
+        hp = maxHp;
+    }
+    private void Dead()
+    {
+        Rest();
+        Debug.Log(hp);
+        PlayerPrefs.SetString("accion", "Respawning");
+        SceneManager.LoadScene(PlayerPrefs.GetString("sceneRespawn"));
     }
     IEnumerator Parry()
     {
@@ -525,12 +683,12 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         do
         {
-            rb.velocity += Vector2.right*(dodgeSpeed * dir * Time.deltaTime);
+            rb.velocity += Vector2.right * (dodgeSpeed * 100 * dir * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         } while (Time.time - lastTimeDodge <= dodgeDuration);
         isVulnerable = true;
-        rb.velocity=Vector2.zero;
-        rb.constraints= RigidbodyConstraints2D.FreezeRotation;
+        rb.velocity = Vector2.zero;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         transform.rotation = startRot;
         canMove = true;
         lastTimeDodge = Time.time;

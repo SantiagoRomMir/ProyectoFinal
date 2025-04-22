@@ -5,24 +5,20 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Door : MonoBehaviour
+public class Rest : MonoBehaviour
 {
-    public String Scene;
-    private SceneSelector sceneSelector;
-    private void Awake()
-    {
-        sceneSelector = GetComponent<SceneSelector>();
-        Scene = sceneSelector.GetSelectedScene();
-    }
+    public String  Scene;
     // Start is called before the first frame update    
+
     private void OnTriggerStay2D(Collider2D collision)
     {
+
         if(collision.gameObject.CompareTag("Player")){
             
             if(Input.GetKey(KeyCode.UpArrow)){
-                PlayerPrefs.SetString("accion","puerta");
-                PlayerPrefs.SetString("Door",gameObject.name);
-                SceneManager.LoadScene(Scene);
+                PlayerPrefs.SetString("positionRespawn",gameObject.name);
+                PlayerPrefs.SetString("sceneRespawn",Scene);
+                collision.gameObject.GetComponent<PlayerController>().Rest();
             }
         }
     }
