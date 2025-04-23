@@ -94,6 +94,14 @@ public class EnemyController : MonoBehaviour
         if (Vector2.Distance(transform.position, player.transform.position) < 1.5f)
         {
             stop = 0;
+            if (transform.position.x - player.transform.position.x < 0)
+            {
+                direction = 1;
+            }
+            else
+            {
+                direction = -1;
+            }
         }
         else
         {
@@ -155,13 +163,15 @@ public class EnemyController : MonoBehaviour
     }
     private void FlipEnemy()
     {
-        if (phisics.velocity.x < -0f)
+        if (direction == -1)
         {
             sprite.flipX = false;
+            weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
         }
-        else if (phisics.velocity.x > 0f)
+        else if (direction == 1)
         {
             sprite.flipX = true;
+            weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
         }
     }
     public void RandomDrop()
