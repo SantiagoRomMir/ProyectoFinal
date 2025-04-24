@@ -225,11 +225,11 @@ public class EnemyController : MonoBehaviour
     IEnumerator AttackAnim()
     {
         stop = 0;
-        weapon.SetActive(true);
-        weapon.GetComponent<Collider2D>().enabled = false;
         weapon.GetComponent<Collider2D>().enabled = true;
+        weapon.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         stop = 1;
+        weapon.GetComponent<Collider2D>().enabled = false;
         weapon.SetActive(false);
     }
     public void InternalHurtEnemy(int addInternalDamage)

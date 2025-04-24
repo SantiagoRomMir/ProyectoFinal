@@ -640,10 +640,10 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
-        weapon.SetActive(true);
-        weapon.GetComponent<Collider2D>().enabled = false;
         weapon.GetComponent<Collider2D>().enabled = true;
+        weapon.SetActive(true);
         yield return new WaitForSeconds(0.1f);
+        weapon.GetComponent<Collider2D>().enabled = false;
         weapon.SetActive(false);
         canMove = true;
     }
@@ -690,7 +690,6 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Debug.Log(hp + "hola");
         Debug.Log(internalDamage);
         hp -= (int)((damage + internalDamage)/defense);
         Debug.Log("PlayerHurt: " + hp);
