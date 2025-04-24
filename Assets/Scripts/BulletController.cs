@@ -12,6 +12,7 @@ public class BulletController : MonoBehaviour
     public float speed;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("CollisionLayer: " + collision.gameObject.layer);
         if (collision!=null && collision.CompareTag("Enemy"))
         {
             collision.GetComponent<EnemyController>().HurtEnemy(damage);

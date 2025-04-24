@@ -7,7 +7,6 @@ public class ParryController : MonoBehaviour
     public int internalDamage;
     public bool isPerfect;
     public int internalDamagePlayerPercent;
-    //public Transform transformL, transformR;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null && collision.CompareTag("EnemyAttack"))
@@ -23,19 +22,4 @@ public class ParryController : MonoBehaviour
             }
         }
     }
-    private void Update()
-    {
-    //    FlipPosition();
-    }
-    /*public void FlipPosition()
-    {
-        if (transform.parent.GetComponent<SpriteRenderer>().flipX)
-        {
-            transform.position = transformL.transform.position;
-        }
-        else
-        {
-            transform.position = transformR.transform.position;
-        }
-    }*/
 }

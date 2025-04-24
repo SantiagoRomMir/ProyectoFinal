@@ -175,10 +175,14 @@ public class PlayerController : MonoBehaviour
                 if (direction < 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = true;
+                    weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
                 }
                 else if (direction > 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = false;
+                    weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
                 }
             }
         }
@@ -214,12 +218,16 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine("Parry");
             }
 
-            if ((Input.GetKeyUp(parryKey) || Time.time >= lastTimeParry + parryDuration) && parry.activeSelf)
+            if (Input.GetKeyUp(parryKey) || (Time.time >= lastTimeParry + parryDuration))
             {
-                StopCoroutine("Parry");
-                parry.SetActive(false);
-                isVulnerable = true;
-                lastTimeParry = Time.time;
+                if (parry.activeSelf)
+                {
+                    StopCoroutine("Parry");
+                    parry.SetActive(false);
+                    isVulnerable = true;
+                    lastTimeParry = Time.time;
+                    canMove = true;
+                }
             }
             UseConsumable();
         }
@@ -236,6 +244,7 @@ public class PlayerController : MonoBehaviour
         if (clearPersistenceData)
         {
             persistence = null;
+            Debug.Log("Skipping Persistence Load");
             return;
         }
 
@@ -606,23 +615,24 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        canMove = false;
         lastTimeAttack = Time.time;
         attackCounter++;
         if (attackCounter == 1)
         {
             weapon.GetComponent<WeaponController>().damage = damage + addedDamage;
-            //weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
+            weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
 
         }
         else if (attackCounter == 2)
         {
             weapon.GetComponent<WeaponController>().damage += (damage + addedDamage)* 50 / 100;
-            //weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
+            weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
         }
         else if (attackCounter == 3)
         {
             weapon.GetComponent<WeaponController>().damage += (damage + addedDamage) * 100 / 100;
-            //weapon.GetComponent<SpriteRenderer>().color = Color.red;
+            weapon.GetComponent<SpriteRenderer>().color = Color.red;
             attackCounter = 0;
             lastFinishedCombo = Time.time;
         }
@@ -630,12 +640,12 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
-        //weapon.GetComponent<FlipWeapon>().FlipPosition();
         weapon.SetActive(true);
         weapon.GetComponent<Collider2D>().enabled = false;
         weapon.GetComponent<Collider2D>().enabled = true;
         yield return new WaitForSeconds(0.1f);
         weapon.SetActive(false);
+        canMove = true;
     }
     public void Shoot()
     {
@@ -705,20 +715,22 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Parry()
     {
+        lastTimeParry = Time.time;
+        canMove = false;
         parry.GetComponent<ParryController>().isPerfect = true;
-        //parry.GetComponent<SpriteRenderer>().color = Color.green;
+        parry.GetComponent<SpriteRenderer>().color = Color.green;
         isVulnerable = false;
-        //parry.GetComponent<ParryController>().FlipPosition();
         parry.SetActive(true);
         parry.GetComponent<Collider2D>().enabled = false;
         parry.GetComponent<Collider2D>().enabled = true;
         yield return new WaitForSeconds(perfectParryTimeWindow);
-        //parry.GetComponent<SpriteRenderer>().color = Color.red;
+        parry.GetComponent<SpriteRenderer>().color = Color.red;
         parry.GetComponent<ParryController>().isPerfect = false;
         yield return new WaitForSeconds(parryDuration);
         lastTimeParry = Time.time;
         parry.SetActive(false);
         isVulnerable = true;
+        canMove = true;
     }
     IEnumerator Dodge()
     {
