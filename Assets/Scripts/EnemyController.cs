@@ -7,11 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     public int health;
     public int internalDamage;
-    public GameObject weapon;
-    public int damage;
-    public float attackCooldown;
-    public float attackRange;
-    private GameObject player;
+    public GameObject player;
     private float lastTimeHurt;
     private bool isHealingInternalDamage;
     public float healInternalDamageDelay;
@@ -23,26 +19,24 @@ public class EnemyController : MonoBehaviour
     }
     public Dificultad dificultad;
     public float speedEenemy;
-    private Vector3 posInitial;
-    private int stop = 1;
+    public Vector3 posInitial;
+    public int stop = 1;
     public Transform posEnd;
-    private float direction;
-    private bool movetoEnd = true;
+    public float direction;
+    public bool movetoEnd = true;
     private SpriteRenderer sprite;
-    private Rigidbody2D phisics;
+    public Rigidbody2D phisics;
     private Animator anim;
     public GameObject[] drop;
     public int[] posbilidades;
     private int numeroDrop;
     public bool move;
-    public bool chase;
 
     [Header("Simulation")]
     public bool triggerInternalDamage;
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        weapon.GetComponent<WeaponController>().damage = damage;
 
         internalDamage = 0;
         lastTimeHurt = Time.time;
@@ -64,7 +58,6 @@ public class EnemyController : MonoBehaviour
         }
         phisics = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
-        StartCoroutine("Attack");
     }
     private void Update()
     {
@@ -77,11 +70,7 @@ public class EnemyController : MonoBehaviour
         {
             ActivateInternalDamage();
         }
-        if (chase)
-        {
-            Chase();
-
-        }
+        
         else if (move)
         {
             Movement();
@@ -89,36 +78,7 @@ public class EnemyController : MonoBehaviour
         }
         FlipEnemy();
     }
-    private void Chase()
-    {
-        if (Vector2.Distance(transform.position, player.transform.position) < 1.5f)
-        {
-            stop = 0;
-            if (transform.position.x - player.transform.position.x < 0)
-            {
-                direction = 1;
-            }
-            else
-            {
-                direction = -1;
-            }
-        }
-        else
-        {
-            stop = 1;
-        }
-        if (transform.position.x - player.transform.position.x < 0)
-        {
-            direction = 1;
-        }
-        else
-        {
-            direction = -1;
-        }
-        phisics.velocity = new Vector2(direction * speedEenemy /* PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
-
-
-    }
+    
     private void Movement()
     {
         phisics.velocity = new Vector2(direction * speedEenemy /* PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
@@ -166,12 +126,10 @@ public class EnemyController : MonoBehaviour
         if (direction == -1)
         {
             sprite.flipX = false;
-            weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
         }
         else if (direction == 1)
         {
             sprite.flipX = true;
-            weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
         }
     }
     public void RandomDrop()
@@ -199,17 +157,7 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    IEnumerator Attack()
-    {
-        while (true)
-        {
-            if (Vector2.Distance(transform.position, player.transform.position) <= attackRange)
-            {
-                StartCoroutine("AttackAnim");
-            }
-            yield return new WaitForSeconds(attackCooldown);
-        }
-    }
+    
     IEnumerator HealInternalDamage()
     {
         Debug.Log("Enemy HealingInternalDamage: " + internalDamage);
@@ -222,16 +170,7 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Enemy Finished HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = false;
     }
-    IEnumerator AttackAnim()
-    {
-        stop = 0;
-        weapon.GetComponent<Collider2D>().enabled = true;
-        weapon.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        stop = 1;
-        weapon.GetComponent<Collider2D>().enabled = false;
-        weapon.SetActive(false);
-    }
+    
     public void InternalHurtEnemy(int addInternalDamage)
     {
         StopCoroutine("HealInternalDamage");
@@ -248,31 +187,5 @@ public class EnemyController : MonoBehaviour
         HurtEnemy(internalDamage);
         internalDamage = 0;
     }
-    public void ReturnPatrol()
-    {
-        if (Vector2.Distance(posEnd.position, transform.position) < Vector2.Distance(posInitial, transform.position))
-        {
-            movetoEnd = false;
-            if (transform.position.x < posInitial.x)
-            {
-                direction = 1;
-            }
-            else
-            {
-                direction = -1;
-            }
-        }
-        else
-        {
-            movetoEnd = true;
-            if (transform.position.x < posEnd.localPosition.x)
-            {
-                direction = 1;
-            }
-            else
-            {
-                direction = -1;
-            }
-        }
-    }
+    
 }
