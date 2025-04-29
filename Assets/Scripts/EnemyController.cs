@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
     public int health;
+    private int maxHealth;
     public int internalDamage;
     public GameObject player;
     private float lastTimeHurt;
@@ -34,12 +35,21 @@ public class EnemyController : MonoBehaviour
 
     [Header("Simulation")]
     public bool triggerInternalDamage;
+    [Header("HP Bars")]
+    public GameObject HPBar;
+    public GameObject InternalBar;
+    public GameObject BGBar;
+    public float hideHPBarDelay;
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
         internalDamage = 0;
         lastTimeHurt = Time.time;
+
+        maxHealth = health;
+
+        BGBar.GetComponent<Image>().color = new Color32(0, 0, 0, 0);
     }
     private void Start()
     {
@@ -77,6 +87,11 @@ public class EnemyController : MonoBehaviour
 
         }
         FlipEnemy();
+
+        UpdateHPBar();
+        UpdateInternalBar();
+
+        HideHPBar();
     }
     
     private void Movement()
@@ -145,6 +160,11 @@ public class EnemyController : MonoBehaviour
     }
     public void HurtEnemy(int damage)
     {
+        if (BGBar.GetComponent<Image>().color.a == 0)
+        {
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeIn",true);
+        }
         StopCoroutine("HealInternalDamage");
         health -= damage;
         Debug.Log("EnemyHurt: " + damage);
@@ -160,6 +180,11 @@ public class EnemyController : MonoBehaviour
     
     IEnumerator HealInternalDamage()
     {
+        if (BGBar.GetComponent<Image>().color.a == 0)
+        {
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeIn", true);
+        }
         Debug.Log("Enemy HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = true;
         while (internalDamage > 0)
@@ -173,6 +198,11 @@ public class EnemyController : MonoBehaviour
     
     public void InternalHurtEnemy(int addInternalDamage)
     {
+        if (BGBar.GetComponent<Image>().color.a == 0)
+        {
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeIn", true);
+        }
         StopCoroutine("HealInternalDamage");
         internalDamage += addInternalDamage;
         lastTimeHurt = Time.time;
@@ -187,5 +217,22 @@ public class EnemyController : MonoBehaviour
         HurtEnemy(internalDamage);
         internalDamage = 0;
     }
-    
+    private void UpdateHPBar()
+    {
+        //HPBar.GetComponent<Image>().fillAmount = (float)health/maxHealth;
+        HPBar.GetComponent<Image>().fillAmount = (float)(health-internalDamage)/maxHealth;
+    }
+    private void UpdateInternalBar()
+    {
+        //InternalBar.GetComponent<Image>().fillAmount = (float)(health-internalDamage)/maxHealth;
+        InternalBar.GetComponent<Image>().fillAmount = (float)health/maxHealth;
+    }
+    private void HideHPBar()
+    {
+        if (Time.time>lastTimeHurt+hideHPBarDelay && !isHealingInternalDamage)
+        {
+            BGBar.GetComponent<Animator>().SetBool("FadeIn", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", true);
+        }
+    }
 }

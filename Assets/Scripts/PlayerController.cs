@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
     public float defense;
     public float consumableCooldown;
     public int addedDamage;
+    public int money;
     public List<Consumable> consumables;
     private float lastConsumableTime;
 
@@ -267,11 +268,16 @@ public class PlayerController : MonoBehaviour
             SavePersistenceData();
         }
     }
+
     public void SavePersistenceData()
     {
         persistence = new Persistence(hp, ron, internalDamage, selectedConsumable, addedDamage, defense, hasHook, hasParrot, hasGun, canShoot);
 
         persistence.SavePersistence();
+    }
+    public void AddMoney(int money)
+    {
+        this.money+=money;
     }
     public void AddConsumable(ConsumableController consumable)
     {
@@ -285,6 +291,18 @@ public class PlayerController : MonoBehaviour
         }
         Consumable newConsumable = new Consumable(consumable);
         consumables.Add(newConsumable);
+    }
+    public void AddConsumable(Consumable consumable)
+    {
+        foreach (Consumable c in consumables)
+        {
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            {
+                c.remainingAmount++;
+                return;
+            }
+        }
+        consumables.Add(new Consumable(consumable));
     }
     public void RemoveConsumable(Consumable consumable)
     {
