@@ -3762,12 +3762,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.85
       objectReference: {fileID: 0}
     - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.86
+      value: 0.22
       objectReference: {fileID: 0}
     - target: {fileID: 3650211675306507600, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3803,7 +3815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4528104855038689256, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: money
-      value: 50
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4528104855038689256, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
       propertyPath: numRon
@@ -4466,6 +4478,8 @@ MonoBehaviour:
   InternalBar: {fileID: 1681244181}
   BGBar: {fileID: 63222205}
   hideHPBarDelay: 3
+  money: {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
+  moneyMultiplier: 0
 --- !u!50 &2122149268
 Rigidbody2D:
   serializedVersion: 4
@@ -4829,6 +4843,10 @@ PrefabInstance:
       propertyPath: HPBar
       value: 
       objectReference: {fileID: 752625716}
+    - target: {fileID: 768886846835892222, guid: 88ba5518fe258a8488bed0894063497c, type: 3}
+      propertyPath: money
+      value: 
+      objectReference: {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
     - target: {fileID: 768886846835892222, guid: 88ba5518fe258a8488bed0894063497c, type: 3}
       propertyPath: InternalBar
       value: 
