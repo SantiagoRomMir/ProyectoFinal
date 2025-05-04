@@ -14,8 +14,11 @@ public class ArrowController : MonoBehaviour
     private float hitTargetTime;
     private bool targetHit;
     private Vector2 targetPos;
+    public string hitTag;
     private void Awake()
     {
+        hitTag = "Player";
+
         finalPos = transform.parent.GetComponent<ArcherController>().targetPos + new Vector2(0, 0);
         targetPos = finalPos;
         direction = finalPos - (Vector2)transform.position;
@@ -46,14 +49,39 @@ public class ArrowController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null && collision.CompareTag("Player"))
+        if (collision != null && collision.CompareTag(hitTag))
         {
-            collision.GetComponent<PlayerController>().HurtPlayer(damage);
-            Destroy(gameObject);
+            switch (hitTag)
+            {
+                case "Player":
+                    collision.GetComponent<PlayerController>().HurtPlayer(damage);
+                    Destroy(gameObject);
+                    break;
+                case "Enemy":
+                    transform.parent.GetComponent<EnemyController>().HurtEnemy(damage);
+                    Destroy(gameObject);
+                    break;
+            }
         }
         if (collision != null && collision.gameObject.layer == 6)
         {
+            Debug.Log("GroundHit: "+collision.gameObject.name);
             Destroy(gameObject);
         }
+    }
+    public void DeflectArrow()
+    {
+        hitTag = "Enemy";
+
+        targetPos = transform.parent.position;
+        finalPos = transform.parent.position;
+        direction = finalPos - (Vector2)transform.position;
+        hitTargetTime = Time.time;
+        targetHit = false;
+
+        float rot_z = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, -rot_z);
+
+        Debug.Log("Deflecting Arrow new TargetPos: " + finalPos);
     }
 }

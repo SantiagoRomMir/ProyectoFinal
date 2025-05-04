@@ -12,6 +12,7 @@ TagManager:
   - sueloSeguro
   - Hoguera
   - Shop
+  - Arrow
   layers:
   - Default
   - TransparentFX

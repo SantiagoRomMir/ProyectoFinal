@@ -16,8 +16,6 @@ public class ShopController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                GetComponent<Collider2D>().enabled = false;
-                GetComponent<Collider2D>().enabled = true;
                 if (!isShooping && collision.gameObject.GetComponent<PlayerController>().money >= price)
                 {
                     isShooping = true;
@@ -45,5 +43,7 @@ public class ShopController : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().AddConsumable(c);
         yield return new WaitForSeconds(shopDelay);
         isShooping = false;
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<Collider2D>().enabled = true;
     }
 }
