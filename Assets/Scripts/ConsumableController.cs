@@ -27,4 +27,19 @@ public class ConsumableController : MonoBehaviour
             }
         }
     }
+    private void Awake()
+    {
+        if (consumable.Equals(Consumable.TypeConsumable.Money))
+        {
+            transform.localScale = new Vector2(transform.localScale.x-(5-money)*0.05f,transform.localScale.y - (5 - money) * 0.05f);
+        }
+    }
+    private void FixedUpdate()
+    {
+        if (consumable.Equals(Consumable.TypeConsumable.Money))
+        {
+            Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+            transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime*(2.5f+1*Vector2.Distance(transform.position, playerPos)));
+        }
+    }
 }

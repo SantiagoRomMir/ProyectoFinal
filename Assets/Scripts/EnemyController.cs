@@ -40,8 +40,13 @@ public class EnemyController : MonoBehaviour
     public GameObject InternalBar;
     public GameObject BGBar;
     public float hideHPBarDelay;
+    [Header("MoneyDrop")]
+    public GameObject money;
+    public float moneyMultiplier;
     private void Awake()
     {
+        money.GetComponent<ConsumableController>().consumable = Consumable.TypeConsumable.Money;
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         internalDamage = 0;
@@ -158,6 +163,18 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+    private void DropMoney()
+    {
+        for (int i=0; i<Random.Range(0,6); i++)
+        {
+            money.GetComponent<ConsumableController>().money = (int)(Random.Range(1, 6)+1*moneyMultiplier);
+            money.transform.position = transform.position;
+            Instantiate(money);
+        }
+
+        Destroy(transform.parent.gameObject);
+        Destroy(gameObject);
+    }
     public void HurtEnemy(int damage)
     {
         if (BGBar.GetComponent<Image>().color.a == 0)
@@ -173,8 +190,7 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(transform.parent.gameObject);
-            Destroy(gameObject);
+            DropMoney();
         }
     }
     
