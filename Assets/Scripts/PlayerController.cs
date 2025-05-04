@@ -717,6 +717,29 @@ public class PlayerController : MonoBehaviour
         }
         internalDamage = 0;
         lastTimeHurt = Time.time;
+
+        StartCoroutine("HitInvulnerable");
+    }
+    IEnumerator HitInvulnerable()
+    {
+        while (Time.time<lastTimeHurt+1.5f)
+        {
+            if (isVulnerable)
+            {
+                isVulnerable = false;
+            }
+            if (!GetComponent<SpriteRenderer>().color.Equals(Color.red))
+            {
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        if (!parry.activeSelf)
+        {
+            isVulnerable = true;
+        }
+        GetComponent<SpriteRenderer>().color = Color.white;
+
     }
     public void Rest()
     {
