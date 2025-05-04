@@ -15,7 +15,7 @@ public class WeaponController : MonoBehaviour
             switch (hitTag)
             {
                 case "Player":
-                    collision.GetComponent<PlayerController>().HurtPlayer(damage);
+                    collision.GetComponent<PlayerController>().HurtPlayer(damage, transform.position, false);
                     break;
                 case "Enemy":
                     collision.GetComponent<EnemyController>().HurtEnemy(damage);

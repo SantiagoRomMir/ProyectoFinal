@@ -177,13 +177,13 @@ public class PlayerController : MonoBehaviour
                 {
                     GetComponent<SpriteRenderer>().flipX = true;
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x) * -1, parry.transform.localPosition.y);
                 }
                 else if (direction > 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = false;
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x), parry.transform.localPosition.y);
                 }
             }
         }
@@ -382,7 +382,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartDodge()
     {
-        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking)
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || !canMove)
         {
             return;
         }
@@ -702,14 +702,49 @@ public class PlayerController : MonoBehaviour
             attackCounter = 0;
         }
     }
-    public void HurtPlayer(int damage)
+    public void HurtPlayer(int damage, Vector2 attackPosition, bool isTrap)
     {
-        if (!isVulnerable)
+        if (!isVulnerable && !isTrap)
         {
-            return;
+            if (parry.activeSelf)
+            {
+                float attackDir = attackPosition.x - transform.position.x;
+                if (attackDir >= 0)
+                {
+                    attackDir = 1;
+                }
+                else
+                {
+                    attackDir = -1;
+                }
+                float parryDir = parry.transform.position.x - transform.position.x;
+                if (parryDir >= 0)
+                {
+                    parryDir = 1;
+                }
+                else
+                {
+                    parryDir = -1;
+                }
+                Debug.Log(attackDir +" "+parryDir+" -> "+(attackDir!=parryDir));
+                if (attackDir != parryDir)
+                {
+                    Hurt(damage);
+                } else
+                {
+                    return;
+                }
+            } else
+            {
+                return;
+            }
         }
+        Hurt(damage);
+    }
+    private void Hurt(int damage)
+    {
         Debug.Log(internalDamage);
-        hp -= (int)((damage + internalDamage)/defense);
+        hp -= (int)((damage + internalDamage) / defense);
         Debug.Log("PlayerHurt: " + hp);
         if (hp <= 0)
         {
@@ -717,8 +752,6 @@ public class PlayerController : MonoBehaviour
         }
         internalDamage = 0;
         lastTimeHurt = Time.time;
-
-        StartCoroutine("HitInvulnerable");
     }
     IEnumerator HitInvulnerable()
     {
