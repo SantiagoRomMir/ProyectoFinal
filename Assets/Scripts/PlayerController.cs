@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public GameObject loro;
     private Rigidbody2D rb;
     private LineRenderer line;
+    public Canvas canvas;
+    private HudControl hudControl;
     public List<Transform> ganchos;
     public float speed;
     private float direction;
@@ -116,6 +118,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hudControl=canvas.GetComponent<HudControl>();
         consumables = new List<Consumable>();
         selectedConsumable = 0;
         defense = 1f;
@@ -451,6 +454,7 @@ public class PlayerController : MonoBehaviour
         HealPlayer(50);
         
         ron--;
+        hudControl.UpdateRon(ron/maxRon);
     }
     private void HealPlayer(int healAmount)
     {
@@ -463,6 +467,7 @@ public class PlayerController : MonoBehaviour
         {
             hp = maxHp;
         }
+        hudControl.UpdatePlayerLife(hp/maxHp);
     } 
     private void Traspass()
     {
@@ -484,6 +489,7 @@ public class PlayerController : MonoBehaviour
         {
             ron = maxRon;
         }
+        hudControl.UpdateRon(ron/maxRon);
     }
     private void Aim()
     {
@@ -704,6 +710,8 @@ public class PlayerController : MonoBehaviour
     {
         ron = maxRon;
         hp = maxHp;
+        hudControl.UpdatePlayerLife(hp/maxHp);
+        hudControl.UpdateRon(ron/maxRon);
     }
     private void Dead()
     {
@@ -759,6 +767,7 @@ public class PlayerController : MonoBehaviour
         internalDamage += addInternalDamage;
         lastTimeHurt = Time.time;
         isHealingInternalDamage = false;
+        hudControl.UpdatePlayerLife(hp-internalDamage/maxHp);
     }
     IEnumerator HealInternalDamage()
     {
@@ -767,9 +776,12 @@ public class PlayerController : MonoBehaviour
         while (internalDamage > 0)
         {
             internalDamage--;
+            hudControl.UpdatePlayerLife(hp-internalDamage/maxHp);
             yield return new WaitForSeconds(0.1f);
         }
         Debug.Log("Player Finished HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = false;
+        hudControl.UpdatePlayerLife(hp/maxHp);
+        
     }
 }
