@@ -19,7 +19,7 @@ public class BulletController : MonoBehaviour
             collision.GetComponent<EnemyController>().ActivateInternalDamage();
             Destroy(gameObject);
         }
-        if (collision != null && collision.gameObject.layer == 6)
+        if (collision.gameObject.layer == 6)
         {
             Destroy(gameObject);
         }

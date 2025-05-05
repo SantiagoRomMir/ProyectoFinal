@@ -5,11 +5,11 @@ using UnityEngine;
 public class Perseguir : MonoBehaviour
 {
     public GameObject enemy;
-    private MeleeController meleeController;
+    private EnemyController enemyController;
     // Start is called before the first frame update
     void Start()
     {
-        meleeController = enemy.GetComponent<MeleeController>();
+        enemyController = enemy.GetComponent<EnemyController>();
     }
 
     // Update is called once per frame
@@ -21,15 +21,15 @@ public class Perseguir : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            meleeController.chase = true;
+            enemyController.chase = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            meleeController.chase = false;
-            meleeController.ReturnPatrol();
+            enemyController.chase = false;
+            enemyController.ReturnPatrol();
         }
     }
 }
