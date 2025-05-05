@@ -11,8 +11,6 @@ TagManager:
   - trap
   - sueloSeguro
   - Hoguera
-  - Shop
-  - Arrow
   layers:
   - Default
   - TransparentFX
