@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     public bool usingLoro;
     public float Slowed = 1;
 
+    public float invulnerableTime;
+
     [Header("MeleeAttack")]
     public GameObject weapon;
     public int damage;
@@ -82,11 +84,7 @@ public class PlayerController : MonoBehaviour
     private bool canMove;
 
     [Header("Controls")]
-    public KeyCode attackKey;
     public KeyCode parryKey;
-    public KeyCode shootKey;
-    public KeyCode reloadKey;
-    public KeyCode dodgeKey;
 
     [Header("Sound")]
     private AudioSource audioSource;
@@ -101,6 +99,7 @@ public class PlayerController : MonoBehaviour
     public float defense;
     public float consumableCooldown;
     public int addedDamage;
+    public int money;
     public List<Consumable> consumables;
     private float lastConsumableTime;
 
@@ -179,13 +178,13 @@ public class PlayerController : MonoBehaviour
                 {
                     GetComponent<SpriteRenderer>().flipX = true;
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x) * -1, parry.transform.localPosition.y);
                 }
                 else if (direction > 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = false;
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x), parry.transform.localPosition.y);
                 }
             }
         }
@@ -270,11 +269,16 @@ public class PlayerController : MonoBehaviour
             SavePersistenceData();
         }
     }
+
     public void SavePersistenceData()
     {
         persistence = new Persistence(hp, ron, internalDamage, selectedConsumable, addedDamage, defense, hasHook, hasParrot, hasGun, canShoot);
 
         persistence.SavePersistence();
+    }
+    public void AddMoney(int money)
+    {
+        this.money+=money;
     }
     public void AddConsumable(ConsumableController consumable)
     {
@@ -288,6 +292,18 @@ public class PlayerController : MonoBehaviour
         }
         Consumable newConsumable = new Consumable(consumable);
         consumables.Add(newConsumable);
+    }
+    public void AddConsumable(Consumable consumable)
+    {
+        foreach (Consumable c in consumables)
+        {
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            {
+                c.remainingAmount++;
+                return;
+            }
+        }
+        consumables.Add(new Consumable(consumable));
     }
     public void RemoveConsumable(Consumable consumable)
     {
@@ -367,7 +383,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartDodge()
     {
-        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking)
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || !canMove)
         {
             return;
         }
@@ -690,14 +706,49 @@ public class PlayerController : MonoBehaviour
             attackCounter = 0;
         }
     }
-    public void HurtPlayer(int damage)
+    public void HurtPlayer(int damage, Vector2 attackPosition, bool isTrap)
     {
-        if (!isVulnerable)
+        if (!isVulnerable && !isTrap)
         {
-            return;
+            if (parry.activeSelf)
+            {
+                float attackDir = attackPosition.x - transform.position.x;
+                if (attackDir >= 0)
+                {
+                    attackDir = 1;
+                }
+                else
+                {
+                    attackDir = -1;
+                }
+                float parryDir = parry.transform.position.x - transform.position.x;
+                if (parryDir >= 0)
+                {
+                    parryDir = 1;
+                }
+                else
+                {
+                    parryDir = -1;
+                }
+                Debug.Log(attackDir +" "+parryDir+" -> "+(attackDir!=parryDir));
+                if (attackDir != parryDir)
+                {
+                    Hurt(damage);
+                } else
+                {
+                    return;
+                }
+            } else
+            {
+                return;
+            }
         }
+        Hurt(damage);
+    }
+    private void Hurt(int damage)
+    {
         Debug.Log(internalDamage);
-        hp -= (int)((damage + internalDamage)/defense);
+        hp -= (int)((damage + internalDamage) / defense);
         Debug.Log("PlayerHurt: " + hp);
         if (hp <= 0)
         {
@@ -705,6 +756,29 @@ public class PlayerController : MonoBehaviour
         }
         internalDamage = 0;
         lastTimeHurt = Time.time;
+        StartCoroutine("HitInvulnerable");
+    }
+    IEnumerator HitInvulnerable()
+    {
+        Debug.Log(Time.time < lastTimeHurt + invulnerableTime);
+        while (Time.time<lastTimeHurt+invulnerableTime)
+        {
+            if (isVulnerable)
+            {
+                isVulnerable = false;
+            }
+            if (!GetComponent<SpriteRenderer>().color.Equals(Color.red))
+            {
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        if (!parry.activeSelf)
+        {
+            isVulnerable = true;
+        }
+        GetComponent<SpriteRenderer>().color = Color.white;
+
     }
     public void Rest()
     {

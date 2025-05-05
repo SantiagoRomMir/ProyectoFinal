@@ -7,6 +7,7 @@ public class Consumable
 {
     public enum TypeConsumable
     {
+        Money,
         Datil,
         Ron,
         LifeRegen,
@@ -18,6 +19,12 @@ public class Consumable
     public int remainingAmount;
     GameObject player;
     public Consumable(ConsumableController c)
+    {
+        remainingAmount = 1;
+        player = GameObject.FindGameObjectWithTag("Player");
+        consumable = c.consumable;
+    }
+    public Consumable(Consumable c)
     {
         remainingAmount = 1;
         player = GameObject.FindGameObjectWithTag("Player");
