@@ -4560,6 +4560,7 @@ MonoBehaviour:
   maxRon: 5
   usingLoro: 0
   Slowed: 1
+  invulnerableTime: 1.5
   weapon: {fileID: 1734372911}
   damage: 4
   attackNumberChain: 3
@@ -4579,11 +4580,7 @@ MonoBehaviour:
   dodgeDuration: 0.2
   dodgeSpeed: 2
   dodgeCooldown: 1
-  attackKey: 122
   parryKey: 99
-  shootKey: 120
-  reloadKey: 114
-  dodgeKey: 304
   hasHook: 1
   hasParrot: 1
   hasGun: 1

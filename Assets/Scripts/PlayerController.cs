@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
     public bool usingLoro;
     public float Slowed = 1;
 
+    public float invulnerableTime;
+
     [Header("MeleeAttack")]
     public GameObject weapon;
     public int damage;
@@ -80,11 +82,7 @@ public class PlayerController : MonoBehaviour
     private bool canMove;
 
     [Header("Controls")]
-    public KeyCode attackKey;
     public KeyCode parryKey;
-    public KeyCode shootKey;
-    public KeyCode reloadKey;
-    public KeyCode dodgeKey;
 
     [Header("Sound")]
     private AudioSource audioSource;
@@ -752,10 +750,12 @@ public class PlayerController : MonoBehaviour
         }
         internalDamage = 0;
         lastTimeHurt = Time.time;
+        StartCoroutine("HitInvulnerable");
     }
     IEnumerator HitInvulnerable()
     {
-        while (Time.time<lastTimeHurt+1.5f)
+        Debug.Log(Time.time < lastTimeHurt + invulnerableTime);
+        while (Time.time<lastTimeHurt+invulnerableTime)
         {
             if (isVulnerable)
             {
