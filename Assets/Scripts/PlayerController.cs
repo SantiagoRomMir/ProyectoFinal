@@ -182,13 +182,13 @@ public class PlayerController : MonoBehaviour
                 {
                     GetComponent<SpriteRenderer>().flipX = true;
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x) * -1, parry.transform.localPosition.y);
                 }
                 else if (direction > 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = false;
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
+                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x), parry.transform.localPosition.y);
                 }
             }
         }
@@ -295,6 +295,18 @@ public class PlayerController : MonoBehaviour
         }
         Consumable newConsumable = new Consumable(consumable);
         consumables.Add(newConsumable);
+    }
+    public void AddConsumable(Consumable consumable)
+    {
+        foreach (Consumable c in consumables)
+        {
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            {
+                c.remainingAmount++;
+                return;
+            }
+        }
+        consumables.Add(new Consumable(consumable));
     }
     public void RemoveConsumable(Consumable consumable)
     {

@@ -24,7 +24,12 @@ public class Consumable
         player = GameObject.FindGameObjectWithTag("Player");
         consumable = c.consumable;
     }
-
+    public Consumable(Consumable c)
+    {
+        remainingAmount = 1;
+        player = GameObject.FindGameObjectWithTag("Player");
+        consumable = c.consumable;
+    }
     public void OnUseAction()
     {
         Debug.Log("Used: " + consumable);

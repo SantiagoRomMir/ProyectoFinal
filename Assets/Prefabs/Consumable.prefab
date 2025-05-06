@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5390843823504111884}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.54, y: 1.53, z: 0}
+  m_LocalPosition: {x: 16.360579, y: 1.3787977, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98,9 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f2164d676a7b84cae2eea8356bd5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUp: 1
+  consumable: 4
   numRon: 2
-  effectDuration: 0
+  money: 1
 --- !u!61 &6684275437563157612
 BoxCollider2D:
   m_ObjectHideFlags: 0

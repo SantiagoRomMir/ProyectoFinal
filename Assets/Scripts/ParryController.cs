@@ -15,9 +15,23 @@ public class ParryController : MonoBehaviour
             {
                 collision.transform.parent.GetComponent<EnemyController>().InternalHurtEnemy(internalDamage);
                 Debug.Log("Perfect Parry");
-            } else
+            }
+            else
             {
-                transform.parent.GetComponent<PlayerController>().InternalHurtPlayer(internalDamage*internalDamagePlayerPercent/100);
+                transform.parent.GetComponent<PlayerController>().InternalHurtPlayer(internalDamage * internalDamagePlayerPercent / 100);
+                Debug.Log("Partial Parry");
+            }
+        }
+        if (collision != null && collision.CompareTag("Arrow"))
+        {
+            if (isPerfect)
+            {
+                collision.GetComponent<ArrowController>().DeflectArrow();
+                Debug.Log("Perfect Parry");
+            }
+            else
+            {
+                transform.parent.GetComponent<PlayerController>().InternalHurtPlayer(internalDamage * internalDamagePlayerPercent / 100);
                 Debug.Log("Partial Parry");
             }
         }
