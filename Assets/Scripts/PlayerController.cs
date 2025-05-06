@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     private float lastFinishedCombo;
     public float finishComboCooldown;
     private int attackCounter;
+    private bool isLookingUp;
 
     [Header("Parry")]
     public GameObject parry;
@@ -168,6 +169,8 @@ public class PlayerController : MonoBehaviour
         hasParrot = false;
 
         LoadPersistenceData();
+
+        StartCoroutine("AttackUpwards");
     }
 
     void FixedUpdate()
@@ -181,13 +184,19 @@ public class PlayerController : MonoBehaviour
                 if (direction < 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = true;
-                    weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
+                    if (!isLookingUp)
+                    {
+                        weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
+                    }
                     parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x) * -1, parry.transform.localPosition.y);
                 }
                 else if (direction > 0)
                 {
                     GetComponent<SpriteRenderer>().flipX = false;
-                    weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
+                    if (!isLookingUp)
+                    {
+                        weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
+                    }
                     parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x), parry.transform.localPosition.y);
                 }
             }
@@ -244,6 +253,30 @@ public class PlayerController : MonoBehaviour
         }
 
         CheckAttackCombo();
+    }
+    IEnumerator AttackUpwards()
+    {
+        float distanceFromPlayer = weapon.transform.localPosition.x;
+        Debug.Log(distanceFromPlayer);
+        while (true)
+        {
+            Debug.Log(isLookingUp);
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                isLookingUp = true;
+                weapon.transform.localPosition = new Vector2(0, 1);
+            }
+            else
+            {
+                isLookingUp = false;
+            }
+            if (weapon.transform.localPosition.y>0 && !isLookingUp)
+            {
+                weapon.transform.localPosition = new Vector2(distanceFromPlayer, 0);
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        
     }
     private void LoadPersistenceData()
     {

@@ -42,7 +42,7 @@ public class ShopController : MonoBehaviour
         }
         catch (ArgumentOutOfRangeException e)
         {
-            Debug.Log("ErrorCount: " + consumables.Count+" | Index: "+rand);
+            Debug.Log("ErrorCount: " + consumables.Count+" | Index: "+rand+" Exception: "+e.ToString());
             return null;
         }
     }
