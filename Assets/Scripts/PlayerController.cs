@@ -131,11 +131,17 @@ public class PlayerController : MonoBehaviour
         audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
         if (PlayerPrefs.GetString("accion") == "puerta")
         {
-            transform.position = GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
+            if (GameObject.Find(PlayerPrefs.GetString("Door"))!=null)
+            {
+                transform.position = GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
+            }
         }
         if (PlayerPrefs.GetString("accion") == "Respawning")
         {
-            transform.position = GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
+            if (GameObject.Find(PlayerPrefs.GetString("positionRespawn"))!=null)
+            {
+                transform.position = GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
+            }
         }
         rb = GetComponent<Rigidbody2D>();
         line = GetComponent<LineRenderer>();
