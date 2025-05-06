@@ -54,7 +54,7 @@ public class ArrowController : MonoBehaviour
             switch (hitTag)
             {
                 case "Player":
-                    collision.GetComponent<PlayerController>().HurtPlayer(damage, transform.position, false);
+                    collision.GetComponent<PlayerController>().HurtPlayer(damage, transform.position, false, true);
                     Destroy(gameObject);
                     break;
                 case "Enemy":

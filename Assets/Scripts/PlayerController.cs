@@ -742,11 +742,11 @@ public class PlayerController : MonoBehaviour
             attackCounter = 0;
         }
     }
-    public void HurtPlayer(int damage, Vector2 attackPosition, bool isTrap)
+    public void HurtPlayer(int damage, Vector2 attackPosition, bool isTrap, bool canParry)
     {
         if (!isVulnerable && !isTrap)
         {
-            if (parry.activeSelf)
+            if (parry.activeSelf && canParry)
             {
                 float attackDir = attackPosition.x - transform.position.x;
                 if (attackDir >= 0)
