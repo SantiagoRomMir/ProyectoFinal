@@ -10,7 +10,8 @@ public class Consumable
         Datil,
         Ron,
         LifeRegen,
-        DefenseBuff
+        DefenseBuff,
+        Money
     }
     public TypeConsumable consumable;
     public int numRon;

@@ -1,17 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
     public int health;
+    private int maxHealth;
     public int internalDamage;
-    public GameObject weapon;
-    public int damage;
-    public float attackCooldown;
-    public float attackRange;
-    private GameObject player;
+    public GameObject player;
     private float lastTimeHurt;
     private bool isHealingInternalDamage;
     public float healInternalDamageDelay;
@@ -23,29 +20,41 @@ public class EnemyController : MonoBehaviour
     }
     public Dificultad dificultad;
     public float speedEenemy;
-    private Vector3 posInitial;
-    private int stop = 1;
+    public Vector3 posInitial;
+    public int stop = 1;
     public Transform posEnd;
-    private float direction;
-    private bool movetoEnd = true;
+    public float direction;
+    public bool movetoEnd = true;
     private SpriteRenderer sprite;
-    private Rigidbody2D phisics;
+    public Rigidbody2D phisics;
     private Animator anim;
     public GameObject[] drop;
     public int[] posbilidades;
     private int numeroDrop;
     public bool move;
-    public bool chase;
 
     [Header("Simulation")]
     public bool triggerInternalDamage;
+    [Header("HP Bars")]
+    public GameObject HPBar;
+    public GameObject InternalBar;
+    public GameObject BGBar;
+    public float hideHPBarDelay;
+    [Header("MoneyDrop")]
+    public GameObject money;
+    public float moneyMultiplier;
     private void Awake()
     {
+        money.GetComponent<ConsumableController>().consumable = Consumable.TypeConsumable.Money;
+
         player = GameObject.FindGameObjectWithTag("Player");
-        weapon.GetComponent<WeaponController>().damage = damage;
 
         internalDamage = 0;
         lastTimeHurt = Time.time;
+
+        maxHealth = health;
+
+        BGBar.GetComponent<Image>().color = new Color32(0, 0, 0, 0);
     }
     private void Start()
     {
@@ -64,7 +73,6 @@ public class EnemyController : MonoBehaviour
         }
         phisics = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
-        StartCoroutine("Attack");
     }
     private void Update()
     {
@@ -77,48 +85,20 @@ public class EnemyController : MonoBehaviour
         {
             ActivateInternalDamage();
         }
-        if (chase)
-        {
-            Chase();
 
-        }
         else if (move)
         {
             Movement();
 
         }
         FlipEnemy();
-    }
-    private void Chase()
-    {
-        if (Vector2.Distance(transform.position, player.transform.position) < 1.5f)
-        {
-            stop = 0;
-            if (transform.position.x - player.transform.position.x < 0)
-            {
-                direction = 1;
-            }
-            else
-            {
-                direction = -1;
-            }
-        }
-        else
-        {
-            stop = 1;
-        }
-        if (transform.position.x - player.transform.position.x < 0)
-        {
-            direction = 1;
-        }
-        else
-        {
-            direction = -1;
-        }
-        phisics.velocity = new Vector2(direction * speedEenemy /* PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
 
+        UpdateHPBar();
+        UpdateInternalBar();
 
+        HideHPBar();
     }
+
     private void Movement()
     {
         phisics.velocity = new Vector2(direction * speedEenemy /* PlayerPrefs.GetFloat("dificultadV")*/ * stop, phisics.velocity.y);
@@ -166,12 +146,10 @@ public class EnemyController : MonoBehaviour
         if (direction == -1)
         {
             sprite.flipX = false;
-            weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
         }
         else if (direction == 1)
         {
             sprite.flipX = true;
-            weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
         }
     }
     public void RandomDrop()
@@ -185,8 +163,25 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+    private void DropMoney()
+    {
+        for (int i = 0; i < Random.Range(0, 6); i++)
+        {
+            money.GetComponent<ConsumableController>().money = (int)(Random.Range(1, 6) + 1 * moneyMultiplier);
+            money.transform.position = transform.position;
+            Instantiate(money);
+        }
+
+        Destroy(transform.parent.gameObject);
+        Destroy(gameObject);
+    }
     public void HurtEnemy(int damage)
     {
+        if (BGBar.GetComponent<Image>().color.a == 0)
+        {
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeIn", true);
+        }
         StopCoroutine("HealInternalDamage");
         health -= damage;
         Debug.Log("EnemyHurt: " + damage);
@@ -195,23 +190,17 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(transform.parent.gameObject);
-            Destroy(gameObject);
+            DropMoney();
         }
     }
-    IEnumerator Attack()
-    {
-        while (true)
-        {
-            if (Vector2.Distance(transform.position, player.transform.position) <= attackRange)
-            {
-                StartCoroutine("AttackAnim");
-            }
-            yield return new WaitForSeconds(attackCooldown);
-        }
-    }
+
     IEnumerator HealInternalDamage()
     {
+        if (BGBar.GetComponent<Image>().color.a == 0)
+        {
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeIn", true);
+        }
         Debug.Log("Enemy HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = true;
         while (internalDamage > 0)
@@ -222,18 +211,14 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Enemy Finished HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = false;
     }
-    IEnumerator AttackAnim()
-    {
-        stop = 0;
-        weapon.GetComponent<Collider2D>().enabled = true;
-        weapon.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        stop = 1;
-        weapon.GetComponent<Collider2D>().enabled = false;
-        weapon.SetActive(false);
-    }
+
     public void InternalHurtEnemy(int addInternalDamage)
     {
+        if (BGBar.GetComponent<Image>().color.a == 0)
+        {
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeIn", true);
+        }
         StopCoroutine("HealInternalDamage");
         internalDamage += addInternalDamage;
         lastTimeHurt = Time.time;
@@ -248,31 +233,22 @@ public class EnemyController : MonoBehaviour
         HurtEnemy(internalDamage);
         internalDamage = 0;
     }
-    public void ReturnPatrol()
+    private void UpdateHPBar()
     {
-        if (Vector2.Distance(posEnd.position, transform.position) < Vector2.Distance(posInitial, transform.position))
+        //HPBar.GetComponent<Image>().fillAmount = (float)health/maxHealth;
+        HPBar.GetComponent<Image>().fillAmount = (float)(health - internalDamage) / maxHealth;
+    }
+    private void UpdateInternalBar()
+    {
+        //InternalBar.GetComponent<Image>().fillAmount = (float)(health-internalDamage)/maxHealth;
+        InternalBar.GetComponent<Image>().fillAmount = (float)health / maxHealth;
+    }
+    private void HideHPBar()
+    {
+        if (Time.time > lastTimeHurt + hideHPBarDelay && !isHealingInternalDamage)
         {
-            movetoEnd = false;
-            if (transform.position.x < posInitial.x)
-            {
-                direction = 1;
-            }
-            else
-            {
-                direction = -1;
-            }
-        }
-        else
-        {
-            movetoEnd = true;
-            if (transform.position.x < posEnd.localPosition.x)
-            {
-                direction = 1;
-            }
-            else
-            {
-                direction = -1;
-            }
+            BGBar.GetComponent<Animator>().SetBool("FadeIn", false);
+            BGBar.GetComponent<Animator>().SetBool("FadeOut", true);
         }
     }
 }
