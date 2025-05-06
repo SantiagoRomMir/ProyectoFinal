@@ -2334,6 +2334,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyPatrol
       objectReference: {fileID: 0}
+    - target: {fileID: 768886846835892222, guid: 88ba5518fe258a8488bed0894063497c, type: 3}
+      propertyPath: money
+      value: 
+      objectReference: {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
     - target: {fileID: 3749833464532775656, guid: 88ba5518fe258a8488bed0894063497c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.07
