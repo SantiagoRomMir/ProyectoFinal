@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviour
     public float jumpTime;
     private float jumpTimeCounter;
 
-    public int maxHp;
-    private int hp;
-    public int maxRon;
-    private int ron;
+    public float maxHp;
+    private float hp;
+    public float maxRon;
+    private float ron;
 
     private bool isGrounded;
     private bool isJumping;
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     public float parryDuration;
     private float lastTimeParry;
     public float perfectParryTimeWindow;
-    public int internalDamage;
+    public float internalDamage;
     private float lastTimeHurt;
     private bool isHealingInternalDamage;
     public float healInternalDamageDelay;
@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetString("accion","");
         hudControl=canvas.GetComponent<HudControl>();
         consumables = new List<Consumable>();
         selectedConsumable = 0;
@@ -499,13 +500,16 @@ public class PlayerController : MonoBehaviour
     }
     public void Heal()
     {
-        if (isCrouching)
+        
+        if (isCrouching || !(ron>0) || hp==maxHp)
         {
             return;
         }
         HealPlayer(50);
         
         ron--;
+        Debug.Log(ron);
+        Debug.Log(ron/maxRon);
         hudControl.UpdateRon(ron/maxRon);
     }
     private void HealPlayer(int healAmount)
@@ -715,6 +719,7 @@ public class PlayerController : MonoBehaviour
         float forwardDir = GetFacingDirection();
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
         Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardDir, transform.position.y), Quaternion.identity);
+        hudControl.ActiveGunPowder();
     }
     private int GetFacingDirection()
     {
@@ -733,6 +738,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
         canShoot = true;
         isReloading = false;
+        hudControl.ActiveGunPowder();
     }
     private void CheckAttackCombo()
     {
@@ -815,6 +821,8 @@ public class PlayerController : MonoBehaviour
             Dead();
         }
         internalDamage = 0;
+        hudControl.UpdatePlayerLife(hp/maxHp);
+        hudControl.UpdateInternalDamage(hp/maxHp);
         lastTimeHurt = Time.time;
         StartCoroutine("HitInvulnerable");
     }
@@ -879,7 +887,8 @@ public class PlayerController : MonoBehaviour
         internalDamage += addInternalDamage;
         lastTimeHurt = Time.time;
         isHealingInternalDamage = false;
-        hudControl.UpdatePlayerLife(hp-internalDamage/maxHp);
+ 
+        hudControl.UpdatePlayerLife((hp-internalDamage)/maxHp);
     }
     IEnumerator HealInternalDamage()
     {
@@ -888,7 +897,7 @@ public class PlayerController : MonoBehaviour
         while (internalDamage > 0)
         {
             internalDamage--;
-            hudControl.UpdatePlayerLife(hp-internalDamage/maxHp);
+            hudControl.UpdatePlayerLife((hp-internalDamage)/maxHp);
             yield return new WaitForSeconds(0.1f);
         }
         Debug.Log("Player Finished HealingInternalDamage: " + internalDamage);
