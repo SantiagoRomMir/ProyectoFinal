@@ -16,6 +16,11 @@ public class Persistence
     public bool hasGun;
     public bool canShoot;
 
+    /*
+     * 1- Es necesario añadir la persistencia de enemigos muertos y los objetos destruidos hasta el reinicio en un punto de descanso
+     * 2- Es necesario preservar aquellos mecanismos o eventos persistentes del mapa
+     * 3- Es necesario almacenar los objetos ya recolectados
+     */
     public Persistence(int hp, int ron, int internalDamage, int selectedConsumable, int addedDamage, float defense, bool hasHook, bool hasParrot, bool hasGun, bool canShoot)
     {
         this.hp = hp;
