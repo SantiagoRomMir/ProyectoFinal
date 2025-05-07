@@ -214,6 +214,10 @@ public class EnemyController : MonoBehaviour
 
     public void InternalHurtEnemy(int addInternalDamage)
     {
+        if (!player.GetComponent<PlayerController>().hasGun)
+        {
+            return;
+        }
         if (BGBar.GetComponent<Image>().color.a == 0)
         {
             BGBar.GetComponent<Animator>().SetBool("FadeOut", false);

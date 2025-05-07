@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canvas = GameObject.FindGameObjectWithTag("Hud").GetComponent<Canvas>();
         hudControl=canvas.GetComponent<HudControl>();
         consumables = new List<Consumable>();
         selectedConsumable = 0;
@@ -417,7 +418,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartReload()
     {
-        if (canShoot || isReloading)
+        if (canShoot || isReloading || !hasGun)
         {
             return;
         }
@@ -657,7 +658,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Loro()
     {
-        if (!isGrounded || isCrouching)
+        if (!isGrounded || isCrouching || !hasParrot)
         {
             return;
         }
@@ -713,7 +714,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Shoot()
     {
-        if (!canShoot || usingLoro)
+        if (!canShoot || usingLoro || !hasGun)
         {
             return;
         }

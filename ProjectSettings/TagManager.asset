@@ -13,6 +13,7 @@ TagManager:
   - Hoguera
   - Arrow
   - Bomb
+  - Hud
   layers:
   - Default
   - TransparentFX
