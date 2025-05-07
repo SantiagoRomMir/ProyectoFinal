@@ -264,10 +264,10 @@ public class PlayerController : MonoBehaviour
     IEnumerator AttackUpwards()
     {
         float distanceFromPlayer = weapon.transform.localPosition.x;
-        Debug.Log(distanceFromPlayer);
+        //Debug.Log(distanceFromPlayer);
         while (true)
         {
-            Debug.Log(isLookingUp);
+            //Debug.Log(isLookingUp);
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 isLookingUp = true;
@@ -866,7 +866,7 @@ public class PlayerController : MonoBehaviour
         lastTimeDodge = Time.time;
         isVulnerable = false;
         int dir = GetFacingDirection();
-        Debug.Log(GetFacingDirection());
+        //Debug.Log(GetFacingDirection());
         rb.velocity = Vector3.zero;
         do
         {
