@@ -10,6 +10,10 @@ public class Rest : MonoBehaviour
     public String  Scene;
     // Start is called before the first frame update    
 
+    private void Awake()
+    {
+        Scene = SceneManager.GetActiveScene().name;
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
 
