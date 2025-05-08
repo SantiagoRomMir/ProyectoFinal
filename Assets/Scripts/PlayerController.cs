@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     public float hookSpeed;
 
+    public bool isResting;
+
     [Header("MeleeAttack")]
     public GameObject weapon;
     public int damage;
@@ -874,12 +876,18 @@ public class PlayerController : MonoBehaviour
         lastTimeHurt = Time.time;
         StartCoroutine("HitInvulnerable");
     }
-    public void Rest()
+    IEnumerator Rest()
     {
         ron = maxRon;
         hp = maxHp;
         hudControl.UpdatePlayerLife(hp/maxHp);
         hudControl.UpdateRon(ron/maxRon);
+
+        GameObject.FindGameObjectWithTag("EnemiesManager").GetComponent<EnemiesManager>().RespawnAllEnemies();
+
+        yield return new WaitForSeconds(2f);
+
+        isResting = false;
     }
     private void Dead()
     {

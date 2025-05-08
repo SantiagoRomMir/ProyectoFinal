@@ -11,12 +11,16 @@ public class TileTrap : MonoBehaviour
        if(collision!=null && collision.gameObject.CompareTag("Player")){
             Debug.Log("Trampa");
             collision.gameObject.GetComponent<PlayerController>().HurtPlayer(damage,transform.position, true, false);
+
+            // Posicion Segura alejada de la trampa -> Si el jugador cae de la izquierda lo moverá -1 y viceversa
             float safePosModifier = collision.GetComponent<PlayerController>().movementDirAbs;
+
             Vector3 savePos = collision.gameObject.GetComponent<PlayerController>().lastPosition;
-            //Debug.Log(savePos);
-            //Debug.Log(safePosModifier);
+
+            // Posicion final del jugador una vez sido alejado de la trampa y elevado del suelo ligeramente
             Vector3 newPlayerPos = new Vector3(savePos.x + -safePosModifier, savePos.y+2);
-            while (Physics2D.Raycast(newPlayerPos, Vector3.up))
+            // Calcula la altura a la que debe colocar al jugador para evitar que atraviese el suelo
+            while (Physics2D.Raycast(newPlayerPos, Vector3.up)) 
             {
                 newPlayerPos = new Vector3(newPlayerPos.x, newPlayerPos.y+1);
             }
