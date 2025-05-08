@@ -15,6 +15,7 @@ public class Boss : MonoBehaviour
     public Transform[] cañonesEste;
     public Transform[] cañonesOeste;
     private Rigidbody2D phisics;
+    public BoxCollider2D colliderAtaque;
     public GameObject bullet;
     private int direction;
     // Start is called before the first frame update
@@ -26,7 +27,6 @@ public class Boss : MonoBehaviour
         hudControl=canvas.GetComponent<HudControl>();
         hudControl.ActiveBossBar();
         jumpPositions=GameObject.Find("jumpPositions").transform.GetComponentsInChildren<Transform>();
-        StartCoroutine("Shoot");
     }
 
     // Update is called once per frame
@@ -35,8 +35,8 @@ public class Boss : MonoBehaviour
         
     }
     private IEnumerator Jump(){
+        StopAllCoroutines();
         Transform objetivo = MasCercano();
-        Debug.Log(objetivo.gameObject);
         if(objetivo.position.x>transform.position.x){
                 direction=1;
             }else{
@@ -61,23 +61,30 @@ public class Boss : MonoBehaviour
             return jumpPositions[2];
         }
     }
+    private Transform MasLejano(){
+        if(Vector2.Distance(transform.position,jumpPositions[1].position)<Vector2.Distance(transform.position,jumpPositions[2].position)){
+            return jumpPositions[2];
+        }else{
+            return jumpPositions[1];
+        }
+    }
     private IEnumerator Shoot(){
-        int Salto=UnityEngine.Random.Range(1,3);
-        transform.position=jumpPositions[Salto].position;
-        yield return new WaitForSeconds(1);
-        int forwardDir=GetFacingDirection();
+        int Salto=Caer();
+        yield return new WaitForSeconds(2);
         if(Salto==2){
             for (int i = 0; i < cañonesEste.Length; i++)
             {
+
+                bullet.GetComponent<BalaCañon>().direction = -1;
                 Instantiate(bullet, new Vector2(cañonesEste[i].position.x,cañonesEste[i].position.y),Quaternion.identity);
             }
         }else{
             for (int i = 0; i < cañonesOeste.Length; i++)
             {
-                Instantiate(bullet, new Vector2(cañonesOeste[i].position.x*-1,cañonesOeste[i].position.y),Quaternion.identity);
+                bullet.GetComponent<BalaCañon>().direction = 1;
+                Instantiate(bullet, new Vector2(cañonesOeste[i].position.x,cañonesOeste[i].position.y),Quaternion.identity);
             }
         }         
-            Instantiate(bullet, new Vector2(transform.position.x + forwardDir, transform.position.y), Quaternion.identity);
 
     }
     private int GetFacingDirection()
@@ -90,6 +97,32 @@ public class Boss : MonoBehaviour
         {
             return 1;
         }
+    }
+    private int Caer(){
+         int Salto=UnityEngine.Random.Range(1,3);
+        transform.position=jumpPositions[Salto].position;
+        return Salto;
+    }
+    private IEnumerator Arrollar(){
+        int Salto=Caer();
+        Transform objetivo = MasLejano();
+        colliderAtaque.enabled=true;
+        if(objetivo.position.x>transform.position.x){
+                direction=1;
+            }else{
+                direction=-1;
+            }
+        while(math.abs(transform.position.x-objetivo.position.x)>0.1f){
+            phisics.velocity = new Vector2(direction * speed, phisics.velocity.y);
+            yield return new WaitForEndOfFrame();
+        }
+        StartCoroutine("Jump");
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        StopCoroutine("Arrollar");
+        colliderAtaque.enabled=false;
+
     }
 
 }
