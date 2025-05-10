@@ -236,6 +236,7 @@ public class PlayerController : MonoBehaviour
                 if (aiming)
                 {
                     canMove = false;
+                    rb.velocity = new Vector2(0, rb.velocity.y);
                 }
             }
             Grounded();

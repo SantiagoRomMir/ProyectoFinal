@@ -9,19 +9,27 @@ public class EnemyRespawner : MonoBehaviour
     private GameObject activeEnemy;
     private void Awake()
     {
-        CopyEnemy();
+        enemyCopy = Instantiate(GetRealEnemy(), transform);
+        enemyCopy.SetActive(false);
+        enemyCopy.transform.position = gameObject.transform.position;
+        enemyCopy.tag = "Copy";
     }
     public void SpawnEnemy()
     {
-        Destroy(transform.GetChild(0).gameObject);
-        CopyEnemy();
-        enemyCopy.SetActive(true);
+        Destroy(GetRealEnemy());
+        GameObject newEnemy = Instantiate(enemyCopy, transform);
+        newEnemy.tag = "Untagged";
+        newEnemy.SetActive(true);
     }
-
-    private void CopyEnemy()
+    private GameObject GetRealEnemy()
     {
-        enemyCopy = Instantiate(transform.GetChild(0).gameObject, transform);
-        enemyCopy.SetActive(false);
-        enemyCopy.name = transform.GetChild(0).gameObject.name;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (!transform.GetChild(i).CompareTag("Copy"))
+            {
+                return transform.GetChild(i).gameObject;
+            }
+        }
+        return null;
     }
 }
