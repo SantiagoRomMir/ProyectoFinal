@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
 
         maxHealth = health;
 
-        BGBar.GetComponent<Image>().color = new Color32(0, 0, 0, 0);
+        //BGBar.GetComponent<Image>().color = new Color32(0, 0, 0, 0);
     }
     private void Start()
     {

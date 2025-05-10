@@ -16,12 +16,12 @@ public class EnemyRespawner : MonoBehaviour
     }
     public void SpawnEnemy()
     {
-        Destroy(GetRealEnemy());
+        DestroyRealEnemy();
         GameObject newEnemy = Instantiate(enemyCopy, transform);
         newEnemy.tag = "Untagged";
         newEnemy.SetActive(true);
     }
-    private GameObject GetRealEnemy()
+    public GameObject GetRealEnemy()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -31,5 +31,9 @@ public class EnemyRespawner : MonoBehaviour
             }
         }
         return null;
+    }
+    public void DestroyRealEnemy()
+    {
+        Destroy(GetRealEnemy());
     }
 }

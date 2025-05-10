@@ -20,7 +20,8 @@ public class TileTrap : MonoBehaviour
             // Posicion final del jugador una vez sido alejado de la trampa y elevado del suelo ligeramente
             Vector3 newPlayerPos = new Vector3(savePos.x + -safePosModifier, savePos.y+2);
             // Calcula la altura a la que debe colocar al jugador para evitar que atraviese el suelo
-            while (Physics2D.Raycast(newPlayerPos, Vector3.up)) 
+            RaycastHit2D hit;
+            while (!(hit = Physics2D.Raycast(newPlayerPos, Vector3.up)).collider.isTrigger) 
             {
                 newPlayerPos = new Vector3(newPlayerPos.x, newPlayerPos.y+1);
             }

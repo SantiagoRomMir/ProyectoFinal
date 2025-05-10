@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
     public float attackCooldown;
     private float lastFinishedCombo;
     public float finishComboCooldown;
-    private int attackCounter;
+    public int attackCounter;
     private bool isLookingUp;
 
     [Header("Parry")]
@@ -342,6 +342,11 @@ public class PlayerController : MonoBehaviour
         persistence = new Persistence(hp, ron, internalDamage, selectedConsumable, addedDamage, defense, hasHook, hasParrot, hasGun, canShoot);
 
         persistence.SavePersistence();
+
+        if (GameObject.FindGameObjectWithTag("EnemiesManager")!=null)
+        {
+            GameObject.FindGameObjectWithTag("EnemiesManager").GetComponent<EnemiesManager>().SaveEnemiesDead();
+        }
     }
     public void AddMoney(int money)
     {
@@ -727,12 +732,12 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
+        
+        attackCounter++;
+        animator.SetInteger("AttackNumber", attackCounter);
         animator.SetTrigger("Attack");
         canMove = false;
         lastTimeAttack = Time.time;
-        attackCounter++;
-        animator.SetInteger("AttackNumber", attackCounter);
         if (attackCounter == 1)
         {
             weapon.GetComponent<WeaponController>().damage = damage + addedDamage;
@@ -755,6 +760,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
+        yield return new WaitForSeconds(0.05f);
         weapon.GetComponent<Collider2D>().enabled = true;
         weapon.SetActive(true);
         yield return new WaitForSeconds(0.1f);
@@ -798,6 +804,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("ResetCombo");
             attackCounter = 0;
+            animator.SetInteger("AttackNumber", attackCounter);
         }
     }
     public void HurtPlayer(int damage, Vector2 attackPosition, bool isTrap, bool canParry)

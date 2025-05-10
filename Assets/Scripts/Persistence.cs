@@ -74,4 +74,33 @@ public class Persistence
 
         Debug.Log("PersistenceSaved");
     }
+
+    public static void SavePersistenceEnemiesDead(string currentSceneName, List<int> indexes)
+    {
+        string values = "";
+        foreach (int i in indexes)
+        {
+            values += i+",";
+        }
+        if (values.Length>0)
+        {
+            values = values.Substring(0, values.Length - 1);
+        }
+        PlayerPrefs.SetString(currentSceneName,values);
+        Debug.Log("key: "+currentSceneName+" -> "+values);
+    }
+    public static List<int> LoadPersistenceEnemiesDead(string currentSceneName)
+    {
+        List<int> values = new List<int>();
+        string data = PlayerPrefs.GetString(currentSceneName);
+        if (data.Length>0)
+        {
+            foreach (string s in data.Split(","))
+            {
+                Debug.Log(s);
+                values.Add(int.Parse(s));
+            }
+        }
+        return values;
+    }
 }
