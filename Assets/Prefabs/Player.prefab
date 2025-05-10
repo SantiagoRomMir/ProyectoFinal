@@ -486,13 +486,15 @@ MonoBehaviour:
   usingLoro: 0
   Slowed: 1
   invulnerableTime: 1.5
-  hookSpeed: 0
+  hookSpeed: 1.5
+  isResting: 0
   weapon: {fileID: 7360584914260071356}
   damage: 4
   attackNumberChain: 3
   attackTimeChainReset: 2
   attackCooldown: 0.5
   finishComboCooldown: 0.75
+  attackCounter: 0
   parry: {fileID: 790013648112493509}
   parryCooldown: 1
   parryDuration: 20
@@ -521,7 +523,7 @@ MonoBehaviour:
   addedDamage: 0
   money: 0
   consumables: []
-  clearPersistenceData: 1
+  clearPersistenceData: 0
   animator: {fileID: 0}
   movementDirAbs: 0
 --- !u!61 &2568527220261335284

@@ -336,10 +336,19 @@ public class PlayerController : MonoBehaviour
         {
             SavePersistenceData();
         }
+
+        AddConsumableList(Persistence.LoadPersistenceInventory());
+    }
+    private void AddConsumableList(List<Consumable> consumableList)
+    {
+        foreach (Consumable c in consumableList)
+        {
+            AddConsumable(c);
+        }
     }
     public void SavePersistenceData()
     {
-        persistence = new Persistence(hp, ron, internalDamage, selectedConsumable, addedDamage, defense, hasHook, hasParrot, hasGun, canShoot);
+        persistence = new Persistence(hp, ron, internalDamage, selectedConsumable, addedDamage, defense, hasHook, hasParrot, hasGun, canShoot, money);
 
         persistence.SavePersistence();
 
@@ -347,6 +356,8 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("EnemiesManager").GetComponent<EnemiesManager>().SaveEnemiesDead();
         }
+
+        Persistence.SavePersistenceInventory(consumables);
     }
     public void AddMoney(int money)
     {
