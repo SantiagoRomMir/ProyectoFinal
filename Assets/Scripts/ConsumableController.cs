@@ -7,6 +7,7 @@ public class ConsumableController : MonoBehaviour
     public Consumable.TypeConsumable consumable;
     public int numRon;
     public int money;
+    private float speedDifference;
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -33,6 +34,8 @@ public class ConsumableController : MonoBehaviour
         if (consumable.Equals(Consumable.TypeConsumable.Money))
         {
             transform.localScale = new Vector2(transform.localScale.x - (5 - money) * 0.05f, transform.localScale.y - (5 - money) * 0.05f);
+            speedDifference = (float)money/5 * 2f;
+            Debug.Log(speedDifference);
         }
     }
     private void FixedUpdate()
@@ -40,7 +43,7 @@ public class ConsumableController : MonoBehaviour
         if (consumable.Equals(Consumable.TypeConsumable.Money))
         {
             Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
-            transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * (2.5f + 1 * Vector2.Distance(transform.position, playerPos)));
+            transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * (2.5f - speedDifference + 1 * Vector2.Distance(transform.position, playerPos)*2f));
         }
     }
 }

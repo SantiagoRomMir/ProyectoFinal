@@ -16,6 +16,7 @@ TagManager:
   - Hud
   - EnemiesManager
   - Copy
+  - Vase
   layers:
   - Default
   - TransparentFX

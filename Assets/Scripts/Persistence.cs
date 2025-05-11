@@ -52,7 +52,7 @@ public class Persistence
         int selectedConsumable = PlayerPrefs.GetInt("selectedConsumable");
         int addedDamage = PlayerPrefs.GetInt("addedDamage");
         float defense = PlayerPrefs.GetFloat("defense");
-        Debug.Log(PlayerPrefs.GetString("hasHook"));
+        //Debug.Log(PlayerPrefs.GetString("hasHook"));
         bool hasHook = Boolean.Parse(PlayerPrefs.GetString("hasHook"));
         bool hasParrot = Boolean.Parse(PlayerPrefs.GetString("hasParrot"));
         bool hasGun = Boolean.Parse(PlayerPrefs.GetString("hasGun"));
@@ -102,7 +102,7 @@ public class Persistence
         {
             foreach (string s in data.Split(","))
             {
-                Debug.Log(s);
+                //Debug.Log(s);
                 values.Add(int.Parse(s));
             }
         }
@@ -133,7 +133,7 @@ public class Persistence
                 string consumableName = s.Split(",")[0];
                 int amount = int.Parse(s.Split(",")[1]);
                 Consumable c = new Consumable(amount, Consumable.GetConsumableTypeByName(consumableName));
-                Debug.Log(s);
+                //Debug.Log(s);
                 consumables.Add(c);
             }
         }

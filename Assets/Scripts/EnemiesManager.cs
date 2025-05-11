@@ -14,7 +14,7 @@ public class EnemiesManager : MonoBehaviour
 
         DestroyEnemiesDead();
 
-        Debug.Log(enemiesDead.Count);
+        //Debug.Log(enemiesDead.Count);
     }
     public void RespawnAllEnemies()
     {
