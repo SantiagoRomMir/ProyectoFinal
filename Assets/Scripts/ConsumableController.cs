@@ -43,7 +43,7 @@ public class ConsumableController : MonoBehaviour
         if (consumable.Equals(Consumable.TypeConsumable.Money))
         {
             Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
-            transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * (2.5f - speedDifference + 1 * Vector2.Distance(transform.position, playerPos)*2f));
+            transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * (5f - speedDifference + 1 * Vector2.Distance(transform.position, playerPos)*2f));
         }
     }
 }
