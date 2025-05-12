@@ -27,6 +27,7 @@ public class Boss : MonoBehaviour
         hudControl=canvas.GetComponent<HudControl>();
         hudControl.ActiveBossBar();
         jumpPositions=GameObject.Find("jumpPositions").transform.GetComponentsInChildren<Transform>();
+        StartCoroutine("Arrollar");
     }
 
     // Update is called once per frame
@@ -34,8 +35,12 @@ public class Boss : MonoBehaviour
     {
         
     }
-    private IEnumerator Jump(){
+    private void Saltar(){
         StopAllCoroutines();
+        StartCoroutine("Jump");
+    }
+    private IEnumerator Jump(){
+        
         Transform objetivo = MasCercano();
         if(objetivo.position.x>transform.position.x){
                 direction=1;
@@ -44,11 +49,14 @@ public class Boss : MonoBehaviour
             }
         while(math.abs(transform.position.x-objetivo.position.x)>0.1f){
             phisics.velocity = new Vector2(direction * speed, phisics.velocity.y);
+            Debug.Log(transform.position.x);
+            Debug.Log("objetivo "+objetivo.position.x);
             yield return new WaitForEndOfFrame();
         }
         phisics.velocity = new Vector2(0, 0);
         phisics.bodyType = RigidbodyType2D.Kinematic;
         while(transform.position!=new Vector3(transform.position.x,15,transform.position.z)){
+            Debug.Log("hola");
                     transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x,15), speed * Time.deltaTime * 4f);
                     yield return new WaitForEndOfFrame();
         }
@@ -105,6 +113,7 @@ public class Boss : MonoBehaviour
     }
     private IEnumerator Arrollar(){
         int Salto=Caer();
+        yield return new WaitForSeconds(2);
         Transform objetivo = MasLejano();
         colliderAtaque.enabled=true;
         if(objetivo.position.x>transform.position.x){
@@ -116,13 +125,15 @@ public class Boss : MonoBehaviour
             phisics.velocity = new Vector2(direction * speed, phisics.velocity.y);
             yield return new WaitForEndOfFrame();
         }
-        StartCoroutine("Jump");
+        Saltar();
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        StopCoroutine("Arrollar");
-        colliderAtaque.enabled=false;
-
+        if(other.CompareTag("Player")){
+            StopCoroutine("Arrollar");
+            colliderAtaque.enabled=false;
+            phisics.velocity=Vector2.zero;
+        }
     }
 
 }
