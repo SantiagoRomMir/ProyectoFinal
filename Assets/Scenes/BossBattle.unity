@@ -218,6 +218,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1872362132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &614297621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 614297622}
+  m_Layer: 0
+  m_Name: posicionBombardeo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &614297622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614297621}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.7834816, y: 12.88, z: -0.09367032}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1602224959}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!223 &744004628 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 658705852207277156, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
@@ -471,6 +502,7 @@ Transform:
   - {fileID: 1872362132}
   - {fileID: 81788521}
   - {fileID: 1243287372}
+  - {fileID: 614297622}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1638610597
@@ -769,6 +801,7 @@ MonoBehaviour:
   - {fileID: 1041590105}
   - {fileID: 936966649}
   - {fileID: 1638610598}
+  posicionBombardeo: {fileID: 0}
   colliderAtaque: {fileID: 1948572114}
   bullet: {fileID: 2316893574791508054, guid: 8b018f3394747b34480b5ac1fdfb0181, type: 3}
 --- !u!212 &1948572110
@@ -832,7 +865,7 @@ Transform:
   m_GameObject: {fileID: 1948572108}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23.14, y: 0.08, z: -0.14692484}
+  m_LocalPosition: {x: 3.55, y: 0.08, z: -0.14692484}
   m_LocalScale: {x: 2.1614, y: 1.9854, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
