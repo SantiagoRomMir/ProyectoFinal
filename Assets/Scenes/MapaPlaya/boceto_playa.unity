@@ -80047,6 +80047,14 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1.625
       objectReference: {fileID: 0}
+    - target: {fileID: 762799815037529686, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 766705077464122782, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d5855b64ae9f749449d45a9075a269c8, type: 2}
     - target: {fileID: 828204973649758447, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -80105,6 +80113,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4305316315612866290, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6203680501700059493, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7360584914260071356, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}

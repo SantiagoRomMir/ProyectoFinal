@@ -259,6 +259,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(parryKey) && Time.time >= lastTimeParry + parryCooldown)
             {
+                animator.SetBool("isParrying", true);
                 StartCoroutine("Parry");
             }
 
@@ -266,6 +267,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (parry.activeSelf)
                 {
+                    animator.SetBool("isParrying", false);
                     StopCoroutine("Parry");
                     parry.SetActive(false);
                     isVulnerable = true;
@@ -471,7 +473,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
+        animator.SetTrigger("Dash");
         StartCoroutine("Dodge");
     }
     private void Jump()
@@ -690,7 +692,8 @@ public class PlayerController : MonoBehaviour
         line.SetPosition(1, objetivo.position);
         rb.velocity = new Vector2(0, 0);
         rb.bodyType = RigidbodyType2D.Kinematic;
-        while (transform.position != objetivo.position)
+        float distance;
+        while ((distance = Vector2.Distance(transform.position, objetivo.position))>0.5f)
         {
             line.SetPosition(0, firePosition.position);
             transform.position = Vector2.MoveTowards(transform.position, objetivo.position, speed * Time.deltaTime * (hookSpeed + 1 * Vector2.Distance(transform.position,objetivo.position)));
@@ -728,6 +731,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isGrounded", isGrounded);
         animator.SetFloat("VelocityX", Math.Abs(rb.velocity.x));
         animator.SetFloat("VelocityY", rb.velocity.y);
+        animator.SetBool("isHooking", isHooking);
+        animator.SetBool("ExtraJump", extraJumps);
     }
     IEnumerator SelectRandomIdle()
     {
@@ -785,11 +790,15 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
+        animator.SetTrigger("Shoot");
         canShoot = false;
+        Invoke("CreateBullet", 0.25f);
+    }
+    private void CreateBullet()
+    {
         float forwardDir = GetFacingDirection();
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
-        Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardDir, transform.position.y), Quaternion.identity);
+        Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardDir, transform.position.y+0.45f), Quaternion.identity);
     }
     private int GetFacingDirection()
     {
@@ -918,6 +927,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Parry()
     {
         lastTimeParry = Time.time;
+        rb.velocity = new Vector2(0,rb.velocity.y);
         canMove = false;
         parry.GetComponent<ParryController>().isPerfect = true;
         parry.GetComponent<SpriteRenderer>().color = Color.green;
@@ -933,6 +943,7 @@ public class PlayerController : MonoBehaviour
         parry.SetActive(false);
         isVulnerable = true;
         canMove = true;
+        animator.SetBool("isParrying", false);
     }
     IEnumerator Dodge()
     {
