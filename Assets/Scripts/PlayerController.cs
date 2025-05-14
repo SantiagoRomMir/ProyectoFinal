@@ -358,6 +358,10 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("EnemiesManager").GetComponent<EnemiesManager>().SaveEnemiesDead();
         }
+        if (GameObject.FindGameObjectWithTag("EventsManager") != null)
+        {
+            GameObject.FindGameObjectWithTag("EventsManager").GetComponent<SingleTimeEventsManager>().SaveVasesBroken();
+        }
 
         Persistence.SavePersistenceInventory(consumables);
     }
@@ -684,7 +688,7 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator Gancho()
     {
-        Debug.Log(ganchoCercano);
+        //Debug.Log(ganchoCercano);
         isHooking = true;
         canMove = false;
         Transform objetivo = ganchoCercano;
@@ -906,6 +910,9 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Rest()
     {
+        isResting = true;
+        canMove = false;
+
         ron = maxRon;
         hp = maxHp;
         hudControl.UpdatePlayerLife(hp/maxHp);
@@ -916,11 +923,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         isResting = false;
+        canMove = true;
     }
     private void Dead()
     {
         Rest();
-        Debug.Log(hp);
+        //Debug.Log(hp);
         PlayerPrefs.SetString("accion", "Respawning");
         SceneManager.LoadScene(PlayerPrefs.GetString("sceneRespawn"));
     }

@@ -8,13 +8,17 @@ public class EnemiesManager : MonoBehaviour
     public List<int> enemiesDead;
     private void Awake()
     {
-        enemiesDead = new List<int>();
+        if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().clearPersistenceData)
+        {
+            enemiesDead = new List<int>();
+            Persistence.SavePersistenceEnemiesDead(SceneManager.GetActiveScene().name, enemiesDead);
+        }
+        else
+        {
+            LoadEnemiesDead();
 
-        LoadEnemiesDead();
-
-        DestroyEnemiesDead();
-
-        //Debug.Log(enemiesDead.Count);
+            DestroyEnemiesDead();
+        }
     }
     public void RespawnAllEnemies()
     {
@@ -52,7 +56,7 @@ public class EnemiesManager : MonoBehaviour
         GetEnemiesDead();
         string tmp = "";
         foreach (int i in enemiesDead) tmp += i + " ";
-        Debug.Log(SceneManager.GetActiveScene().name + ":" + tmp);
+        //Debug.Log(SceneManager.GetActiveScene().name + ":" + tmp);
         Persistence.SavePersistenceEnemiesDead(SceneManager.GetActiveScene().name, enemiesDead);
     }
 }

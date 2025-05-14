@@ -17,6 +17,7 @@ public class VaseController : MonoBehaviour
             Instantiate(money);
         }
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -17,6 +17,7 @@ TagManager:
   - EnemiesManager
   - Copy
   - Vase
+  - EventsManager
   layers:
   - Default
   - TransparentFX
