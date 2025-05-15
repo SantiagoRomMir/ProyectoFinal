@@ -27,12 +27,15 @@ public class PlayerSkillsController : MonoBehaviour
             {
                 case PlayerSkills.Gun:
                     collision.GetComponent<PlayerController>().hasGun = true;
+                    PlayerPrefs.SetString("hasGun", "true");
                     break;
                 case PlayerSkills.Hook:
                     collision.GetComponent<PlayerController>().hasHook = true;
+                    PlayerPrefs.SetString("hasHook", "true");
                     break;
                 case PlayerSkills.Parrot:
                     collision.GetComponent<PlayerController>().hasParrot = true;
+                    PlayerPrefs.SetString("hasParrot", "true");
                     break;
             }
             Destroy(gameObject);

@@ -192,37 +192,34 @@ public class PlayerController : MonoBehaviour
         LoadPersistenceData();
 
         StartCoroutine("AttackUpwards");
+
+        //Hurt(1000);
     }
 
     void FixedUpdate()
     {
-        if (!usingLoro && canMove)
+        if (!usingLoro && canMove && !isResting && !aiming)
         {
-            if (!aiming)
+            direction = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector2(direction * speed * Slowed, rb.velocity.y);
+            //Debug.Log(direction);
+            if (direction < 0)
             {
-                direction = Input.GetAxis("Horizontal");
-                rb.velocity = new Vector2(direction * speed * Slowed, rb.velocity.y);
-                //Debug.Log(direction);
-                if (direction < 0)
+                GetComponent<SpriteRenderer>().flipX = true;
+                if (!isLookingUp)
                 {
-                    movementDirAbs = -1;
-                    GetComponent<SpriteRenderer>().flipX = true;
-                    if (!isLookingUp)
-                    {
-                        weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
-                    }
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x) * -1, parry.transform.localPosition.y);
+                    weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
                 }
-                else if (direction > 0)
+                parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x) * -1, parry.transform.localPosition.y);
+            }
+            else if (direction > 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+                if (!isLookingUp)
                 {
-                    movementDirAbs = 1;
-                    GetComponent<SpriteRenderer>().flipX = false;
-                    if (!isLookingUp)
-                    {
-                        weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
-                    }
-                    parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x), parry.transform.localPosition.y);
+                    weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
                 }
+                parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x), parry.transform.localPosition.y);
             }
         }
     }
@@ -230,7 +227,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if(!usingLoro){
-            if (hasHook)
+            if (hasHook && isGrounded)
             {
                 Aim();
                 if (aiming)
@@ -257,7 +254,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(parryKey) && Time.time >= lastTimeParry + parryCooldown)
+            if (Input.GetKeyDown(parryKey) && Time.time >= lastTimeParry + parryCooldown && !isResting)
             {
                 animator.SetBool("isParrying", true);
                 StartCoroutine("Parry");
@@ -400,7 +397,7 @@ public class PlayerController : MonoBehaviour
     }
     public void UseConsumable()
     {
-        if (consumables.Count<=0)
+        if (consumables.Count <= 0 || isResting)
         {
             return;
         }
@@ -412,6 +409,10 @@ public class PlayerController : MonoBehaviour
     }
     public void SelectNextConsumable()
     {
+        if (isResting)
+        {
+            return;
+        }
         selectedConsumable++;
         if (selectedConsumable > consumables.Count - 1)
         {
@@ -420,6 +421,10 @@ public class PlayerController : MonoBehaviour
     }
     public void SelectPreviousConsumable()
     {
+        if (isResting)
+        {
+            return;
+        }
         selectedConsumable--;
         if (selectedConsumable < 0)
         {
@@ -464,7 +469,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartReload()
     {
-        if (canShoot || isReloading || !hasGun)
+        if (canShoot || isReloading || !hasGun || isResting)
         {
             return;
         }
@@ -473,15 +478,20 @@ public class PlayerController : MonoBehaviour
     }
     public void StartDodge()
     {
-        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking)
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || isResting || Slowed<1)
         {
             return;
         }
+        animator.SetBool("isDodging", true);
         animator.SetTrigger("Dash");
         StartCoroutine("Dodge");
     }
     private void Jump()
     {
+        if (isResting)
+        {
+            return;
+        }
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
@@ -524,6 +534,13 @@ public class PlayerController : MonoBehaviour
         if (collider != null && collider.CompareTag("sueloSeguro"))
         {
             lastPosition = transform.position;
+            if(direction < 0)
+            {
+                movementDirAbs = -1;
+            } else
+            {
+                movementDirAbs = 1;
+            }
         }
         isFalling = false;
         if (extraJumps == false && isGrounded == true)
@@ -533,7 +550,10 @@ public class PlayerController : MonoBehaviour
     }
     private void Crouching()
     {
-
+        if (isResting)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             BoxCollider2D[] colliders;
@@ -554,7 +574,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Heal()
     {
-        if (isCrouching || !canMove || !isGrounded)
+        if (isCrouching || !canMove || !isGrounded || isResting)
         {
             return;
         }
@@ -580,6 +600,10 @@ public class PlayerController : MonoBehaviour
     } 
     private void Traspass()
     {
+        if (isResting)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Collider2D floor = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
@@ -602,6 +626,10 @@ public class PlayerController : MonoBehaviour
     }
     private void Aim()
     {
+        if (isResting)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.F))
         {
             aiming = true;
@@ -710,7 +738,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Loro()
     {
-        if (!isGrounded || isCrouching || !hasParrot)
+        if (!isGrounded || isCrouching || !hasParrot || isResting)
         {
             return;
         }
@@ -728,7 +756,6 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateAnimatorValues()
     {
-
         animator.SetInteger("IdleNumber",idleNumber);
         //animator.SetTrigger("Idle");
         animator.SetBool("isAiming", aiming);
@@ -748,7 +775,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Attack()
     {
-        if (Time.time < lastTimeAttack + attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown || isHooking || usingLoro)
+        if (Time.time < lastTimeAttack + attackCooldown || Time.time < lastFinishedCombo + finishComboCooldown || isHooking || usingLoro || isResting)
         {
             return;
         }
@@ -780,7 +807,11 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
-        yield return new WaitForSeconds(0.05f);
+        if (rb.velocity.x <= 1f)
+        {
+            rb.velocity += new Vector2(2f * GetFacingDirection(), 0);
+        }
+        yield return new WaitForSeconds(0.1f);
         weapon.GetComponent<Collider2D>().enabled = true;
         weapon.SetActive(true);
         yield return new WaitForSeconds(0.1f);
@@ -790,7 +821,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Shoot()
     {
-        if (!canShoot || usingLoro || !hasGun)
+        if (!canShoot || usingLoro || !hasGun || isResting)
         {
             return;
         }
@@ -833,6 +864,10 @@ public class PlayerController : MonoBehaviour
     }
     public void HurtPlayer(int damage, Vector2 attackPosition, bool isTrap, bool canParry)
     {
+        if (isResting)
+        {
+            return;
+        }
         if (!isVulnerable && !isTrap)
         {
             if (parry.activeSelf && canParry)
@@ -902,7 +937,7 @@ public class PlayerController : MonoBehaviour
         if (hp <= 0)
         {
             animator.SetTrigger("Death");
-            Dead();
+            StartCoroutine("Dead");
         }
         internalDamage = 0;
         lastTimeHurt = Time.time;
@@ -910,33 +945,49 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Rest()
     {
+        isVulnerable = false;
         isResting = true;
         canMove = false;
 
         ron = maxRon;
         hp = maxHp;
+        internalDamage = 0;
         hudControl.UpdatePlayerLife(hp/maxHp);
         hudControl.UpdateRon(ron/maxRon);
 
-        GameObject.FindGameObjectWithTag("EnemiesManager").GetComponent<EnemiesManager>().RespawnAllEnemies();
+        if (GameObject.FindGameObjectWithTag("EnemiesManager")!=null)
+        {
+            GameObject.FindGameObjectWithTag("EnemiesManager").GetComponent<EnemiesManager>().RespawnAllEnemies();
+        }
 
+        SavePersistenceData();
         yield return new WaitForSeconds(2f);
 
         isResting = false;
         canMove = true;
+
+        isVulnerable = true;
     }
-    private void Dead()
+    IEnumerator Dead()
     {
-        Rest();
+        isVulnerable = false;
+        hp = 0;
+        internalDamage = 0;
+        isResting = true;
+        rb.velocity = new Vector2(0, rb.velocity.y);
         //Debug.Log(hp);
+        yield return new WaitForSeconds(2f);
         PlayerPrefs.SetString("accion", "Respawning");
         SceneManager.LoadScene(PlayerPrefs.GetString("sceneRespawn"));
+
+        StartCoroutine("Rest");
     }
     IEnumerator Parry()
     {
         lastTimeParry = Time.time;
         rb.velocity = new Vector2(0,rb.velocity.y);
         canMove = false;
+        yield return new WaitForSeconds(0.1f);
         parry.GetComponent<ParryController>().isPerfect = true;
         parry.GetComponent<SpriteRenderer>().color = Color.green;
         isVulnerable = false;
@@ -974,6 +1025,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = startRot;
         canMove = true;
         lastTimeDodge = Time.time;
+        animator.SetBool("isDodging", false);
     }
     public void InternalHurtPlayer(int addInternalDamage)
     {
