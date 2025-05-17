@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 [Serializable]
 public class Consumable
@@ -31,12 +30,6 @@ public class Consumable
         player = GameObject.FindGameObjectWithTag("Player");
         consumable = c.consumable;
     }
-    public Consumable(int remainingAmount, TypeConsumable consumable)
-    {
-        this.remainingAmount = remainingAmount;
-        player = GameObject.FindGameObjectWithTag("Player");
-        this.consumable = consumable;
-    }
     public void OnUseAction()
     {
         Debug.Log("Used: " + consumable);
@@ -63,9 +56,5 @@ public class Consumable
         {
             player.GetComponent<PlayerController>().RemoveConsumable(this);
         }
-    }
-    public static TypeConsumable GetConsumableTypeByName(string name)
-    {
-        return (TypeConsumable)Enum.Parse(typeof(TypeConsumable), name);
     }
 }
