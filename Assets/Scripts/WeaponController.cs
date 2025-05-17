@@ -10,16 +10,23 @@ public class WeaponController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(transform.parent.tag+" AttackHit: "+collision.tag);
-        if (collision != null && collision.CompareTag(hitTag))
+        if (collision != null)
         {
-            switch (hitTag)
+            if (collision.CompareTag(hitTag))
             {
-                case "Player":
-                    collision.GetComponent<PlayerController>().HurtPlayer(damage,transform.position,false,true);
-                    break;
-                case "Enemy":
-                    collision.GetComponent<EnemyController>().HurtEnemy(damage);
-                    break;
+                switch (hitTag)
+                {
+                    case "Player":
+                        collision.GetComponent<PlayerController>().HurtPlayer(damage, transform.position, false, true);
+                        break;
+                    case "Enemy":
+                        collision.GetComponent<EnemyController>().HurtEnemy(damage);
+                        break;
+                }
+            } else if (hitTag.Equals("Enemy") && collision.CompareTag("Vase"))
+            {
+                Debug.Log("VaseHit");
+                collision.GetComponent<VaseController>().DropMoney();
             }
         }
     }

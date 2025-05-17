@@ -13,6 +13,11 @@ TagManager:
   - Hoguera
   - Arrow
   - Bomb
+  - Hud
+  - EnemiesManager
+  - Copy
+  - Vase
+  - EventsManager
   layers:
   - Default
   - TransparentFX
