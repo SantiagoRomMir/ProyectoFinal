@@ -6,9 +6,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Persistence
 {
-    public int hp;
-    public int ron;
-    public int internalDamage;
+    public float hp;
+    public float ron;
+    public float internalDamage;
     public int selectedConsumable;
     public int addedDamage;
     public float defense;
@@ -19,7 +19,7 @@ public class Persistence
     public int money;
 
     /*
-     * 1- Es necesario añadir la persistencia de enemigos muertos y los objetos destruidos hasta el reinicio en un punto de descanso
+     * 1- Es necesario aï¿½adir la persistencia de enemigos muertos y los objetos destruidos hasta el reinicio en un punto de descanso
      * 2- Es necesario preservar aquellos mecanismos o eventos persistentes del mapa
      * 3- Es necesario almacenar los objetos ya recolectados
      */
@@ -46,9 +46,9 @@ public class Persistence
             return null;
         }
 
-        int hp = PlayerPrefs.GetInt("hp");
-        int ron = PlayerPrefs.GetInt("ron");
-        int internalDamage = PlayerPrefs.GetInt("internalDamage");
+        float hp = PlayerPrefs.GetFloat("hp");
+        float ron = PlayerPrefs.GetFloat("ron");
+        float internalDamage = PlayerPrefs.GetFloat("internalDamage");
         int selectedConsumable = PlayerPrefs.GetInt("selectedConsumable");
         int addedDamage = PlayerPrefs.GetInt("addedDamage");
         float defense = PlayerPrefs.GetFloat("defense");
@@ -65,9 +65,9 @@ public class Persistence
     }
     public void SavePersistence() 
     {
-        PlayerPrefs.SetInt("hp", hp);
-        PlayerPrefs.SetInt("ron", ron);
-        PlayerPrefs.SetInt("internalDamage", internalDamage);
+        PlayerPrefs.SetFloat("hp", hp);
+        PlayerPrefs.SetFloat("ron", ron);
+        PlayerPrefs.SetFloat("internalDamage", internalDamage);
         PlayerPrefs.SetInt("selectedConsumable", selectedConsumable);
         PlayerPrefs.SetInt("addedDamage", addedDamage);
         PlayerPrefs.SetFloat("defense", defense);

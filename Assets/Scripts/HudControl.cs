@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class HudControl : MonoBehaviour
 {
+    public Image playerLife;
     public Image bossLife;
     public Image ron;
+    public Image bossInternalDamage;
     public Image internalDamage;
+    public Image GunPowder;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,16 +22,26 @@ public class HudControl : MonoBehaviour
     {
         
     }
-    public void UpdateBossLife(int porcentaje){
+    public void UpdateBossLife(float porcentaje){
         bossLife.fillAmount=porcentaje;
     }
-    public void UpdateRon(int porcentaje){
+    public void UpdateRon(float porcentaje){
         ron.fillAmount=porcentaje;
     }
-    public void UpdatePlayerLife(int porcentaje){
-
+    public void UpdatePlayerLife(float porcentaje){
+        Debug.Log(porcentaje);
+        playerLife.fillAmount=porcentaje;
     }
-    public void UpdateInternalDamage(int porcentaje){
-
+    public void UpdateInternalDamage(float porcentaje){
+        internalDamage.fillAmount=porcentaje;
+    }
+    public void UpdateBossInternalDamage(float porcentaje){
+        internalDamage.fillAmount=porcentaje;
+    }
+    public void ActiveBossBar(){
+        bossInternalDamage.gameObject.SetActive(true);
+    }
+    public void ActiveGunPowder(){
+        GunPowder.gameObject.SetActive(!GunPowder.gameObject.activeSelf);
     }
 }
