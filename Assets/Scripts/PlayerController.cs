@@ -945,9 +945,13 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Rest()
     {
+        hudControl.FadeToBlack();
+
         isVulnerable = false;
         isResting = true;
         canMove = false;
+
+        rb.velocity = new Vector2(0,rb.velocity.y);
 
         ron = maxRon;
         hp = maxHp;
@@ -961,7 +965,9 @@ public class PlayerController : MonoBehaviour
         }
 
         SavePersistenceData();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
+        hudControl.FadeToAlpha();
+        yield return new WaitForSeconds(1f);
 
         isResting = false;
         canMove = true;

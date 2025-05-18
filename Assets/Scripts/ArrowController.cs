@@ -55,7 +55,7 @@ public class ArrowController : MonoBehaviour
             {
                 case "Player":
                     collision.GetComponent<PlayerController>().HurtPlayer(damage, transform.position, false, true);
-                    Destroy(gameObject);
+                    Destroy(gameObject);    
                     break;
                 case "Enemy":
                     transform.parent.GetComponent<EnemyController>().HurtEnemy(damage);

@@ -8,6 +8,7 @@ public class HudControl : MonoBehaviour
     public Image bossLife;
     public Image ron;
     public Image internalDamage;
+    public GameObject blackScreen;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,5 +31,13 @@ public class HudControl : MonoBehaviour
     }
     public void UpdateInternalDamage(int porcentaje){
 
+    }
+    public void FadeToBlack()
+    {
+        blackScreen.GetComponent<Animator>().SetTrigger("FadeToBlack");
+    }
+    public void FadeToAlpha()
+    {
+        blackScreen.GetComponent<Animator>().SetTrigger("FadeToAlpha");
     }
 }
