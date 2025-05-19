@@ -9,7 +9,7 @@ public class VaseController : MonoBehaviour
     public float moneyMultiplier;
     public void DropMoney()
     {
-        for (int i = 0; i < Random.Range(1, 6); i++)
+        for (int i = 0; i < Random.Range(1, 6) * moneyMultiplier; i++)
         {
             int randMoney = (int)(Random.Range(5, 16) + 1 * moneyMultiplier);
             money.GetComponent<ConsumableController>().money = randMoney;

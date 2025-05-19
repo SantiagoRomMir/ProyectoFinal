@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
-  moneyMultiplier: 0
+  moneyMultiplier: 2
 --- !u!61 &431428264817146008
 BoxCollider2D:
   m_ObjectHideFlags: 0

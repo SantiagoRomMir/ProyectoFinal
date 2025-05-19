@@ -6,6 +6,7 @@ using static UnityEngine.Rendering.DebugUI.Table;
 public class ArrowController : MonoBehaviour
 {
     public float speed;
+    public float speedMultiplier;
     public float lifeTime;
     public int damage;
     public GameObject finalPosTest;
@@ -15,6 +16,7 @@ public class ArrowController : MonoBehaviour
     private bool targetHit;
     private Vector2 targetPos;
     public string hitTag;
+    public bool canBeReflected;
     private void Awake()
     {
         hitTag = "Player";
@@ -33,7 +35,7 @@ public class ArrowController : MonoBehaviour
     void Update()
     {
         Vector2 pos = transform.position;
-        transform.position = Vector2.MoveTowards(transform.position, finalPos, Time.deltaTime*speed);
+        transform.position = Vector2.MoveTowards(transform.position, finalPos, Time.deltaTime*(speed*speedMultiplier));
         finalPos += direction * 1.1f;
 
         if (Mathf.Abs(transform.position.x - targetPos.x) < 0.5f && !targetHit)
@@ -71,6 +73,10 @@ public class ArrowController : MonoBehaviour
     }
     public void DeflectArrow()
     {
+        if (!canBeReflected)
+        {
+            return;
+        }
         hitTag = "Enemy";
 
         targetPos = transform.parent.position;

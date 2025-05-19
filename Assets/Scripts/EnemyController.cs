@@ -165,7 +165,7 @@ public class EnemyController : MonoBehaviour
     }
     private void DropMoney()
     {
-        for (int i = 0; i < Random.Range(0, 6); i++)
+        for (int i = 0; i < Random.Range(0, 6) * moneyMultiplier; i++)
         {
             int randMoney = (int)(Random.Range(5, 16) + 1 * moneyMultiplier);
             money.GetComponent<ConsumableController>().money = randMoney;
