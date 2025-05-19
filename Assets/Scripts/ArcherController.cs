@@ -21,6 +21,7 @@ public class ArcherController : MonoBehaviour
     {
         if (aggro && canShoot)
         {
+            Debug.Log("Disparo Flecha");
             StartCoroutine("ShootArrow");
             aggro = false;
         }
@@ -32,7 +33,6 @@ public class ArcherController : MonoBehaviour
         yield return new WaitForSeconds(shootDelay);
         InstantiateArrow(target);
         yield return new WaitForSeconds(shootCooldown);
-        aggro = true;
         canShoot = true;
     }
     private void InstantiateArrow(Vector2 target)

@@ -19,7 +19,7 @@ public class ConsumableController : MonoBehaviour
             {
                 case Consumable.TypeConsumable.Ron:
                     collision.GetComponent<PlayerController>().ReplenishRon(numRon);
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                     break;
                 case Consumable.TypeConsumable.Money:
                     collision.GetComponent<PlayerController>().AddMoney(money);
@@ -27,7 +27,7 @@ public class ConsumableController : MonoBehaviour
                     break;
                 default:
                     collision.GetComponent<PlayerController>().AddConsumable(this);
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                     break;
             }
         }
@@ -39,6 +39,10 @@ public class ConsumableController : MonoBehaviour
             gameObject.AddComponent<Animator>().runtimeAnimatorController = moneyAnimator;
             GetComponent<Animator>().SetInteger("MoneyAmount", money);
             transform.localScale = new Vector2(transform.localScale.x - (5 - money) * 0.05f, transform.localScale.y - (5 - money) * 0.05f);
+            speedDifference = (float)money/5 * 2f;
+            //Debug.Log(speedDifference);
+            spawnTime = Time.time;
+            speed = 5f;
         }
     }
     private void FixedUpdate()

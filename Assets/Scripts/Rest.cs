@@ -10,6 +10,10 @@ public class Rest : MonoBehaviour
     public String  Scene;
     // Start is called before the first frame update    
 
+    private void Awake()
+    {
+        Scene = SceneManager.GetActiveScene().name;
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
 
@@ -18,7 +22,11 @@ public class Rest : MonoBehaviour
             if(Input.GetKey(KeyCode.UpArrow)){
                 PlayerPrefs.SetString("positionRespawn",gameObject.name);
                 PlayerPrefs.SetString("sceneRespawn",Scene);
-                collision.gameObject.GetComponent<PlayerController>().Rest();
+                if (!collision.gameObject.GetComponent<PlayerController>().isResting)
+                {
+                    collision.gameObject.GetComponent<PlayerController>().isResting = true;
+                    collision.gameObject.GetComponent<PlayerController>().StartCoroutine("Rest");
+                }
             }
         }
     }
