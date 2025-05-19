@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
 
         maxHealth = health;
 
-        BGBar.GetComponent<Image>().color = new Color32(0, 0, 0, 0);
+        //BGBar.GetComponent<Image>().color = new Color32(0, 0, 0, 0);
     }
     private void Start()
     {
@@ -165,9 +165,10 @@ public class EnemyController : MonoBehaviour
     }
     private void DropMoney()
     {
-        for (int i = 0; i < Random.Range(0, 6); i++)
+        for (int i = 0; i < Random.Range(0, 6) * moneyMultiplier; i++)
         {
-            money.GetComponent<ConsumableController>().money = (int)(Random.Range(1, 6) + 1 * moneyMultiplier);
+            int randMoney = (int)(Random.Range(5, 16) + 1 * moneyMultiplier);
+            money.GetComponent<ConsumableController>().money = randMoney;
             money.transform.position = transform.position;
             Instantiate(money);
         }
@@ -214,6 +215,10 @@ public class EnemyController : MonoBehaviour
 
     public void InternalHurtEnemy(int addInternalDamage)
     {
+        if (!player.GetComponent<PlayerController>().hasGun)
+        {
+            return;
+        }
         if (BGBar.GetComponent<Image>().color.a == 0)
         {
             BGBar.GetComponent<Animator>().SetBool("FadeOut", false);

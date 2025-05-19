@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5390843823504111884}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.64847016, y: -3.1424038, z: 0}
+  m_LocalPosition: {x: 133.33, y: 5.52, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101,6 +101,7 @@ MonoBehaviour:
   consumable: 4
   numRon: 2
   money: 4
+  moneyAnimator: {fileID: 9100000, guid: 1d93efc026799b94ba23fd79b3dfc23c, type: 2}
 --- !u!61 &6684275437563157612
 BoxCollider2D:
   m_ObjectHideFlags: 0

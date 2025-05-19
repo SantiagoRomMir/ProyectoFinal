@@ -436,6 +436,8 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0}
   shootDelay: 2
   shootCooldown: 5
+  canShoot: 0
+  arowSpeedMultiplier: 1
 --- !u!50 &5786632014809488772
 Rigidbody2D:
   serializedVersion: 4

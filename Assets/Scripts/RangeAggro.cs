@@ -17,7 +17,8 @@ public class RangeAggro : MonoBehaviour
         if (collision != null && collision.CompareTag("Player"))
         {
             transform.parent.GetComponent<ArcherController>().aggro = false;
-            StopCoroutine("ShootArrow");
+            transform.parent.GetComponent<ArcherController>().StopCoroutine("ShootArrow");
+            transform.parent.GetComponent<ArcherController>().canShoot = true;
             transform.parent.GetComponent<EnemyController>().stop = 1;
         }
     }
@@ -26,6 +27,10 @@ public class RangeAggro : MonoBehaviour
         if (collision != null && collision.CompareTag("Player"))
         {
             transform.parent.GetComponent<ArcherController>().targetPos = collision.transform.position;
+            if (transform.parent.GetComponent<ArcherController>().canShoot)
+            {
+                transform.parent.GetComponent<ArcherController>().aggro = true;
+            }
         }
     }
 }

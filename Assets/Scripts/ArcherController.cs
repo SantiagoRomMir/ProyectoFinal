@@ -10,7 +10,9 @@ public class ArcherController : MonoBehaviour
     public Vector2 targetPos;
     public float shootDelay;
     public float shootCooldown;
-    private bool canShoot;
+    public bool canShoot;
+    public float arowSpeedMultiplier;
+    public bool arrowCanBeReflected;
     private void Awake()
     {
         canShoot = true;
@@ -19,6 +21,7 @@ public class ArcherController : MonoBehaviour
     {
         if (aggro && canShoot)
         {
+            Debug.Log("Disparo Flecha");
             StartCoroutine("ShootArrow");
             aggro = false;
         }
@@ -30,12 +33,13 @@ public class ArcherController : MonoBehaviour
         yield return new WaitForSeconds(shootDelay);
         InstantiateArrow(target);
         yield return new WaitForSeconds(shootCooldown);
-        aggro = true;
         canShoot = true;
     }
     private void InstantiateArrow(Vector2 target)
     {
         targetPos = target;
-        Instantiate(arrow, transform);
+        GameObject shotArrow = Instantiate(arrow, transform);
+        shotArrow.GetComponent<ArrowController>().canBeReflected = arrowCanBeReflected;
+        shotArrow.GetComponent<ArrowController>().speedMultiplier = arowSpeedMultiplier;
     }
 }
