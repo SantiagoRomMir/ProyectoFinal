@@ -93,21 +93,7 @@ CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6156164390952112178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44fcb644277cbb14f94d1335bb7d5216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  money: {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
-  moneyMultiplier: 2
---- !u!61 &431428264817146008
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6156164390952112178}
+  m_GameObject: {fileID: 9052627422862849176}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
