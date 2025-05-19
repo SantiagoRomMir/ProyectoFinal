@@ -101,7 +101,6 @@ MonoBehaviour:
   consumable: 4
   numRon: 2
   money: 4
-  moneyAnimator: {fileID: 9100000, guid: 1d93efc026799b94ba23fd79b3dfc23c, type: 2}
 --- !u!61 &6684275437563157612
 BoxCollider2D:
   m_ObjectHideFlags: 0
