@@ -143,7 +143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6413597120926756506}
   m_Layer: 0
-  m_Name: Archer
+  m_Name: Ballestero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -437,7 +437,7 @@ MonoBehaviour:
   shootDelay: 2
   shootCooldown: 5
   canShoot: 0
-  arowSpeedMultiplier: 1
+  arowSpeedMultiplier: 2
 --- !u!50 &5786632014809488772
 Rigidbody2D:
   serializedVersion: 4

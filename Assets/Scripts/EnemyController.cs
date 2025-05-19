@@ -165,9 +165,10 @@ public class EnemyController : MonoBehaviour
     }
     private void DropMoney()
     {
-        for (int i = 0; i < Random.Range(0, 6); i++)
+        for (int i = 0; i < Random.Range(0, 6) * moneyMultiplier; i++)
         {
-            money.GetComponent<ConsumableController>().money = (int)(Random.Range(1, 6) + 1 * moneyMultiplier);
+            int randMoney = (int)(Random.Range(5, 16) + 1 * moneyMultiplier);
+            money.GetComponent<ConsumableController>().money = randMoney;
             money.transform.position = transform.position;
             Instantiate(money);
         }
