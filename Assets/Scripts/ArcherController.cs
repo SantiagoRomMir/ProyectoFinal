@@ -10,7 +10,9 @@ public class ArcherController : MonoBehaviour
     public Vector2 targetPos;
     public float shootDelay;
     public float shootCooldown;
-    private bool canShoot;
+    public bool canShoot;
+    public float arowSpeedMultiplier;
+    public bool arrowCanBeReflected;
     private void Awake()
     {
         canShoot = true;
@@ -36,6 +38,8 @@ public class ArcherController : MonoBehaviour
     private void InstantiateArrow(Vector2 target)
     {
         targetPos = target;
-        Instantiate(arrow, transform);
+        GameObject shotArrow = Instantiate(arrow, transform);
+        shotArrow.GetComponent<ArrowController>().canBeReflected = arrowCanBeReflected;
+        shotArrow.GetComponent<ArrowController>().speedMultiplier = arowSpeedMultiplier;
     }
 }
