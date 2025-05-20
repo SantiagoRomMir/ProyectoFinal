@@ -6,7 +6,6 @@ using UnityEngine;
 public class EnemyRespawner : MonoBehaviour
 {
     public GameObject enemyCopy;
-    private GameObject activeEnemy;
     private void Awake()
     {
         enemyCopy = Instantiate(GetRealEnemy(), transform);

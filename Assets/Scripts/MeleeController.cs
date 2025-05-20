@@ -7,6 +7,7 @@ public class MeleeController : MonoBehaviour
 {
     public bool chase;
     public GameObject weapon;
+    public GameObject shield;
     public int damage;
     public float attackCooldown;
     public float attackRange;
@@ -34,10 +35,18 @@ public class MeleeController : MonoBehaviour
         if (GetComponent<EnemyController>().direction == -1)
         {
             weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
+            if (shield!=null)
+            {
+                shield.transform.localPosition = new Vector2(Mathf.Abs(shield.transform.localPosition.x) * -1, shield.transform.localPosition.y);
+            }
         }
         else if (GetComponent<EnemyController>().direction == 1)
         {
             weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
+            if (shield != null)
+            {
+                shield.transform.localPosition = new Vector2(Mathf.Abs(shield.transform.localPosition.x), shield.transform.localPosition.y);
+            }
         }
     }
     private void Chase()

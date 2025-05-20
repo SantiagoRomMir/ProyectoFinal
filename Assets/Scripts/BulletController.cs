@@ -12,6 +12,10 @@ public class BulletController : MonoBehaviour
     public float speed;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.layer == 6 || collision.CompareTag("Shield"))
+        {
+            Destroy(gameObject);
+        }
         //Debug.Log("CollisionLayer: " + collision.gameObject.layer);
         if (collision!=null && collision.CompareTag("Enemy"))
         {
@@ -19,10 +23,7 @@ public class BulletController : MonoBehaviour
             collision.GetComponent<EnemyController>().ActivateInternalDamage();
             Destroy(gameObject);
         }
-        if (collision.gameObject.layer == 6)
-        {
-            Destroy(gameObject);
-        }
+        
     }
     private void Awake()
     {
