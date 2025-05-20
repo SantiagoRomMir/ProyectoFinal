@@ -8,6 +8,7 @@ public class RangeAggro : MonoBehaviour
     {
         if (collision!=null && collision.CompareTag("Player"))
         {
+            transform.parent.GetComponent<ArcherController>().targetPos = collision.transform.position;
             transform.parent.GetComponent<ArcherController>().aggro = true;
             transform.parent.GetComponent<EnemyController>().stop = 0;
         }
