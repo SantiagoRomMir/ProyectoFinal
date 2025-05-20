@@ -169,13 +169,12 @@ public class PlayerController : MonoBehaviour
         line = GetComponent<LineRenderer>();
         ron = maxRon;
         hp = maxHp;
-        hp = 10;
+        //hp = 10;
         isHooking = false;
         usingLoro = false;
         attackCounter = 0;
         lastTimeAttack = Time.time;
         lastFinishedCombo = Time.time;
-        hp = maxHp;
         isVulnerable = true;
         lastTimeParry = Time.time;
         lastTimeHurt = Time.time;
@@ -211,6 +210,8 @@ public class PlayerController : MonoBehaviour
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
                 }
                 parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x) * -1, parry.transform.localPosition.y);
+                firePosition.transform.localPosition = new Vector2(Mathf.Abs(firePosition.transform.localPosition.x) * -1, firePosition.transform.localPosition.y);
+
             }
             else if (direction > 0)
             {
@@ -220,6 +221,7 @@ public class PlayerController : MonoBehaviour
                     weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
                 }
                 parry.transform.localPosition = new Vector2(Mathf.Abs(parry.transform.localPosition.x), parry.transform.localPosition.y);
+                firePosition.transform.localPosition = new Vector2(Mathf.Abs(firePosition.transform.localPosition.x), firePosition.transform.localPosition.y);
             }
         }
     }
@@ -262,15 +264,15 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyUp(parryKey) || (Time.time >= lastTimeParry + parryDuration))
             {
+                StopCoroutine("Parry");
+                animator.SetBool("isParrying", false);
+                parry.SetActive(false);
+                isVulnerable = true;
                 if (parry.activeSelf)
                 {
-                    animator.SetBool("isParrying", false);
-                    StopCoroutine("Parry");
-                    parry.SetActive(false);
-                    isVulnerable = true;
                     lastTimeParry = Time.time;
-                    canMove = true;
                 }
+                canMove = true;
             }
             UseConsumable();
         }
