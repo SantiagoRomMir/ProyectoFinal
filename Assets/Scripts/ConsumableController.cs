@@ -36,14 +36,20 @@ public class ConsumableController : MonoBehaviour
     {
         if (consumable.Equals(Consumable.TypeConsumable.Money))
         {
+            GetComponent<SpriteRenderer>().enabled = false;
             gameObject.AddComponent<Animator>().runtimeAnimatorController = moneyAnimator;
             GetComponent<Animator>().SetInteger("MoneyAmount", money);
+            GetComponent<Animator>().SetTrigger("ShowMoney");
             transform.localScale = new Vector2(transform.localScale.x - (5 - money) * 0.05f, transform.localScale.y - (5 - money) * 0.05f);
             speedDifference = (float)money/5 * 2f;
             //Debug.Log(speedDifference);
             spawnTime = Time.time;
-            speed = 5f;
+            speed = 10f;
         }
+    }
+    private void Start()
+    {
+        GetComponent<SpriteRenderer>().enabled = true;
     }
     private void FixedUpdate()
     {
