@@ -20,7 +20,6 @@ public class ArcherController : MonoBehaviour
     }
     private void Update()
     {
-        GetComponent<Animator>().SetFloat("VelocityX", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
         if (aggro && canShoot)
         {
             //Debug.Log("Disparo Flecha");

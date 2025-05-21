@@ -1041,11 +1041,15 @@ public class PlayerController : MonoBehaviour
     }
     public void InternalHurtPlayer(int addInternalDamage)
     {
-        StopCoroutine("HealInternalDamage");
-        internalDamage += addInternalDamage;
         lastTimeHurt = Time.time;
+        StopCoroutine("HealInternalDamage");
         isHealingInternalDamage = false;
         hudControl.UpdatePlayerLife((hp - internalDamage) / maxHp);
+        if (internalDamage >= hp)
+        {
+            return;
+        }
+        internalDamage += addInternalDamage;
     }
     IEnumerator HealInternalDamage()
     {

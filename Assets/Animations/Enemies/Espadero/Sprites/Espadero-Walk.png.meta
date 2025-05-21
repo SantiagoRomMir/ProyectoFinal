@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c81e4ba394a49df4eb773726e3443662
+guid: 0de4db46d0c94c847a41e1e08202a9ed
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,106 +110,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Capitan-Death_0
+      name: Espadero-Walk_0
       rect:
         serializedVersion: 2
         x: 0
         y: 1
-        width: 60
-        height: 53
+        width: 48
+        height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da8d59124b2967c4f841aade1911bbf8
-      internalID: -642071473
+      spriteID: 0916ab31de196234a8fb83f7f8c525ae
+      internalID: 1273171064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Capitan-Death_1
+      name: Espadero-Walk_1
       rect:
         serializedVersion: 2
-        x: 69
+        x: 64
         y: 1
-        width: 60
-        height: 53
+        width: 48
+        height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5025aa229bfe9ed4eb08e43e50fb8a6a
-      internalID: -1604174229
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Capitan-Death_2
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 0
-        width: 60
-        height: 53
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 65dd240648bca0b4f9f2f6bf73f244f5
-      internalID: -849643106
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Capitan-Death_3
-      rect:
-        serializedVersion: 2
-        x: 195
-        y: 0
-        width: 60
-        height: 53
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dedb094f6f27b9842b7cc76bd4f3ea76
-      internalID: -924721536
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Capitan-Death_4
-      rect:
-        serializedVersion: 2
-        x: 259
-        y: 0
-        width: 60
-        height: 53
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5cdf4b663fa6d254d92097c677071b8f
-      internalID: -515112804
+      spriteID: 7b3342440e4d37f4c84b0b4a660759e9
+      internalID: -1538663903
       vertices: []
       indices: 
       edges: []
@@ -225,11 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Capitan-Death_0: -642071473
-      Capitan-Death_1: -1604174229
-      Capitan-Death_2: -849643106
-      Capitan-Death_3: -924721536
-      Capitan-Death_4: -515112804
+      Espadero-Walk_0: 1273171064
+      Espadero-Walk_1: -1538663903
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

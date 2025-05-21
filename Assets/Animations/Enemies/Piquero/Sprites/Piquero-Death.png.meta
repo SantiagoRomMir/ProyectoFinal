@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0de4db46d0c94c847a41e1e08202a9ed
+guid: a79c408da88ae1949937f317d49c1ab1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,60 +93,110 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Espadero-Walk_0
+      name: Piquero-Death_0
       rect:
         serializedVersion: 2
         x: 0
         y: 1
-        width: 48
-        height: 52
+        width: 64
+        height: 63
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0916ab31de196234a8fb83f7f8c525ae
-      internalID: 1273171064
+      spriteID: 65fbbf19a7104dc41a95a1863b55d250
+      internalID: -318053438
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Espadero-Walk_1
+      name: Piquero-Death_1
       rect:
         serializedVersion: 2
         x: 64
         y: 1
-        width: 48
-        height: 52
+        width: 64
+        height: 63
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b3342440e4d37f4c84b0b4a660759e9
-      internalID: -1538663903
+      spriteID: 330ea1f7b6333e04c9fb694b592cff06
+      internalID: -1065649403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Piquero-Death_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1
+        width: 64
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f276777d57d29643afd82c1978c3739
+      internalID: -777190368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Piquero-Death_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1
+        width: 64
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de8b14edd60fc43499fad2b4fd6868e2
+      internalID: 1859534326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Piquero-Death_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1
+        width: 64
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42564c864fbb8cb44ab2f4ae40d55ee6
+      internalID: 978100272
       vertices: []
       indices: 
       edges: []
@@ -162,8 +212,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Espadero-Walk_0: 1273171064
-      Espadero-Walk_1: -1538663903
+      Piquero-Death_0: -318053438
+      Piquero-Death_1: -1065649403
+      Piquero-Death_2: -777190368
+      Piquero-Death_3: 1859534326
+      Piquero-Death_4: 978100272
+      Piquero-Death_5: 643911198
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
