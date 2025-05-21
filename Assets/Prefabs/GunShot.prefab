@@ -103,7 +103,7 @@ MonoBehaviour:
   lifeTime: 5
   damage: 5
   direction: 1
-  speed: 5
+  speed: 1
 --- !u!50 &1417375783209771575
 Rigidbody2D:
   serializedVersion: 4
@@ -128,8 +128,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!95 &619322353438642852
 Animator:

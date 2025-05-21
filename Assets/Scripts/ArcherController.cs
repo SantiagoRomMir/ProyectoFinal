@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class ArcherController : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class ArcherController : MonoBehaviour
     {
         if (aggro && canShoot)
         {
-            Debug.Log("Disparo Flecha");
+            //Debug.Log("Disparo Flecha");
             StartCoroutine("ShootArrow");
             aggro = false;
         }
@@ -30,6 +31,17 @@ public class ArcherController : MonoBehaviour
     {
         canShoot = false;
         Vector2 target = targetPos;
+        GetComponent<EnemyController>().move = false;
+        //Debug.Log(transform.position.x - target.x);
+        if (transform.position.x - target.x < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (transform.position.x - target.x > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        GetComponent<Animator>().SetTrigger("Attack");
         yield return new WaitForSeconds(shootDelay);
         InstantiateArrow(target);
         yield return new WaitForSeconds(shootCooldown);

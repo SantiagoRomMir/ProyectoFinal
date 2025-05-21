@@ -12,13 +12,33 @@ public class BulletController : MonoBehaviour
     public float speed;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 6 || collision.CompareTag("Shield"))
+        if (collision.gameObject.layer == 6)
         {
             Destroy(gameObject);
         }
         //Debug.Log("CollisionLayer: " + collision.gameObject.layer);
         if (collision!=null && collision.CompareTag("Enemy"))
         {
+            // No hace daño si golpea contra un piquero con su escudo en alto
+            if (collision.GetComponent<EnemyController>().shield)
+            {
+                Debug.Log(transform.position.x - collision.transform.position.x);
+                if (collision.GetComponent<SpriteRenderer>().flipX) // Izquierda
+                {
+                    if (transform.position.x - collision.transform.position.x < 0)
+                    {
+                        Destroy(gameObject);
+                        return;
+                    }
+                } else // Derecha
+                {
+                    if (transform.position.x - collision.transform.position.x > 0)
+                    {
+                        Destroy(gameObject);
+                        return;
+                    }
+                }
+            }
             collision.GetComponent<EnemyController>().HurtEnemy(damage);
             collision.GetComponent<EnemyController>().ActivateInternalDamage();
             Destroy(gameObject);

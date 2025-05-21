@@ -18,7 +18,6 @@ TagManager:
   - Copy
   - Vase
   - EventsManager
-  - Shield
   layers:
   - Default
   - TransparentFX

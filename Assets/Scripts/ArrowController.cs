@@ -51,6 +51,8 @@ public class ArrowController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.name);
+        Debug.Log(collision.gameObject.tag);
         if (collision != null && collision.CompareTag(hitTag))
         {
             switch (hitTag)

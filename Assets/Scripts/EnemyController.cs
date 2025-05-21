@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
@@ -32,6 +33,7 @@ public class EnemyController : MonoBehaviour
     public int[] posbilidades;
     private int numeroDrop;
     public bool move;
+    public bool shield;
 
     [Header("Simulation")]
     public bool triggerInternalDamage;
@@ -76,6 +78,8 @@ public class EnemyController : MonoBehaviour
     }
     private void Update()
     {
+        GetComponent<Animator>().SetFloat("VelocityX", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
+
         if (!isHealingInternalDamage && Time.time > lastTimeHurt + healInternalDamageDelay && internalDamage > 0)
         {
             StartCoroutine("HealInternalDamage");
@@ -89,9 +93,9 @@ public class EnemyController : MonoBehaviour
         else if (move)
         {
             Movement();
-
+            FlipEnemy();
+            //GetComponent<Animator>().SetFloat("VelocityX", phisics.velocity.x);
         }
-        FlipEnemy();
 
         UpdateHPBar();
         UpdateInternalBar();
@@ -145,11 +149,11 @@ public class EnemyController : MonoBehaviour
     {
         if (direction == -1)
         {
-            sprite.flipX = false;
+            sprite.flipX = true;
         }
         else if (direction == 1)
         {
-            sprite.flipX = true;
+            sprite.flipX = false;
         }
     }
     public void RandomDrop()
@@ -165,16 +169,13 @@ public class EnemyController : MonoBehaviour
     }
     private void DropMoney()
     {
-        for (int i = 0; i < Random.Range(0, 6) * moneyMultiplier; i++)
+        for (int i = 0; i < Random.Range(1, 6) + 1 * moneyMultiplier; i++)
         {
             int randMoney = (int)(Random.Range(5, 16) + 1 * moneyMultiplier);
             money.GetComponent<ConsumableController>().money = randMoney;
             money.transform.position = transform.position;
             Instantiate(money);
         }
-
-        Destroy(transform.parent.gameObject);
-        Destroy(gameObject);
     }
     public void HurtEnemy(int damage)
     {
@@ -191,7 +192,8 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
-            DropMoney();
+            GetComponent<Animator>().SetTrigger("Death");
+            StartCoroutine("Dead");
         }
     }
 
@@ -202,32 +204,32 @@ public class EnemyController : MonoBehaviour
             BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
             BGBar.GetComponent<Animator>().SetBool("FadeIn", true);
         }
-        Debug.Log("Enemy HealingInternalDamage: " + internalDamage);
+        //Debug.Log("Enemy HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = true;
         while (internalDamage > 0)
         {
             internalDamage--;
             yield return new WaitForSeconds(0.1f);
         }
-        Debug.Log("Enemy Finished HealingInternalDamage: " + internalDamage);
+        //Debug.Log("Enemy Finished HealingInternalDamage: " + internalDamage);
         isHealingInternalDamage = false;
     }
 
     public void InternalHurtEnemy(int addInternalDamage)
     {
-        if (!player.GetComponent<PlayerController>().hasGun)
-        {
-            return;
-        }
         if (BGBar.GetComponent<Image>().color.a == 0)
         {
             BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
             BGBar.GetComponent<Animator>().SetBool("FadeIn", true);
         }
         StopCoroutine("HealInternalDamage");
-        internalDamage += addInternalDamage;
         lastTimeHurt = Time.time;
         isHealingInternalDamage = false;
+        if (!player.GetComponent<PlayerController>().hasGun || internalDamage>=health)
+        {
+            return;
+        }
+        internalDamage += addInternalDamage;
     }
     public void ActivateInternalDamage()
     {
@@ -255,5 +257,16 @@ public class EnemyController : MonoBehaviour
             BGBar.GetComponent<Animator>().SetBool("FadeIn", false);
             BGBar.GetComponent<Animator>().SetBool("FadeOut", true);
         }
+    }
+    IEnumerator Dead()
+    {
+        move  = false;
+        health = 0;
+        internalDamage = 0;
+        phisics.velocity = new Vector2(0, phisics.velocity.y);
+        yield return new WaitForSeconds(1.25f);
+        DropMoney();
+        Destroy(transform.parent.gameObject);
+        Destroy(gameObject);
     }
 }

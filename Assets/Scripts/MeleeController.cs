@@ -7,10 +7,10 @@ public class MeleeController : MonoBehaviour
 {
     public bool chase;
     public GameObject weapon;
-    public GameObject shield;
     public int damage;
     public float attackCooldown;
     public float attackRange;
+    public float attackDelay;
 
     private void Awake()
     {
@@ -35,23 +35,19 @@ public class MeleeController : MonoBehaviour
         if (GetComponent<EnemyController>().direction == -1)
         {
             weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x) * -1, weapon.transform.localPosition.y);
-            if (shield!=null)
-            {
-                shield.transform.localPosition = new Vector2(Mathf.Abs(shield.transform.localPosition.x) * -1, shield.transform.localPosition.y);
-            }
         }
         else if (GetComponent<EnemyController>().direction == 1)
         {
             weapon.transform.localPosition = new Vector2(Mathf.Abs(weapon.transform.localPosition.x), weapon.transform.localPosition.y);
-            if (shield != null)
-            {
-                shield.transform.localPosition = new Vector2(Mathf.Abs(shield.transform.localPosition.x), shield.transform.localPosition.y);
-            }
         }
     }
     private void Chase()
     {
-        if (Vector2.Distance(transform.position, GetComponent<EnemyController>().player.transform.position) < 1.5f)
+        if (!GetComponent<EnemyController>().move)
+        {
+            return;
+        }
+        if (Vector2.Distance(transform.position, GetComponent<EnemyController>().player.transform.position) < 1.25f)
         {
             GetComponent<EnemyController>().stop = 0;
             if (transform.position.x - GetComponent<EnemyController>().player.transform.position.x < 0)
@@ -82,11 +78,11 @@ public class MeleeController : MonoBehaviour
     IEnumerator AttackAnim()
     {
         GetComponent<EnemyController>().stop = 0;
-        weapon.GetComponent<Collider2D>().enabled = true;
+        GetComponent<Animator>().SetTrigger("Attack");
+        yield return new WaitForSeconds(attackDelay);
         weapon.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         GetComponent<EnemyController>().stop = 1;
-        weapon.GetComponent<Collider2D>().enabled = false;
         weapon.SetActive(false);
     }
     IEnumerator Attack()
@@ -96,8 +92,9 @@ public class MeleeController : MonoBehaviour
             if (Vector2.Distance(transform.position, GetComponent<EnemyController>().player.transform.position) <= attackRange)
             {
                 StartCoroutine("AttackAnim");
+                yield return new WaitForSeconds(attackCooldown);
             }
-            yield return new WaitForSeconds(attackCooldown);
+            yield return new WaitForEndOfFrame();
         }
     }
     public void ReturnPatrol()
