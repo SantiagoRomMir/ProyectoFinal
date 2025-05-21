@@ -143,7 +143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6413597120926756506}
   m_Layer: 0
-  m_Name: Archer
+  m_Name: Arquero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -434,10 +434,11 @@ MonoBehaviour:
   aggro: 0
   arrow: {fileID: 8048788812601539894, guid: a658921e94006154eb6e671fd8b6f352, type: 3}
   targetPos: {x: 0, y: 0}
-  shootDelay: 2
-  shootCooldown: 5
+  shootDelay: 1.5
+  shootCooldown: 2
   canShoot: 0
   arowSpeedMultiplier: 1
+  arrowCanBeReflected: 1
 --- !u!50 &5786632014809488772
 Rigidbody2D:
   serializedVersion: 4

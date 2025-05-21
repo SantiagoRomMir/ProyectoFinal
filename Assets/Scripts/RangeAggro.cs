@@ -21,12 +21,14 @@ public class RangeAggro : MonoBehaviour
             transform.parent.GetComponent<ArcherController>().StopCoroutine("ShootArrow");
             transform.parent.GetComponent<ArcherController>().canShoot = true;
             transform.parent.GetComponent<EnemyController>().stop = 1;
+            transform.parent.GetComponent<EnemyController>().move = true;
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision != null && collision.CompareTag("Player"))
         {
+            //Debug.Log("Stay");
             transform.parent.GetComponent<ArcherController>().targetPos = collision.transform.position;
             if (transform.parent.GetComponent<ArcherController>().canShoot)
             {

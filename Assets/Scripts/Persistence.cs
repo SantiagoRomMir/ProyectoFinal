@@ -130,7 +130,7 @@ public class Persistence
         {
             foreach (string s in data.Split(","))
             {
-                Debug.Log(s);
+                //Debug.Log(s);
                 values.Add(int.Parse(s));
             }
         }

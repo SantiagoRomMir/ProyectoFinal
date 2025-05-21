@@ -7,7 +7,7 @@ public class ParryController : MonoBehaviour
     public int internalDamage;
     public bool isPerfect;
     public int internalDamagePlayerPercent;
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision != null && collision.CompareTag("EnemyAttack"))
         {

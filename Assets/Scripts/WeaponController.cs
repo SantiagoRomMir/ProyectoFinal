@@ -9,7 +9,7 @@ public class WeaponController : MonoBehaviour
     public string hitTag;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(transform.parent.tag+" AttackHit: "+collision.tag);
+        //Debug.Log(transform.parent.tag+" AttackHit: "+collision.tag);
         if (collision != null)
         {
             if (collision.CompareTag(hitTag))

@@ -89,9 +89,9 @@ public class EnemyController : MonoBehaviour
         else if (move)
         {
             Movement();
-
+            FlipEnemy();
+            //GetComponent<Animator>().SetFloat("VelocityX", phisics.velocity.x);
         }
-        FlipEnemy();
 
         UpdateHPBar();
         UpdateInternalBar();
@@ -145,11 +145,11 @@ public class EnemyController : MonoBehaviour
     {
         if (direction == -1)
         {
-            sprite.flipX = false;
+            sprite.flipX = true;
         }
         else if (direction == 1)
         {
-            sprite.flipX = true;
+            sprite.flipX = false;
         }
     }
     public void RandomDrop()
@@ -191,6 +191,7 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
+            GetComponent<Animator>().SetTrigger("Death");
             DropMoney();
         }
     }

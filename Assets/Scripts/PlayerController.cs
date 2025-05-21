@@ -861,7 +861,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.time > lastTimeAttack + attackTimeChainReset && attackCounter > 0)
         {
-            Debug.Log("ResetCombo");
+            //Debug.Log("ResetCombo");
             attackCounter = 0;
             animator.SetInteger("AttackNumber", attackCounter);
         }
@@ -894,7 +894,7 @@ public class PlayerController : MonoBehaviour
                 {
                     parryDir = -1;
                 }
-                Debug.Log(attackDir + " " + parryDir + " -> " + (attackDir != parryDir));
+                //Debug.Log(attackDir + " " + parryDir + " -> " + (attackDir != parryDir));
                 if (attackDir != parryDir)
                 {
                     Hurt(damage);
