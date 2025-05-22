@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2699a3af4f8f8f419ea06d58aaba244
+guid: 1c6939036b3073a46885b9fe76e8a53e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,102 +93,89 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Prota-Death_0
+      name: Prota-RecargaNUEVO_0
       rect:
         serializedVersion: 2
-        x: 14
+        x: 12
         y: 1
         width: 34
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9843eb8454789794b9de1a898f41a8f0
-      internalID: -1160288105
+      spriteID: 861f109c80ed38d41971d589a229daf6
+      internalID: -1527301577
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prota-Death_1
+      name: Prota-RecargaNUEVO_1
       rect:
         serializedVersion: 2
-        x: 73
+        x: 76
         y: 1
         width: 34
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cdf1885e3096d5b489e51b417a14fe13
-      internalID: 690162712
+      spriteID: a6fbb28e0468e1c429ef4cc7a9c7aad1
+      internalID: 2104319378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prota-Death_2
+      name: Prota-RecargaNUEVO_2
       rect:
         serializedVersion: 2
-        x: 142
+        x: 140
         y: 1
-        width: 35
+        width: 34
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd639dec4a7c913458199d1ed4799483
-      internalID: -1354064639
+      spriteID: 96d6378f716e9a64196c9ed62a795bed
+      internalID: 723565805
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prota-Death_3
+      name: Prota-RecargaNUEVO_3
       rect:
         serializedVersion: 2
-        x: 206
+        x: 204
         y: 1
-        width: 35
+        width: 34
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 268165ae73efa3b498a8cf67506d325b
-      internalID: -1130081563
+      spriteID: 7d9c2cabb71b7664e8d46ffb1ce8255f
+      internalID: 619742471
       vertices: []
       indices: 
       edges: []
@@ -204,10 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Prota-Death_0: -1160288105
-      Prota-Death_1: 690162712
-      Prota-Death_2: -1354064639
-      Prota-Death_3: -1130081563
+      Prota-RecargaNUEVO_0: -1527301577
+      Prota-RecargaNUEVO_1: 2104319378
+      Prota-RecargaNUEVO_2: 723565805
+      Prota-RecargaNUEVO_3: 619742471
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -37,11 +37,11 @@ public class PlayerController : MonoBehaviour
     public float maxRon;
     private float ron;
 
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isJumping;
     private bool isCrouching;
     private bool extraJumps;
-    private bool isFalling;
+    public bool isFalling;
     private bool aiming;
     public bool usingLoro;
     public float Slowed = 1;
@@ -71,10 +71,13 @@ public class PlayerController : MonoBehaviour
     public float parryDuration;
     private float lastTimeParry;
     public float perfectParryTimeWindow;
+    public float parryCancelDelay;
     public float internalDamage;
     private float lastTimeHurt;
     private bool isHealingInternalDamage;
     public float healInternalDamageDelay;
+    public bool isParrying;
+    private bool parryKeyUp;
 
     [Header("Shoot")]
     public GameObject bulletPrefab;
@@ -123,6 +126,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Trap")]
     public float movementDirAbs;
+
+    [Header("Simulation")]
+    public bool killPlayer;
     private void Awake()
     {
         if (PlayerPrefs.GetInt("clearPersistenceData")==1)
@@ -191,6 +197,7 @@ public class PlayerController : MonoBehaviour
         LoadPersistenceData();
 
         StartCoroutine("AttackUpwards");
+        StartCoroutine("StopParry");
 
         //Hurt(1000);
     }
@@ -258,22 +265,16 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(parryKey) && Time.time >= lastTimeParry + parryCooldown && !isResting)
             {
-                animator.SetBool("isParrying", true);
+                parryKeyUp = false;
+                lastTimeParry = Time.time;
+                isParrying = true;
                 StartCoroutine("Parry");
             }
-
-            if (Input.GetKeyUp(parryKey) || (Time.time >= lastTimeParry + parryDuration))
+            if (Input.GetKeyUp(parryKey))
             {
-                StopCoroutine("Parry");
-                animator.SetBool("isParrying", false);
-                parry.SetActive(false);
-                isVulnerable = true;
-                if (parry.activeSelf)
-                {
-                    lastTimeParry = Time.time;
-                }
-                canMove = true;
+                parryKeyUp = true;
             }
+
             UseConsumable();
         }
 
@@ -285,6 +286,29 @@ public class PlayerController : MonoBehaviour
         CheckAttackCombo();
 
         UpdateAnimatorValues();
+
+        if (killPlayer)
+        {
+            killPlayer = false;
+            HurtPlayer(10000, transform.position, true, false);
+        }
+    }
+    IEnumerator StopParry()
+    {
+        while (true)
+        {
+            if (parryKeyUp || (Time.time >= lastTimeParry + parryDuration) && isParrying)
+            {
+                parryKeyUp = false;
+                yield return new WaitForSeconds(parryCancelDelay);
+                StopCoroutine("Parry");
+                isParrying = false;
+                canMove = true;
+                isVulnerable = true;
+                parry.SetActive(false);
+            }
+            yield return new WaitForEndOfFrame();
+        }
     }
     IEnumerator AttackUpwards()
     {
@@ -405,6 +429,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.G) && Time.time > lastConsumableTime+consumableCooldown)
         {
+            animator.SetTrigger("Consumable");
             lastConsumableTime = Time.time;
             consumables[selectedConsumable].OnUseAction();
         }
@@ -480,7 +505,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartDodge()
     {
-        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || isResting || Slowed<1)
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || isResting || Slowed<1 || isCrouching || aiming)
         {
             return;
         }
@@ -563,6 +588,8 @@ public class PlayerController : MonoBehaviour
             colliders[1].enabled = true;
             colliders[0].enabled = false;
             isCrouching = true;
+            canMove = false;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow) || isFalling == true)
@@ -572,6 +599,7 @@ public class PlayerController : MonoBehaviour
             colliders[0].enabled = true;
             colliders[1].enabled = false;
             isCrouching = false;
+            canMove = true;
         }
     }
     public void Heal()
@@ -766,6 +794,10 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("VelocityY", rb.velocity.y);
         animator.SetBool("isHooking", isHooking);
         animator.SetBool("ExtraJump", extraJumps);
+        animator.SetBool("isCrouching", isCrouching);
+        animator.SetBool("isAttackUp", isLookingUp);
+        animator.SetBool("isParrying", isParrying);
+        animator.SetBool("isResting", isResting);
     }
     IEnumerator SelectRandomIdle()
     {
@@ -829,10 +861,13 @@ public class PlayerController : MonoBehaviour
         }
         animator.SetTrigger("Shoot");
         canShoot = false;
+        canMove = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
         Invoke("CreateBullet", 0.25f);
     }
     private void CreateBullet()
     {
+        canMove = true;
         float forwardDir = GetFacingDirection();
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
         Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardDir, transform.position.y+0.45f), Quaternion.identity);
@@ -851,6 +886,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Reload()
     {
+        animator.SetTrigger("Reload");
         isReloading = true;
         yield return new WaitForSeconds(reloadTime);
         canShoot = true;
@@ -951,6 +987,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Rest()
     {
+
         hudControl.FadeToBlack();
 
         isVulnerable = false;
@@ -982,6 +1019,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Dead()
     {
+        animator.SetBool("isDead", true);
         isVulnerable = false;
         hp = 0;
         internalDamage = 0;
@@ -989,14 +1027,12 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(0, rb.velocity.y);
         //Debug.Log(hp);
         yield return new WaitForSeconds(2f);
+        animator.SetBool("isDead", false);
         PlayerPrefs.SetString("accion", "Respawning");
         SceneManager.LoadScene(PlayerPrefs.GetString("sceneRespawn"));
-
-        StartCoroutine("Rest");
     }
     IEnumerator Parry()
     {
-        lastTimeParry = Time.time;
         rb.velocity = new Vector2(0,rb.velocity.y);
         canMove = false;
         yield return new WaitForSeconds(0.1f);
@@ -1014,7 +1050,7 @@ public class PlayerController : MonoBehaviour
         parry.SetActive(false);
         isVulnerable = true;
         canMove = true;
-        animator.SetBool("isParrying", false);
+        isParrying = false;
     }
     IEnumerator Dodge()
     {

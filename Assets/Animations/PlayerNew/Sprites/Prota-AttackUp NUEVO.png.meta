@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2699a3af4f8f8f419ea06d58aaba244
+guid: e7df3d246dde40948a39e5d8593e18e5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,102 +93,68 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Prota-Death_0
+      name: Prota-AttackUp NUEVO_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 1
-        width: 34
+        x: 3
+        y: 4
+        width: 61
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9843eb8454789794b9de1a898f41a8f0
-      internalID: -1160288105
+      spriteID: a23089a4f1a8cb14a9db7002129b62d8
+      internalID: -1362060154
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prota-Death_1
+      name: Prota-AttackUp NUEVO_1
       rect:
         serializedVersion: 2
-        x: 73
-        y: 1
-        width: 34
+        x: 67
+        y: 4
+        width: 61
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cdf1885e3096d5b489e51b417a14fe13
-      internalID: 690162712
+      spriteID: 00019d4c58067bc44b07be8cf981adfc
+      internalID: -2048726674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Prota-Death_2
+      name: Prota-AttackUp NUEVO_2
       rect:
         serializedVersion: 2
-        x: 142
-        y: 1
-        width: 35
+        x: 131
+        y: 4
+        width: 61
         height: 58
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd639dec4a7c913458199d1ed4799483
-      internalID: -1354064639
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Prota-Death_3
-      rect:
-        serializedVersion: 2
-        x: 206
-        y: 1
-        width: 35
-        height: 58
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 268165ae73efa3b498a8cf67506d325b
-      internalID: -1130081563
+      spriteID: 6253628c649d7514b948eb4ea1185014
+      internalID: -147218835
       vertices: []
       indices: 
       edges: []
@@ -204,10 +170,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Prota-Death_0: -1160288105
-      Prota-Death_1: 690162712
-      Prota-Death_2: -1354064639
-      Prota-Death_3: -1130081563
+      Prota-AttackUp NUEVO_0: -1362060154
+      Prota-AttackUp NUEVO_1: -2048726674
+      Prota-AttackUp NUEVO_2: -147218835
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
