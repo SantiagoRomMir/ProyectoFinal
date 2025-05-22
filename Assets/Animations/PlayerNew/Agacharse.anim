@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AttackJump
+  m_Name: Agacharse
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,15 +21,17 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -806115413, guid: 5a15a3b5820d48d4b8909ecd64258a38, type: 3}
-    - time: 0.125
-      value: {fileID: 1162718011, guid: 5a15a3b5820d48d4b8909ecd64258a38, type: 3}
+      value: {fileID: 1178479310, guid: 6dd499176c095fd48a4670e5ab391101, type: 3}
+    - time: 0.16666667
+      value: {fileID: 700091802, guid: 6dd499176c095fd48a4670e5ab391101, type: 3}
+    - time: 0.33333334
+      value: {fileID: -2145898105, guid: 6dd499176c095fd48a4670e5ab391101, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 8
+  m_SampleRate: 6
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -46,14 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -806115413, guid: 5a15a3b5820d48d4b8909ecd64258a38, type: 3}
-    - {fileID: 1162718011, guid: 5a15a3b5820d48d4b8909ecd64258a38, type: 3}
+    - {fileID: 1178479310, guid: 6dd499176c095fd48a4670e5ab391101, type: 3}
+    - {fileID: 700091802, guid: 6dd499176c095fd48a4670e5ab391101, type: 3}
+    - {fileID: -2145898105, guid: 6dd499176c095fd48a4670e5ab391101, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
