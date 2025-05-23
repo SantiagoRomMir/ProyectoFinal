@@ -24,6 +24,7 @@ public class MeleeController : MonoBehaviour
     }
     private void Update()
     {
+        transform.parent.GetChild(2).transform.position = new Vector2(transform.parent.GetChild(2).transform.position.x, transform.position.y);
         if (chase)
         {
             Chase();
@@ -91,6 +92,7 @@ public class MeleeController : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, GetComponent<EnemyController>().player.transform.position) <= attackRange)
             {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().enemyAttack);
                 StartCoroutine("AttackAnim");
                 yield return new WaitForSeconds(attackCooldown);
             }
