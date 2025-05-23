@@ -14,9 +14,14 @@ public class ArcherController : MonoBehaviour
     public bool canShoot;
     public float arowSpeedMultiplier;
     public bool arrowCanBeReflected;
+    private SoundController soundController;
     private void Awake()
     {
         canShoot = true;
+    }
+    private void Start()
+    {
+        soundController = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>();
     }
     private void Update()
     {
@@ -49,9 +54,23 @@ public class ArcherController : MonoBehaviour
     }
     private void InstantiateArrow(Vector2 target)
     {
+        PlayArrowSound();
         targetPos = target;
         GameObject shotArrow = Instantiate(arrow, transform);
         shotArrow.GetComponent<ArrowController>().canBeReflected = arrowCanBeReflected;
         shotArrow.GetComponent<ArrowController>().speedMultiplier = arowSpeedMultiplier;
+    }
+    private void PlayArrowSound()
+    {
+        AudioClip sound;
+        if (arrowCanBeReflected)
+        {
+             sound = soundController.bows[Random.Range(0, soundController.bows.Length - 1)];
+        }
+        else
+        {
+            sound = soundController.crossbows[Random.Range(0, soundController.crossbows.Length - 1)];
+        }
+        soundController.GetSoundSource().PlayOneShot(sound);
     }
 }
