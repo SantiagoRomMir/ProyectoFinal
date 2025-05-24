@@ -3016,7 +3016,7 @@ Transform:
   m_GameObject: {fileID: 886927929}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.046207, y: 13.93441, z: -9.775106}
+  m_LocalPosition: {x: -8.337385, y: 13.93441, z: -9.775106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15725,6 +15725,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 634708583629166058, guid: 048f2cb50653a6a4d9de6abf3711066c, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f06eb7a3b9f55f643951cd7d2751c30c, type: 3}
     - target: {fileID: 8825168312569592455, guid: 048f2cb50653a6a4d9de6abf3711066c, type: 3}
       propertyPath: m_Name
       value: _SoundManager
