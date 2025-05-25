@@ -4572,6 +4572,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1201708730760252043, guid: f3a5d86470910b74893123e2262eee54, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5823d382ed1266e4b9de165bfe4bcf09, type: 3}
     - target: {fileID: 3287219177501057705, guid: f3a5d86470910b74893123e2262eee54, type: 3}
       propertyPath: m_LocalPosition.x
       value: 117.05259
@@ -4612,9 +4616,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7044503856997872462, guid: f3a5d86470910b74893123e2262eee54, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8255645230532079910, guid: f3a5d86470910b74893123e2262eee54, type: 3}
       propertyPath: m_Name
       value: Gancho
+      objectReference: {fileID: 0}
+    - target: {fileID: 8255645230532079910, guid: f3a5d86470910b74893123e2262eee54, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
