@@ -1065,7 +1065,7 @@ GameObject:
   - component: {fileID: 1758470687145730068}
   m_Layer: 7
   m_Name: Loro
-  m_TagString: Untagged
+  m_TagString: Loro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

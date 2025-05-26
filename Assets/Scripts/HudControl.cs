@@ -23,10 +23,16 @@ public class HudControl : MonoBehaviour
     public Sprite spriteDatil;
     public Sprite spriteHierbabuena;
     public Sprite spritePera;
+    public GameObject moneyAmount;
+    public GameObject activeBuffs;
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+    public void UpdateActiveBuffs(int index, bool isActive)
+    {
+        activeBuffs.transform.GetChild(index).gameObject.SetActive(isActive);
     }
     public void ChangeInventoryIcons(Consumable selected, Consumable left, Consumable right)
     {
@@ -34,8 +40,35 @@ public class HudControl : MonoBehaviour
         leftItem.sprite = GetSpriteConsumable(left.consumable);
         rightItem.sprite = GetSpriteConsumable(right.consumable);
         selectedAmount.GetComponent<TMP_Text>().text = selected.remainingAmount.ToString();
+        if (selected.remainingAmount==0)
+        {
+            selectedItem.color = new Color32(255, 255, 255, 100);
+        } else
+        {
+            selectedItem.color = new Color32(255, 255, 255, 255);
+        }
         leftAmount.GetComponent<TMP_Text>().text = left.remainingAmount.ToString();
+        if (left.remainingAmount == 0)
+        {
+            leftItem.color = new Color32(255, 255, 255, 100);
+        }
+        else
+        {
+            leftItem.color = new Color32(255, 255, 255, 255);
+        }
         rightAmount.GetComponent<TMP_Text>().text = right.remainingAmount.ToString();
+        if (right.remainingAmount == 0)
+        {
+            rightItem.color = new Color32(255, 255, 255, 100);
+        }
+        else
+        {
+            rightItem.color = new Color32(255, 255, 255, 255);
+        }
+    }
+    public void UpdateMoney(int money)
+    {
+        moneyAmount.GetComponent<TMP_Text>().text = money.ToString();
     }
     public Sprite GetSpriteConsumable(Consumable.TypeConsumable c)
     {

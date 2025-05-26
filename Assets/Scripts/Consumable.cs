@@ -44,7 +44,7 @@ public class Consumable
         {
             return;
         }
-        Debug.Log("Used: " + consumable);
+        //Debug.Log("Used: " + consumable);
 
         switch (consumable)
         {

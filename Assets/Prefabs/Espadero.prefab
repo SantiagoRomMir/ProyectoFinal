@@ -251,7 +251,7 @@ MonoBehaviour:
   damage: 5
   attackCooldown: 3.5
   attackRange: 1.5
-  attackDelay: 1.25
+  attackDelay: 1.5
 --- !u!95 &5144145635501172288
 Animator:
   serializedVersion: 5

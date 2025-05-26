@@ -32,6 +32,20 @@ public class ConsumableController : MonoBehaviour
                     break;
             }
         }
+        if (collision.gameObject.CompareTag("Loro"))
+        {
+            switch (consumable)
+            {
+                case Consumable.TypeConsumable.Ron:
+                    collision.transform.parent.GetComponent<PlayerController>().ReplenishRon(numRon);
+                    gameObject.SetActive(false);
+                    break;
+                default:
+                    collision.transform.parent.GetComponent<PlayerController>().AddConsumable(this);
+                    gameObject.SetActive(false);
+                    break;
+            }
+        }
     }
     private void Awake()
     {
@@ -76,7 +90,7 @@ public class ConsumableController : MonoBehaviour
         {
             Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
             transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * (speed - speedDifference + 1 * Vector2.Distance(transform.position, playerPos) * 2f));
-            if (Time.time > spawnTime + 5f)
+            if (Time.time > spawnTime + 1.5f)
             {
                 speedDifference = 0;
                 speed *= 1.5f;
