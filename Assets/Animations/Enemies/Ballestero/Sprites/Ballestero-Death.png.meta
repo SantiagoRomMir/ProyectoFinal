@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 74f4f3dba6e0c7741b23a278c22f7038
+guid: eedf6559e68b5f24d881dd91fd9383ae
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,19 +93,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -124,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d271710ab653aaa42b38fbc14bee9b01
-      internalID: 1007201116
+      spriteID: 6804eb01f3a7c0146a88724418b81084
+      internalID: -1695533986
       vertices: []
       indices: 
       edges: []
@@ -145,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b599338d1d8fa2f4294a9c1d537c81df
-      internalID: -1462295135
+      spriteID: 84e755649f44cfa4b960d8cab642c4bf
+      internalID: -944860891
       vertices: []
       indices: 
       edges: []
@@ -166,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a0ae25caaf81604ca1a23f90c3cce8a
-      internalID: -858177570
+      spriteID: 78a69f8cb3ff1214b9699aa2155b8b1f
+      internalID: 1879071214
       vertices: []
       indices: 
       edges: []
@@ -177,7 +164,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 210
-        y: 2
+        y: 1
         width: 26
         height: 58
       alignment: 0
@@ -187,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1487e295e42c2124b8eac36df74d1862
-      internalID: -2035152445
+      spriteID: fb52f733fdd15df4aac258d58653b380
+      internalID: -273872074
       vertices: []
       indices: 
       edges: []
@@ -198,7 +185,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 274
-        y: 2
+        y: 1
         width: 26
         height: 58
       alignment: 0
@@ -208,8 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87ce380dd6c10cd4ca682b30f34fc312
-      internalID: 558982
+      spriteID: 99b628fd75026db4b8874840d0093683
+      internalID: 1836366176
       vertices: []
       indices: 
       edges: []
@@ -225,11 +212,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Ballestero-Death_0: 1007201116
-      Ballestero-Death_1: -1462295135
-      Ballestero-Death_2: -858177570
-      Ballestero-Death_3: -2035152445
-      Ballestero-Death_4: 558982
+      Ballestero-Death_0: -1695533986
+      Ballestero-Death_1: -944860891
+      Ballestero-Death_2: 1879071214
+      Ballestero-Death_3: -273872074
+      Ballestero-Death_4: 1836366176
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

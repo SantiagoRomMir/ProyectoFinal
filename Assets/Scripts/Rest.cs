@@ -14,6 +14,10 @@ public class Rest : MonoBehaviour
     {
         Scene = SceneManager.GetActiveScene().name;
     }
+    private void Start()
+    {
+        GetComponent<AudioSource>().volume = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().volume;
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
 

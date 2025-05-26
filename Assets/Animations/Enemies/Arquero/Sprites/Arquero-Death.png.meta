@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 425145395ca559e4b87c35eab32b4678
+guid: 398a4de4fc8760e4d9d83e58516c787a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,19 +93,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -124,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8913a0476aa8e8442982ad1271d56abe
-      internalID: -1380171245
+      spriteID: 9408bb65b26901a44bbc21ce762207c7
+      internalID: 1121920493
       vertices: []
       indices: 
       edges: []
@@ -136,7 +123,7 @@ TextureImporter:
         serializedVersion: 2
         x: 80
         y: 1
-        width: 28
+        width: 26
         height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -145,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8e544e151adcb540952e3effda6875b
-      internalID: -2005940091
+      spriteID: cbb601a6b52a0244eb2e7e6261c6dd65
+      internalID: -1016041145
       vertices: []
       indices: 
       edges: []
@@ -166,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c775f021f443d4c4a9433cdce9d21269
-      internalID: -146405369
+      spriteID: 837634d00a67ebf4780f7993c9881de0
+      internalID: 1609088783
       vertices: []
       indices: 
       edges: []
@@ -187,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 195dfda52188ba74da8a4e943b14d4ba
-      internalID: 910361189
+      spriteID: 47256f804798d7744ad5f2208e18a363
+      internalID: -633708148
       vertices: []
       indices: 
       edges: []
@@ -208,8 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c67226b68b3e6b140b35ded6043de10a
-      internalID: 454270772
+      spriteID: d9d991edec2d0374e93ac8f15032587e
+      internalID: 116219604
       vertices: []
       indices: 
       edges: []
@@ -225,11 +212,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Arquero-Death_0: -1380171245
-      Arquero-Death_1: -2005940091
-      Arquero-Death_2: -146405369
-      Arquero-Death_3: 910361189
-      Arquero-Death_4: 454270772
+      Arquero-Death_0: 1121920493
+      Arquero-Death_1: -1016041145
+      Arquero-Death_2: 1609088783
+      Arquero-Death_3: -633708148
+      Arquero-Death_4: 116219604
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

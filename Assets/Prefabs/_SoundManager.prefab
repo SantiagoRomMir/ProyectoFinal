@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 318480913235205725}
+  - component: {fileID: 554812309701380394}
   - component: {fileID: 3870741560043740291}
   - component: {fileID: 634708583629166058}
-  - component: {fileID: 554812309701380394}
   m_Layer: 0
   m_Name: _SoundManager
   m_TagString: SoundManager
@@ -34,6 +34,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &554812309701380394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8825168312569592455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 047a673da4dda4847a59c5872fd39704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakVase:
+  - {fileID: 8300000, guid: 3ef2e2627010bb248be99def9c6cd5f5, type: 3}
+  - {fileID: 8300000, guid: f409d853ba0102e469983c9e24922a25, type: 3}
+  - {fileID: 8300000, guid: 99ece669cd354684a950c95d0ad2b809, type: 3}
+  - {fileID: 8300000, guid: 7a9d50ed4db77324db417950cd166272, type: 3}
+  - {fileID: 8300000, guid: 26f1fe9e8e25a0f43a226d1778f96601, type: 3}
+  attacks:
+  - {fileID: 8300000, guid: 778917c693826084e81a42514c205786, type: 3}
+  - {fileID: 8300000, guid: 81b92d53c0cdc2e4bac58fb65221ecd4, type: 3}
+  - {fileID: 8300000, guid: 42ff16774b7790f4a87434e2842acc6d, type: 3}
+  - {fileID: 8300000, guid: 505c150da658c8649b83a2fd5171e467, type: 3}
+  bows:
+  - {fileID: 8300000, guid: 19c2f37cba7368c4a849ee50ef9ccc98, type: 3}
+  - {fileID: 8300000, guid: 942633123d865b441b644860950d70e2, type: 3}
+  - {fileID: 8300000, guid: 2ed9e2a40a741f94d8265e884d26c475, type: 3}
+  crossbows:
+  - {fileID: 8300000, guid: 919889826035de748a665e2d04e303dc, type: 3}
+  - {fileID: 8300000, guid: b717a0718cc772a41adea1ac2eb46bf5, type: 3}
+  - {fileID: 8300000, guid: 20784771025e0214b812d96575f82c4e, type: 3}
+  dodges:
+  - {fileID: 8300000, guid: 023e01ad3f206484a9e65b79ad486da5, type: 3}
+  - {fileID: 8300000, guid: 9d06e366781e2fd4082758ae9c7b0e91, type: 3}
+  - {fileID: 8300000, guid: 4cf1475df994dc14098a8430ae941225, type: 3}
+  - {fileID: 8300000, guid: bf484fc023686ca448cc52b4ae18dd19, type: 3}
+  - {fileID: 8300000, guid: ccf2cb487321d194f93de89f6d05fec4, type: 3}
+  - {fileID: 8300000, guid: c096b6a46163b044bb662dca48a1e4c2, type: 3}
+  - {fileID: 8300000, guid: 8e23219d57fc02641b958501e1ca7fcb, type: 3}
+  consumable:
+  - {fileID: 8300000, guid: 134b530580a1e144980c26ef2b4d4515, type: 3}
+  - {fileID: 8300000, guid: 3ebd2b1b28dfc70498d657eff6a918d1, type: 3}
+  heal: {fileID: 8300000, guid: 91c841962948a3949bf8bbae0fea5c9d, type: 3}
+  hook: {fileID: 8300000, guid: 2f4872c64542c5844aa985f20f868570, type: 3}
+  land: {fileID: 8300000, guid: 2bf42d2d24178ce4cbcf00f9906e0f16, type: 3}
+  waterSplash: {fileID: 8300000, guid: 8e037bf0148f6bc48a514b2a7709409c, type: 3}
+  jump: {fileID: 8300000, guid: 40fee3f6ca4677245a1a4bbf366e1794, type: 3}
+  shoot: {fileID: 8300000, guid: 9f2da1f15c337b544aedb92a89e08863, type: 3}
+  playerLand: {fileID: 8300000, guid: 2bf42d2d24178ce4cbcf00f9906e0f16, type: 3}
+  gunPowder: {fileID: 8300000, guid: f04d1b37d26571f4c9218fff4ca0c5d0, type: 3}
+  gunClick: {fileID: 8300000, guid: c2b486da337783a4ab6909c73c48877e, type: 3}
+  aimHook: {fileID: 8300000, guid: a32f5814459c09546aafe60680cf560c, type: 3}
+  useHook: {fileID: 8300000, guid: 2f4872c64542c5844aa985f20f868570, type: 3}
+  playerDeath: {fileID: 8300000, guid: 83e9f0e2502d1714daa24d19067287a1, type: 3}
+  playerHurt: {fileID: 8300000, guid: 6f7767d7fa8eee6468990e0419e38b7b, type: 3}
+  enemyHurt: {fileID: 8300000, guid: d41d3c9c9a36daf448bb97e53f64d6d9, type: 3}
+  enemyDeath:
+  - {fileID: 8300000, guid: a407a6c34c9a25a4f9d49fcd65933b72, type: 3}
+  - {fileID: 8300000, guid: 60dac241e8ee2f54db0c92f67c259be0, type: 3}
+  parry: {fileID: 8300000, guid: 6295216cd20336740be3883ab5b90cba, type: 3}
+  parryPartial: {fileID: 8300000, guid: e236c09f21ef8e146a1a984c2dca1e27, type: 3}
+  footSteps:
+  - {fileID: 8300000, guid: d228744a6f45b0441b220ddac9ea7144, type: 3}
+  - {fileID: 8300000, guid: eb743565d72e4a44f82a51268537d825, type: 3}
+  - {fileID: 8300000, guid: 060d89b0802760b4998d3f714d7c018e, type: 3}
+  - {fileID: 8300000, guid: bc8d3097c8e293a449ee5763ef29ee0f, type: 3}
+  - {fileID: 8300000, guid: bcecb3e36f553e041b534356cde4eab8, type: 3}
+  - {fileID: 8300000, guid: c74a924c6b1146c45a95eb0ec858ab48, type: 3}
+  - {fileID: 8300000, guid: 2002dffa78d4cb445922ce41382e79d9, type: 3}
+  - {fileID: 8300000, guid: 13170829cdde2e147b271a7b220901e0, type: 3}
+  - {fileID: 8300000, guid: 7843f1957573d014585448359eb538dc, type: 3}
+  - {fileID: 8300000, guid: f143ffcff9428e64e93cfb3a693135fc, type: 3}
+  enemyAttack: {fileID: 8300000, guid: 7a1146dd0f2ccdc4d841c606e8528cbc, type: 3}
 --- !u!82 &3870741560043740291
 AudioSource:
   m_ObjectHideFlags: 0
@@ -144,7 +217,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -226,15 +299,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &554812309701380394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8825168312569592455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 047a673da4dda4847a59c5872fd39704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
