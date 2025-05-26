@@ -276,7 +276,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (!isHooking)
+                if (!isHooking || canMove)
                 {
                     Jump();
                 }
@@ -576,7 +576,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartDodge()
     {
-        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || isResting || Slowed<1 || isCrouching || aiming)
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || isResting || Slowed<1 || isCrouching || aiming || !isGrounded)
         {
             return;
         }
