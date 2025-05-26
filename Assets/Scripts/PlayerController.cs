@@ -514,9 +514,9 @@ public class PlayerController : MonoBehaviour
         }
         Consumable left = consumables[leftIndex];
         Consumable right = consumables[rightIndex];
-        Debug.Log("Left: " + consumables[leftIndex].consumable);
-        Debug.Log("Selected: " + consumables[selectedConsumable].consumable);
-        Debug.Log("Right: " + consumables[rightIndex].consumable);
+        //Debug.Log("Left: " + consumables[leftIndex].consumable);
+        //Debug.Log("Selected: " + consumables[selectedConsumable].consumable);
+        //Debug.Log("Right: " + consumables[rightIndex].consumable);
         hudControl.ChangeInventoryIcons(consumables[selectedConsumable], left, right);
     }
 
@@ -1095,9 +1095,9 @@ public class PlayerController : MonoBehaviour
     }
     private void Hurt(int damage)
     {
-        Debug.Log(internalDamage);
+        //Debug.Log(internalDamage);
         hp -= (int)((damage + internalDamage) / defense);
-        Debug.Log("PlayerHurt: " + hp);
+        //Debug.Log("PlayerHurt: " + hp);
         if (hp <= 0)
         {
             animator.SetTrigger("Death");
@@ -1105,6 +1105,7 @@ public class PlayerController : MonoBehaviour
         }
         internalDamage = 0;
         hudControl.UpdatePlayerLife(hp / maxHp);
+        Debug.Log(hp - internalDamage / maxHp);
         hudControl.UpdateInternalDamage(hp / maxHp);
         lastTimeHurt = Time.time;
         StartCoroutine("HitInvulnerable");

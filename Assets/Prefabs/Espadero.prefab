@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20d5d2e9633d4f48a548cb193c1a80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 40
+  health: 50
   internalDamage: 0
   player: {fileID: 0}
   healInternalDamageDelay: 5
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chase: 0
   weapon: {fileID: 5571277652618528766}
-  damage: 5
+  damage: 8
   attackCooldown: 3.5
   attackRange: 1.5
   attackDelay: 1.5
