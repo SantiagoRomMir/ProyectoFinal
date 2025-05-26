@@ -11,7 +11,6 @@ public class ConsumableController : MonoBehaviour
     private float spawnTime;
     private float speed;
     public RuntimeAnimatorController moneyAnimator;
-    public Sprite spriteDatil, spriteHierbabuena, spritePera;
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -35,7 +34,6 @@ public class ConsumableController : MonoBehaviour
     }
     private void Awake()
     {
-        SetSpriteConsumable(GetSpriteConsumable(consumable));
         if (consumable.Equals(Consumable.TypeConsumable.Money))
         {
             GetComponent<SpriteRenderer>().enabled = false;
@@ -48,23 +46,6 @@ public class ConsumableController : MonoBehaviour
             spawnTime = Time.time;
             speed = 10f;
         }
-    }
-    private void SetSpriteConsumable(Sprite sprite)
-    {
-        GetComponent<SpriteRenderer>().sprite = sprite;
-    }
-    public Sprite GetSpriteConsumable(Consumable.TypeConsumable c)
-    {
-        switch (c)
-        {
-            case Consumable.TypeConsumable.Datil:
-                return spriteDatil;
-            case Consumable.TypeConsumable.Pera:
-                return spritePera;
-            case Consumable.TypeConsumable.Hierbabuena:
-                return spriteHierbabuena;
-        }
-        return null;
     }
     private void Start()
     {

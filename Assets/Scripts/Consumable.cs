@@ -10,8 +10,8 @@ public class Consumable
     {
         Datil,
         Ron,
-        Pera,
-        Hierbabuena,
+        LifeRegen,
+        DefenseBuff,
         Money
     }
     public TypeConsumable consumable;
@@ -19,16 +19,15 @@ public class Consumable
     private float effectDuration;
     public int remainingAmount;
     GameObject player;
-    public Sprite spriteDatil, spritePera, spriteHierbabuena;
     public Consumable(ConsumableController c)
     {
-        remainingAmount = 0;
+        remainingAmount = 1;
         player = GameObject.FindGameObjectWithTag("Player");
         consumable = c.consumable;
     }
     public Consumable(Consumable c)
     {
-        remainingAmount = 0;
+        remainingAmount = 1;
         player = GameObject.FindGameObjectWithTag("Player");
         consumable = c.consumable;
     }
@@ -40,10 +39,6 @@ public class Consumable
     }
     public void OnUseAction()
     {
-        if (remainingAmount<=0)
-        {
-            return;
-        }
         Debug.Log("Used: " + consumable);
 
         switch (consumable)
@@ -52,17 +47,22 @@ public class Consumable
                 effectDuration = 10f;
                 player.GetComponent<PlayerController>().StartDamageBuff(effectDuration);
                 break;
-            case TypeConsumable.Pera:
+            case TypeConsumable.LifeRegen:
                 effectDuration = 5f;
                 player.GetComponent<PlayerController>().StartHpRegen(effectDuration);
                 break;
-            case TypeConsumable.Hierbabuena:
+            case TypeConsumable.DefenseBuff:
                 effectDuration = 7f;
                 player.GetComponent<PlayerController>().StartDefenseBuff(effectDuration);
                 break;
         }
 
         remainingAmount--;
+
+        if (remainingAmount <= 0)
+        {
+            player.GetComponent<PlayerController>().RemoveConsumable(this);
+        }
     }
     public static TypeConsumable GetConsumableTypeByName(string name)
     {
