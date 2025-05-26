@@ -6,7 +6,8 @@ public class TileTrap : MonoBehaviour
 {
     public enum TypeTrap{
         SPIKES,
-        WATER
+        WATER,
+        NONE
     }
     private PlayerController player;
     public int damage;
@@ -17,7 +18,7 @@ public class TileTrap : MonoBehaviour
             if (typeTrap.Equals(TypeTrap.WATER))
             {
                 GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().waterSplash);
-            } else
+            } else if (typeTrap.Equals(TypeTrap.SPIKES))
             {
                 GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().playerHurt);
             }
