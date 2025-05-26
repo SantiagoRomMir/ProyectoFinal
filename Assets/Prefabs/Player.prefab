@@ -508,8 +508,8 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 0
-  jumpforce: 10
-  jumpTime: 0.35
+  jumpforce: 8
+  jumpTime: 0.25
   maxHp: 100
   maxRon: 5
   usingLoro: 0

@@ -6639,6 +6639,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1220253767}
+    - target: {fileID: 2256908072802819124, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
+      propertyPath: jumpforce
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4305316315612866290, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
       propertyPath: m_LocalPosition.y
       value: -1.8
