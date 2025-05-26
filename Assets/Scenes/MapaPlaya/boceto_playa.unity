@@ -742,6 +742,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 469136555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &236580419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 236580420}
+  m_Layer: 0
+  m_Name: Muralla-Playa
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &236580420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236580419}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 479.49, y: 7.01, z: 0}
+  m_LocalScale: {x: 2, y: 10, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &289244236
 GameObject:
   m_ObjectHideFlags: 0
@@ -47777,7 +47808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedIndex: 4
+  selectedIndex: 13
   sceneList:
   - MainMenu
   - Inicio
@@ -47790,6 +47821,9 @@ MonoBehaviour:
   - boceto_casa4
   - boceto_casa5
   - boceto_casa6
+  - Credits
+  - Controls
+  - Muralla
 --- !u!1 &1923975264
 GameObject:
   m_ObjectHideFlags: 0
@@ -49146,11 +49180,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6600913829866493528, guid: a25535cad8227de4faf41ce63d1aab4e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 104
+      value: 484.89
       objectReference: {fileID: 0}
     - target: {fileID: 6600913829866493528, guid: a25535cad8227de4faf41ce63d1aab4e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19
+      value: 11.03
       objectReference: {fileID: 0}
     - target: {fileID: 6600913829866493528, guid: a25535cad8227de4faf41ce63d1aab4e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -49186,7 +49220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7144303724759101300, guid: a25535cad8227de4faf41ce63d1aab4e, type: 3}
       propertyPath: m_Name
-      value: SceneTravel
+      value: Playa-Muralla
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -49288,6 +49322,7 @@ SceneRoots:
   - {fileID: 409891738}
   - {fileID: 7684033698768853716}
   - {fileID: 5825226141332468792}
+  - {fileID: 236580420}
   - {fileID: 892589904966380343}
   - {fileID: 692918038311591088}
   - {fileID: 128899466}

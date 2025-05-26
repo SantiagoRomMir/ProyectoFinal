@@ -159,9 +159,16 @@ public class PlayerController : MonoBehaviour
                 transform.position = GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
             }
         }
+        if (PlayerPrefs.GetString("accion") == "travel")
+        {
+            if (GameObject.Find(PlayerPrefs.GetString("posicionViaje")) != null)
+            {
+                transform.position = GameObject.Find(PlayerPrefs.GetString("posicionViaje")).transform.position;
+            }
+        }
         if (PlayerPrefs.GetString("accion") == "Respawning")
         {
-            if (GameObject.Find(PlayerPrefs.GetString("positionRespawn"))!=null)
+            if (GameObject.Find(PlayerPrefs.GetString("positionRespawn")) != null)
             {
                 transform.position = GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
             }
