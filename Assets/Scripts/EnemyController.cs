@@ -287,6 +287,14 @@ public class EnemyController : MonoBehaviour
     }
     IEnumerator Dead()
     {
+        if (GetComponent<MeleeController>()!=null)
+        {
+            GetComponent<MeleeController>().StopAllCoroutines();
+        }
+        if (GetComponent<ArcherController>() != null)
+        {
+            GetComponent<ArcherController>().StopAllCoroutines();
+        }
         move  = false;
         health = 0;
         internalDamage = 0;

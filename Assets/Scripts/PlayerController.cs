@@ -113,6 +113,7 @@ public class PlayerController : MonoBehaviour
     public float consumableCooldown;
     public int addedDamage;
     public int money;
+    public bool isRegeneratingHealth;
     public List<Consumable> consumables;
     private float lastConsumableTime;
 
@@ -200,9 +201,9 @@ public class PlayerController : MonoBehaviour
         lastTimeDodge = Time.time;
         canMove = true;
 
-        //hasHook = false;
-        //hasGun = false;
-        //hasParrot = false;
+        hasHook = false;
+        hasGun = false;
+        hasParrot = false;
 
         LoadPersistenceData();
 
@@ -320,6 +321,9 @@ public class PlayerController : MonoBehaviour
         {
             SelectPreviousConsumable();
         }
+
+        hudControl.UpdateMoney(money);
+        UpdateActiveBuffs();
     }
     IEnumerator FootStepsSound()
     {
@@ -360,6 +364,12 @@ public class PlayerController : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
+    }
+    private void UpdateActiveBuffs()
+    {
+        hudControl.UpdateActiveBuffs(0, defense!=1);
+        hudControl.UpdateActiveBuffs(1, addedDamage != 0);
+        hudControl.UpdateActiveBuffs(2, isRegeneratingHealth);
     }
     IEnumerator AttackUpwards()
     {
@@ -447,26 +457,32 @@ public class PlayerController : MonoBehaviour
     {
         foreach (Consumable c in consumables)
         {
-            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower()) && c.remainingAmount!=0) // Stack Repeated Consumables
             {
                 c.remainingAmount++;
+                UpdateInventory();
                 return;
             }
         }
         Consumable newConsumable = new Consumable(consumable);
         consumables.Add(newConsumable);
+
+        UpdateInventory();
     }
     public void AddConsumable(Consumable consumable)
     {
         foreach (Consumable c in consumables)
         {
-            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower()) && c.remainingAmount != 0) // Stack Repeated Consumables
             {
                 c.remainingAmount++;
+                UpdateInventory();
                 return;
             }
         }
         consumables.Add(new Consumable(consumable));
+
+        UpdateInventory();
     }
     public void UseConsumable()
     {
@@ -532,6 +548,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartHpRegen(float duration)
     {
+        isRegeneratingHealth = true;
         StopCoroutine("RegenHealth");
         StartCoroutine(RegenHealth(duration));
     }
@@ -543,6 +560,7 @@ public class PlayerController : MonoBehaviour
             HealPlayer(5);
             yield return new WaitForSeconds(1f);
         }
+        isRegeneratingHealth = false;
     }
     public void StartDefenseBuff(float duration)
     {
@@ -960,6 +978,13 @@ public class PlayerController : MonoBehaviour
     {
         canMove = true;
         float forwardDir = GetFacingDirection();
+        if (forwardDir == -1)
+        {
+            bulletPrefab.GetComponent<SpriteRenderer>().flipX = true;
+        } else
+        {
+            bulletPrefab.GetComponent<SpriteRenderer>().flipX = false;
+        }
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
         Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardDir, transform.position.y+0.45f), Quaternion.identity);
         hudControl.ActiveGunPowder();
