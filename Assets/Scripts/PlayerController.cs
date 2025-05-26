@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -206,7 +207,11 @@ public class PlayerController : MonoBehaviour
         footStepsAudio.volume = soundController.GetSoundSource().volume;
         StartCoroutine("FootStepsSound");
 
-        //Hurt(1000);
+        AddConsumable(new Consumable(0,Consumable.TypeConsumable.Datil));
+        AddConsumable(new Consumable(0, Consumable.TypeConsumable.Pera));
+        AddConsumable(new Consumable(0, Consumable.TypeConsumable.Hierbabuena));
+
+        UpdateInventory();
     }
 
     void FixedUpdate()
@@ -298,6 +303,15 @@ public class PlayerController : MonoBehaviour
         {
             killPlayer = false;
             HurtPlayer(10000, transform.position, true, false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SelectNextConsumable();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            SelectPreviousConsumable();
         }
     }
     IEnumerator FootStepsSound()
@@ -447,13 +461,9 @@ public class PlayerController : MonoBehaviour
         }
         consumables.Add(new Consumable(consumable));
     }
-    public void RemoveConsumable(Consumable consumable)
-    {
-        consumables.Remove(consumable);
-    }
     public void UseConsumable()
     {
-        if (consumables.Count <= 0 || isResting)
+        if (consumables[selectedConsumable].remainingAmount<=0 || isResting)
         {
             return;
         }
@@ -464,8 +474,29 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Consumable");
             lastConsumableTime = Time.time;
             consumables[selectedConsumable].OnUseAction();
+            UpdateInventory();
         }
     }
+    private void UpdateInventory()
+    {
+        int leftIndex = selectedConsumable - 1;
+        if (leftIndex < 0)
+        {
+            leftIndex = consumables.Count - 1;
+        }
+        int rightIndex = selectedConsumable + 1;
+        if (rightIndex > consumables.Count-1)
+        {
+            rightIndex = 0;
+        }
+        Consumable left = consumables[leftIndex];
+        Consumable right = consumables[rightIndex];
+        Debug.Log("Left: " + consumables[leftIndex].consumable);
+        Debug.Log("Selected: " + consumables[selectedConsumable].consumable);
+        Debug.Log("Right: " + consumables[rightIndex].consumable);
+        hudControl.ChangeInventoryIcons(consumables[selectedConsumable], left, right);
+    }
+
     public void SelectNextConsumable()
     {
         if (isResting)
@@ -477,6 +508,7 @@ public class PlayerController : MonoBehaviour
         {
             selectedConsumable = 0;
         }
+        UpdateInventory();
     }
     public void SelectPreviousConsumable()
     {
@@ -489,6 +521,7 @@ public class PlayerController : MonoBehaviour
         {
             selectedConsumable = consumables.Count - 1;
         }
+        UpdateInventory();
     }
     public void StartHpRegen(float duration)
     {

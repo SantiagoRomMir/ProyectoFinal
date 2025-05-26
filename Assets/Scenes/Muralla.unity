@@ -7495,6 +7495,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 634708583629166058, guid: 048f2cb50653a6a4d9de6abf3711066c, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 57738ba43e3e5ff4d946c68420a01495, type: 3}
     - target: {fileID: 8825168312569592455, guid: 048f2cb50653a6a4d9de6abf3711066c, type: 3}
       propertyPath: m_Name
       value: _SoundManager
@@ -12579,6 +12583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  typeTrap: 0
 --- !u!19719996 &1662617692
 TilemapCollider2D:
   m_ObjectHideFlags: 0

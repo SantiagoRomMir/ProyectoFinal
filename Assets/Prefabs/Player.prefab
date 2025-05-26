@@ -1062,6 +1062,7 @@ GameObject:
   - component: {fileID: 3302513127545228298}
   - component: {fileID: 7143392708132309139}
   - component: {fileID: 1231774778807463703}
+  - component: {fileID: 1758470687145730068}
   m_Layer: 7
   m_Name: Loro
   m_TagString: Untagged
@@ -1178,7 +1179,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1231774778807463703
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1224,6 +1225,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &1758470687145730068
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7162860091656091652}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 09028ee6bace0de44a95e2d5db78f5f8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7360584914260071356
 GameObject:
   m_ObjectHideFlags: 0
