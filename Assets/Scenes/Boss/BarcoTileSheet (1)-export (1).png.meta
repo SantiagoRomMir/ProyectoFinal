@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1984504f81f24ba449483db8425b160b
+guid: 610de38e0c48b3d408cdd506d464c488
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,295 +123,379 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BarcoTileSheet_0
+      name: BarcoTileSheet (1)-export (1)_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 122
+        x: 0
+        y: 96
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e5adc4b5193a4e4883a43bf1be46ae8
-      internalID: -95180469
+      spriteID: 04dc54c9973e40645b1776735f64d512
+      internalID: -1697463707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_1
+      name: BarcoTileSheet (1)-export (1)_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4aedbf33667fb6c4c87712b930b33de0
+      internalID: 1763588941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BarcoTileSheet (1)-export (1)_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 122
+        y: 96
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f08ce1bbf388d348b0fa08a7ccb0cf8
-      internalID: -1220731021
+      spriteID: bb41617f57757d545bc334d6e89f4aa4
+      internalID: 1951465029
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_2
+      name: BarcoTileSheet (1)-export (1)_3
       rect:
         serializedVersion: 2
-        x: 112
-        y: 122
+        x: 0
+        y: 64
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5481220b0a677a4abe6090f0b8df2e8
-      internalID: 1318559254
+      spriteID: e44888e459729f64882161db00de8044
+      internalID: -2091424701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_3
+      name: BarcoTileSheet (1)-export (1)_4
       rect:
         serializedVersion: 2
-        x: 16
-        y: 90
+        x: 32
+        y: 64
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 894e775c6d7a1d043816cdb3c88049b6
-      internalID: 1780322077
+      spriteID: fefdceaab07436948a7f4b5e619033d1
+      internalID: -387543114
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 90
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7d9d921fbe58b0043ab57f7bd9886e4a
-      internalID: 692097242
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BarcoTileSheet_5
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 90
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9d0f1fe9352eeef4782edc096269d225
-      internalID: -1035594973
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BarcoTileSheet_6
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 58
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7fd0de233fb619c498b322d10a177e1d
-      internalID: -1870514179
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BarcoTileSheet_7
+      name: BarcoTileSheet (1)-export (1)_5
       rect:
         serializedVersion: 2
         x: 64
-        y: 58
+        y: 64
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46ea37d9d6273944da03693b4b605b1f
-      internalID: -291163940
+      spriteID: e84f952f3f60edf4ebdda6baafeb203d
+      internalID: 1587537225
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_8
+      name: BarcoTileSheet (1)-export (1)_6
       rect:
         serializedVersion: 2
-        x: 112
-        y: 58
+        x: 96
+        y: 64
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 521baa3e7e3b1f64eba274be424d3a69
-      internalID: 1605684116
+      spriteID: 44ce1dcaec38b5747b6449b63391419b
+      internalID: -1336606542
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_9
+      name: BarcoTileSheet (1)-export (1)_7
       rect:
         serializedVersion: 2
-        x: 160
-        y: 58
+        x: 128
+        y: 64
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 008d26d9be7f3fe47b157e024e6a4e3b
-      internalID: 945787420
+      spriteID: b4f8a9e67b2098d4089ff0634a83a02d
+      internalID: -2010057316
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_10
+      name: BarcoTileSheet (1)-export (1)_8
       rect:
         serializedVersion: 2
-        x: 16
-        y: 10
+        x: 0
+        y: 32
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5bacc990a0e1591458ab8c40f1c0f8b7
-      internalID: 1634839597
+      spriteID: 2c9602d067155c64991ef3c6441bdb99
+      internalID: -91502299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_11
+      name: BarcoTileSheet (1)-export (1)_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9479d2ac5122e847996107c47737fe8
+      internalID: 1730543876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BarcoTileSheet (1)-export (1)_10
       rect:
         serializedVersion: 2
         x: 64
-        y: 10
+        y: 32
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74adf1914618db9419538572b21691c9
-      internalID: -171128111
+      spriteID: f4850629e52e6334aaa6dd5271a0faac
+      internalID: -39718048
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_12
+      name: BarcoTileSheet (1)-export (1)_11
       rect:
         serializedVersion: 2
-        x: 112
-        y: 10
+        x: 96
+        y: 32
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32e635debfc4a014da3ed3c88d155c89
-      internalID: -466148619
+      spriteID: 3be19976402321243a63f2c5e4df41b8
+      internalID: 1862927626
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BarcoTileSheet_13
+      name: BarcoTileSheet (1)-export (1)_12
       rect:
         serializedVersion: 2
-        x: 160
-        y: 10
+        x: 128
+        y: 32
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6f424dd36b4b4a4d9a1d23c240d824f
-      internalID: 2083980178
+      spriteID: 62bbbd27b4fb9ee4d8940c7f01bf9d1f
+      internalID: -86204308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BarcoTileSheet (1)-export (1)_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd0c323d0fffac2408bc27af60f19263
+      internalID: 26713281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BarcoTileSheet (1)-export (1)_14
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e962998ca8865f542b8183d85434b1fc
+      internalID: 837877395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BarcoTileSheet (1)-export (1)_15
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fdd92578009a95458ca3f3256c2fdd9
+      internalID: 2011597530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BarcoTileSheet (1)-export (1)_16
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d466a7d8987427e4ebf99a0ea85602a0
+      internalID: -725319732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BarcoTileSheet (1)-export (1)_17
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b81c4c39b12be59419293b3cb6202bd4
+      internalID: -1655406598
       vertices: []
       indices: 
       edges: []
@@ -427,20 +511,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BarcoTileSheet_0: -95180469
-      BarcoTileSheet_1: -1220731021
-      BarcoTileSheet_10: 1634839597
-      BarcoTileSheet_11: -171128111
-      BarcoTileSheet_12: -466148619
-      BarcoTileSheet_13: 2083980178
-      BarcoTileSheet_2: 1318559254
-      BarcoTileSheet_3: 1780322077
-      BarcoTileSheet_4: 692097242
-      BarcoTileSheet_5: -1035594973
-      BarcoTileSheet_6: -1870514179
-      BarcoTileSheet_7: -291163940
-      BarcoTileSheet_8: 1605684116
-      BarcoTileSheet_9: 945787420
+      BarcoTileSheet (1)-export (1)_0: -1697463707
+      BarcoTileSheet (1)-export (1)_1: 1763588941
+      BarcoTileSheet (1)-export (1)_10: -39718048
+      BarcoTileSheet (1)-export (1)_11: 1862927626
+      BarcoTileSheet (1)-export (1)_12: -86204308
+      BarcoTileSheet (1)-export (1)_13: 26713281
+      BarcoTileSheet (1)-export (1)_14: 837877395
+      BarcoTileSheet (1)-export (1)_15: 2011597530
+      BarcoTileSheet (1)-export (1)_16: -725319732
+      BarcoTileSheet (1)-export (1)_17: -1655406598
+      BarcoTileSheet (1)-export (1)_2: 1951465029
+      BarcoTileSheet (1)-export (1)_3: -2091424701
+      BarcoTileSheet (1)-export (1)_4: -387543114
+      BarcoTileSheet (1)-export (1)_5: 1587537225
+      BarcoTileSheet (1)-export (1)_6: -1336606542
+      BarcoTileSheet (1)-export (1)_7: -2010057316
+      BarcoTileSheet (1)-export (1)_8: -91502299
+      BarcoTileSheet (1)-export (1)_9: 1730543876
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
