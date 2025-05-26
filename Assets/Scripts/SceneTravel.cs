@@ -18,6 +18,8 @@ public class SceneTravel : MonoBehaviour
     {
         if (collision != null && collision.CompareTag("Player"))
         {
+            PlayerPrefs.SetString("accion", "travel");
+            PlayerPrefs.SetString("posicionViaje", gameObject.name);
             collision.gameObject.GetComponent<PlayerController>().SavePersistenceData();
             SceneManager.LoadScene(Scene);
         }
