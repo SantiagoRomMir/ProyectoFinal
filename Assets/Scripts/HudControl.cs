@@ -98,7 +98,7 @@ public class HudControl : MonoBehaviour
     }
     public void UpdatePlayerLife(float porcentaje)
     {
-        Debug.Log(porcentaje);
+        //Debug.Log(porcentaje);
         playerLife.fillAmount = porcentaje;
     }
     public void UpdateInternalDamage(float porcentaje)
@@ -107,7 +107,7 @@ public class HudControl : MonoBehaviour
     }
     public void UpdateBossInternalDamage(float porcentaje)
     {
-        internalDamage.fillAmount = porcentaje;
+        bossInternalDamage.fillAmount = porcentaje;
     }
     public void ActiveBossBar()
     {

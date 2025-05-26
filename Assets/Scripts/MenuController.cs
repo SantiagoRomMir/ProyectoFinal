@@ -23,7 +23,7 @@ public class MenuController : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
         Destroy(GameObject.FindGameObjectWithTag("MenuMusic"));
         PlayerPrefs.SetInt("clearPersistenceData", 1);
-        SceneManager.LoadScene("Inicio");
+        SceneManager.LoadScene("Playa");
     }
     public void Jugar()
     {
