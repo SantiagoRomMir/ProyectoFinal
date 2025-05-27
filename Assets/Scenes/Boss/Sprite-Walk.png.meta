@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9d13bf70e96026747844046e831a9c61
+guid: 5866622c156dbf54ca1f221a1153048f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,7 +94,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Android
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -107,11 +107,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pistola_0
+      name: Sprite-Walk_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 9
-        width: 25
-        height: 13
+        x: 15
+        y: 0
+        width: 42
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,8 +137,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a7a1d9f2aa0a544690a654568aa79f0
-      internalID: 497432767
+      spriteID: 17dce20ef82fd5449950b3246599d23a
+      internalID: 906863521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite-Walk_1
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 1
+        width: 51
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0be731d81e70e6b44a2b536762a79681
+      internalID: -528688893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite-Walk_2
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 3
+        width: 55
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe883e4881f47c2469f4333a01875ceb
+      internalID: -185891899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite-Walk_3
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 2
+        width: 51
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04010e4f324bb914188ad0ac38dce2fa
+      internalID: -1624082227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite-Walk_4
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 1
+        width: 42
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66c3b49cd420c9a499f65d5815eeebb3
+      internalID: -668480809
       vertices: []
       indices: 
       edges: []
@@ -154,7 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Pistola_0: 497432767
+      Sprite-Walk_0: 906863521
+      Sprite-Walk_1: -528688893
+      Sprite-Walk_2: -185891899
+      Sprite-Walk_3: -1624082227
+      Sprite-Walk_4: -668480809
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

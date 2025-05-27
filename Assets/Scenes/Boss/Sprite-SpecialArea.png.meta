@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9d13bf70e96026747844046e831a9c61
+guid: 66c756c44d438ae42af3c0b4a90bbd30
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,7 +94,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Android
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -107,11 +107,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pistola_0
+      name: Sprite-SpecialArea_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 9
-        width: 25
-        height: 13
+        x: 31
+        y: 1
+        width: 56
+        height: 94
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,8 +137,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a7a1d9f2aa0a544690a654568aa79f0
-      internalID: 497432767
+      spriteID: 21efe6937658c49458e1ec55103eebaf
+      internalID: -1182501059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite-SpecialArea_1
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 14
+        width: 80
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae72183e373060a488a136c793fb2ef6
+      internalID: 1178777832
       vertices: []
       indices: 
       edges: []
@@ -154,7 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Pistola_0: 497432767
+      Sprite-SpecialArea_0: -1182501059
+      Sprite-SpecialArea_1: 1178777832
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
