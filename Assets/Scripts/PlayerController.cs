@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,11 +36,11 @@ public class PlayerController : MonoBehaviour
     public float maxRon;
     private float ron;
 
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isJumping;
     private bool isCrouching;
     private bool extraJumps;
-    private bool isFalling;
+    public bool isFalling;
     private bool aiming;
     public bool usingLoro;
     public float Slowed = 1;
@@ -51,6 +50,7 @@ public class PlayerController : MonoBehaviour
     public float hookSpeed;
 
     public bool isResting;
+    public bool isFastFall;
 
     [Header("MeleeAttack")]
     public GameObject weapon;
@@ -71,10 +71,13 @@ public class PlayerController : MonoBehaviour
     public float parryDuration;
     private float lastTimeParry;
     public float perfectParryTimeWindow;
+    public float parryCancelDelay;
     public float internalDamage;
     private float lastTimeHurt;
     private bool isHealingInternalDamage;
     public float healInternalDamageDelay;
+    public bool isParrying;
+    private bool parryKeyUp;
 
     [Header("Shoot")]
     public GameObject bulletPrefab;
@@ -97,7 +100,7 @@ public class PlayerController : MonoBehaviour
     public KeyCode dodgeKey;
 
     [Header("Sound")]
-    private AudioSource audioSource;
+    private SoundController soundController;
 
     [Header("Skills")]
     public bool hasHook;
@@ -110,6 +113,7 @@ public class PlayerController : MonoBehaviour
     public float consumableCooldown;
     public int addedDamage;
     public int money;
+    public bool isRegeneratingHealth;
     public List<Consumable> consumables;
     private float lastConsumableTime;
 
@@ -123,6 +127,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Trap")]
     public float movementDirAbs;
+
+    [Header("Simulation")]
+    public bool killPlayer;
+
+    [Header("FootSteps")]
+    public AudioSource footStepsAudio;
     private void Awake()
     {
         if (PlayerPrefs.GetInt("clearPersistenceData")==1)
@@ -143,7 +153,7 @@ public class PlayerController : MonoBehaviour
         defense = 1f;
         lastConsumableTime = Time.time;
 
-        audioSource = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource();
+        soundController = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>();
         if (PlayerPrefs.GetString("accion") == "puerta")
         {
             if (GameObject.Find(PlayerPrefs.GetString("Door"))!=null)
@@ -151,9 +161,16 @@ public class PlayerController : MonoBehaviour
                 transform.position = GameObject.Find(PlayerPrefs.GetString("Door")).transform.position;
             }
         }
+        if (PlayerPrefs.GetString("accion") == "travel")
+        {
+            if (GameObject.Find(PlayerPrefs.GetString("posicionViaje")) != null)
+            {
+                transform.position = GameObject.Find(PlayerPrefs.GetString("posicionViaje")).transform.position;
+            }
+        }
         if (PlayerPrefs.GetString("accion") == "Respawning")
         {
-            if (GameObject.Find(PlayerPrefs.GetString("positionRespawn"))!=null)
+            if (GameObject.Find(PlayerPrefs.GetString("positionRespawn")) != null)
             {
                 transform.position = GameObject.Find(PlayerPrefs.GetString("positionRespawn")).transform.position;
             }
@@ -184,15 +201,25 @@ public class PlayerController : MonoBehaviour
         lastTimeDodge = Time.time;
         canMove = true;
 
-        //hasHook = false;
-        //hasGun = false;
-        //hasParrot = false;
+        hasHook = false;
+        hasGun = false;
+        hasParrot = false;
 
         LoadPersistenceData();
 
         StartCoroutine("AttackUpwards");
+        StartCoroutine("StopParry");
+        StartCoroutine("CheckFastFall");
 
-        //Hurt(1000);
+        footStepsAudio = GetComponent<AudioSource>();
+        footStepsAudio.volume = soundController.GetSoundSource().volume;
+        StartCoroutine("FootStepsSound");
+
+        AddConsumable(new Consumable(0,Consumable.TypeConsumable.Datil));
+        AddConsumable(new Consumable(0, Consumable.TypeConsumable.Pera));
+        AddConsumable(new Consumable(0, Consumable.TypeConsumable.Hierbabuena));
+
+        UpdateInventory();
     }
 
     void FixedUpdate()
@@ -228,7 +255,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!usingLoro){
+        if (!usingLoro){
             if (hasHook && isGrounded)
             {
                 Aim();
@@ -250,7 +277,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (!isHooking)
+                if (!isHooking || canMove)
                 {
                     Jump();
                 }
@@ -258,22 +285,16 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(parryKey) && Time.time >= lastTimeParry + parryCooldown && !isResting)
             {
-                animator.SetBool("isParrying", true);
+                parryKeyUp = false;
+                lastTimeParry = Time.time;
+                isParrying = true;
                 StartCoroutine("Parry");
             }
-
-            if (Input.GetKeyUp(parryKey) || (Time.time >= lastTimeParry + parryDuration))
+            if (Input.GetKeyUp(parryKey))
             {
-                StopCoroutine("Parry");
-                animator.SetBool("isParrying", false);
-                parry.SetActive(false);
-                isVulnerable = true;
-                if (parry.activeSelf)
-                {
-                    lastTimeParry = Time.time;
-                }
-                canMove = true;
+                parryKeyUp = true;
             }
+
             UseConsumable();
         }
 
@@ -285,6 +306,70 @@ public class PlayerController : MonoBehaviour
         CheckAttackCombo();
 
         UpdateAnimatorValues();
+
+        if (killPlayer)
+        {
+            killPlayer = false;
+            HurtPlayer(10000, transform.position, true, false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SelectNextConsumable();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            SelectPreviousConsumable();
+        }
+
+        hudControl.UpdateMoney(money);
+        UpdateActiveBuffs();
+    }
+    IEnumerator FootStepsSound()
+    {
+        while (true)
+        {
+            if (Mathf.Abs(rb.velocity.x) > 0f && isGrounded)
+            {
+                AudioClip sound = soundController.footSteps[UnityEngine.Random.Range(0, soundController.footSteps.Length - 1)];
+                footStepsAudio.PlayOneShot(sound);
+            }
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
+    IEnumerator CheckFastFall()
+    {
+        while (true)
+        {
+            if (rb.velocity.y < -20f)
+            {
+                isFastFall = true;
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+    IEnumerator StopParry()
+    {
+        while (true)
+        {
+            if (parryKeyUp || (Time.time >= lastTimeParry + parryDuration) && isParrying)
+            {
+                parryKeyUp = false;
+                yield return new WaitForSeconds(parryCancelDelay);
+                StopCoroutine("Parry");
+                isParrying = false;
+                canMove = true;
+                isVulnerable = true;
+                parry.SetActive(false);
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    private void UpdateActiveBuffs()
+    {
+        hudControl.UpdateActiveBuffs(0, defense!=1);
+        hudControl.UpdateActiveBuffs(1, addedDamage != 0);
+        hudControl.UpdateActiveBuffs(2, isRegeneratingHealth);
     }
     IEnumerator AttackUpwards()
     {
@@ -372,43 +457,69 @@ public class PlayerController : MonoBehaviour
     {
         foreach (Consumable c in consumables)
         {
-            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower()) && c.remainingAmount!=0) // Stack Repeated Consumables
             {
                 c.remainingAmount++;
+                UpdateInventory();
                 return;
             }
         }
         Consumable newConsumable = new Consumable(consumable);
         consumables.Add(newConsumable);
+
+        UpdateInventory();
     }
     public void AddConsumable(Consumable consumable)
     {
         foreach (Consumable c in consumables)
         {
-            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower()) && c.remainingAmount != 0) // Stack Repeated Consumables
             {
                 c.remainingAmount++;
+                UpdateInventory();
                 return;
             }
         }
         consumables.Add(new Consumable(consumable));
-    }
-    public void RemoveConsumable(Consumable consumable)
-    {
-        consumables.Remove(consumable);
+
+        UpdateInventory();
     }
     public void UseConsumable()
     {
-        if (consumables.Count <= 0 || isResting)
+        if (consumables[selectedConsumable].remainingAmount<=0 || isResting)
         {
             return;
         }
         if (Input.GetKeyDown(KeyCode.G) && Time.time > lastConsumableTime+consumableCooldown)
         {
+            AudioClip sound = soundController.consumable[UnityEngine.Random.Range(0, soundController.consumable.Length - 1)];
+            soundController.GetSoundSource().PlayOneShot(sound);
+            animator.SetTrigger("Consumable");
             lastConsumableTime = Time.time;
             consumables[selectedConsumable].OnUseAction();
+            UpdateInventory();
         }
     }
+    private void UpdateInventory()
+    {
+        int leftIndex = selectedConsumable - 1;
+        if (leftIndex < 0)
+        {
+            leftIndex = consumables.Count - 1;
+        }
+        int rightIndex = selectedConsumable + 1;
+        if (rightIndex > consumables.Count-1)
+        {
+            rightIndex = 0;
+        }
+        Consumable left = consumables[leftIndex];
+        Consumable right = consumables[rightIndex];
+        //Debug.Log("Left: " + consumables[leftIndex].consumable);
+        //Debug.Log("Selected: " + consumables[selectedConsumable].consumable);
+        //Debug.Log("Right: " + consumables[rightIndex].consumable);
+        hudControl.ChangeInventoryIcons(consumables[selectedConsumable], left, right);
+    }
+
     public void SelectNextConsumable()
     {
         if (isResting)
@@ -420,6 +531,7 @@ public class PlayerController : MonoBehaviour
         {
             selectedConsumable = 0;
         }
+        UpdateInventory();
     }
     public void SelectPreviousConsumable()
     {
@@ -432,9 +544,11 @@ public class PlayerController : MonoBehaviour
         {
             selectedConsumable = consumables.Count - 1;
         }
+        UpdateInventory();
     }
     public void StartHpRegen(float duration)
     {
+        isRegeneratingHealth = true;
         StopCoroutine("RegenHealth");
         StartCoroutine(RegenHealth(duration));
     }
@@ -446,6 +560,7 @@ public class PlayerController : MonoBehaviour
             HealPlayer(5);
             yield return new WaitForSeconds(1f);
         }
+        isRegeneratingHealth = false;
     }
     public void StartDefenseBuff(float duration)
     {
@@ -475,15 +590,16 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
         StartCoroutine("Reload");
     }
     public void StartDodge()
     {
-        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || isResting || Slowed<1)
+        if (Time.time <= lastTimeDodge + dodgeCooldown || isHooking || isResting || Slowed<1 || isCrouching || aiming || !isGrounded)
         {
             return;
         }
+        AudioClip sound = soundController.dodges[UnityEngine.Random.Range(0, soundController.dodges.Length - 1)];
+        soundController.GetSoundSource().PlayOneShot(sound);
         animator.SetBool("isDodging", true);
         animator.SetTrigger("Dash");
         StartCoroutine("Dodge");
@@ -496,12 +612,14 @@ public class PlayerController : MonoBehaviour
         }
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
+            soundController.GetSoundSource().PlayOneShot(soundController.jump);
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpforce;
         }
         else if (isGrounded == false && Input.GetKeyDown(KeyCode.Space) && extraJumps == true && hasGun)
         {
+            soundController.GetSoundSource().PlayOneShot(soundController.shoot);
             isJumping = true;
             isFalling = false;
             jumpTimeCounter = jumpTime;
@@ -533,6 +651,11 @@ public class PlayerController : MonoBehaviour
         //isGrounded = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
         Collider2D collider = Physics2D.OverlapCircle(feetPos.position, radio, suelo);
         isGrounded = collider;
+        if (isGrounded && isFastFall)
+        {
+            isFastFall = false;
+            soundController.GetSoundSource().PlayOneShot(soundController.playerLand);
+        }
         if (collider != null && collider.CompareTag("sueloSeguro"))
         {
             lastPosition = transform.position;
@@ -563,6 +686,8 @@ public class PlayerController : MonoBehaviour
             colliders[1].enabled = true;
             colliders[0].enabled = false;
             isCrouching = true;
+            canMove = false;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow) || isFalling == true)
@@ -572,6 +697,7 @@ public class PlayerController : MonoBehaviour
             colliders[0].enabled = true;
             colliders[1].enabled = false;
             isCrouching = false;
+            canMove = true;
         }
     }
     public void Heal()
@@ -580,6 +706,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        soundController.GetSoundSource().PlayOneShot(soundController.heal);
 
         HealPlayer(50);
         
@@ -635,6 +762,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             aiming = true;
+            soundController.GetSoundSource().PlayOneShot(soundController.aimHook);
         }
         if (Input.GetKey(KeyCode.F))
         {
@@ -674,6 +802,7 @@ public class PlayerController : MonoBehaviour
             if (ganchoCercano!=null)
             {
                 ganchoCercano.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                soundController.GetSoundSource().PlayOneShot(soundController.useHook);
             }
             ganchoCercano = null;
         }
@@ -766,6 +895,10 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("VelocityY", rb.velocity.y);
         animator.SetBool("isHooking", isHooking);
         animator.SetBool("ExtraJump", extraJumps);
+        animator.SetBool("isCrouching", isCrouching);
+        animator.SetBool("isAttackUp", isLookingUp);
+        animator.SetBool("isParrying", isParrying);
+        animator.SetBool("isResting", isResting);
     }
     IEnumerator SelectRandomIdle()
     {
@@ -787,19 +920,26 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Attack");
         canMove = false;
         lastTimeAttack = Time.time;
+        if (!isGrounded)
+        {
+            soundController.GetSoundSource().PlayOneShot(soundController.attacks[3]);
+        }
         if (attackCounter == 1)
         {
+            if (isGrounded) soundController.GetSoundSource().PlayOneShot(soundController.attacks[0]);
             weapon.GetComponent<WeaponController>().damage = damage + addedDamage;
             weapon.GetComponent<SpriteRenderer>().color = Color.yellow;
 
         }
         else if (attackCounter == 2)
         {
+            if (isGrounded) soundController.GetSoundSource().PlayOneShot(soundController.attacks[1]);
             weapon.GetComponent<WeaponController>().damage += (damage + addedDamage)* 50 / 100;
             weapon.GetComponent<SpriteRenderer>().color = new Color32(250,156,28,255);
         }
         else if (attackCounter == 3)
         {
+            if (isGrounded) soundController.GetSoundSource().PlayOneShot(soundController.attacks[2]);
             weapon.GetComponent<WeaponController>().damage += (damage + addedDamage) * 100 / 100;
             weapon.GetComponent<SpriteRenderer>().color = Color.red;
             attackCounter = 0;
@@ -827,13 +967,24 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        soundController.GetSoundSource().PlayOneShot(soundController.shoot);
         animator.SetTrigger("Shoot");
         canShoot = false;
+        canMove = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
         Invoke("CreateBullet", 0.25f);
     }
     private void CreateBullet()
     {
+        canMove = true;
         float forwardDir = GetFacingDirection();
+        if (forwardDir == -1)
+        {
+            bulletPrefab.GetComponent<SpriteRenderer>().flipX = true;
+        } else
+        {
+            bulletPrefab.GetComponent<SpriteRenderer>().flipX = false;
+        }
         bulletPrefab.GetComponent<BulletController>().direction = forwardDir;
         Instantiate(bulletPrefab, new Vector2(transform.position.x + forwardDir, transform.position.y+0.45f), Quaternion.identity);
         hudControl.ActiveGunPowder();
@@ -851,11 +1002,15 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Reload()
     {
+        animator.SetTrigger("Reload");
         isReloading = true;
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(0.5f);
+        soundController.GetSoundSource().PlayOneShot(soundController.gunPowder);
+        yield return new WaitForSeconds(reloadTime-0.5f);
         canShoot = true;
         isReloading = false;
         hudControl.ActiveGunPowder();
+        soundController.GetSoundSource().PlayOneShot(soundController.gunClick);
     }
     private void CheckAttackCombo()
     {
@@ -897,6 +1052,7 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log(attackDir + " " + parryDir + " -> " + (attackDir != parryDir));
                 if (attackDir != parryDir)
                 {
+                    soundController.GetSoundSource().PlayOneShot(soundController.playerHurt);
                     Hurt(damage);
                 }
                 else
@@ -908,6 +1064,10 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
+        }
+        if (!isTrap)
+        {
+            soundController.GetSoundSource().PlayOneShot(soundController.playerHurt);
         }
         Hurt(damage);
     }
@@ -935,9 +1095,9 @@ public class PlayerController : MonoBehaviour
     }
     private void Hurt(int damage)
     {
-        Debug.Log(internalDamage);
+        //Debug.Log(internalDamage);
         hp -= (int)((damage + internalDamage) / defense);
-        Debug.Log("PlayerHurt: " + hp);
+        //Debug.Log("PlayerHurt: " + hp);
         if (hp <= 0)
         {
             animator.SetTrigger("Death");
@@ -945,12 +1105,14 @@ public class PlayerController : MonoBehaviour
         }
         internalDamage = 0;
         hudControl.UpdatePlayerLife(hp / maxHp);
+        Debug.Log(hp - internalDamage / maxHp);
         hudControl.UpdateInternalDamage(hp / maxHp);
         lastTimeHurt = Time.time;
         StartCoroutine("HitInvulnerable");
     }
     IEnumerator Rest()
     {
+
         hudControl.FadeToBlack();
 
         isVulnerable = false;
@@ -982,6 +1144,8 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Dead()
     {
+        soundController.GetSoundSource().PlayOneShot(soundController.playerDeath);
+        animator.SetBool("isDead", true);
         isVulnerable = false;
         hp = 0;
         internalDamage = 0;
@@ -989,14 +1153,13 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(0, rb.velocity.y);
         //Debug.Log(hp);
         yield return new WaitForSeconds(2f);
+        animator.SetBool("isDead", false);
         PlayerPrefs.SetString("accion", "Respawning");
         SceneManager.LoadScene(PlayerPrefs.GetString("sceneRespawn"));
-
-        StartCoroutine("Rest");
     }
     IEnumerator Parry()
     {
-        lastTimeParry = Time.time;
+        soundController.GetSoundSource().PlayOneShot(soundController.attacks[1]);
         rb.velocity = new Vector2(0,rb.velocity.y);
         canMove = false;
         yield return new WaitForSeconds(0.1f);
@@ -1014,7 +1177,7 @@ public class PlayerController : MonoBehaviour
         parry.SetActive(false);
         isVulnerable = true;
         canMove = true;
-        animator.SetBool("isParrying", false);
+        isParrying = false;
     }
     IEnumerator Dodge()
     {

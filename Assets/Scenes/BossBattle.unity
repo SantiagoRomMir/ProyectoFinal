@@ -395,11 +395,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!223 &744004628 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 658705852207277156, guid: 52b213017f0587a4fb7d50357e2b19ac, type: 3}
-  m_PrefabInstance: {fileID: 1575092188}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &936966648
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +980,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 634708583629166058, guid: 048f2cb50653a6a4d9de6abf3711066c, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1c4ee89a9cf154c4d9cbddfc10ae3f32, type: 3}
     - target: {fileID: 8825168312569592455, guid: 048f2cb50653a6a4d9de6abf3711066c, type: 3}
       propertyPath: m_Name
       value: _SoundManager
@@ -1060,7 +1059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6b9fa8227c6f444aaf1a2b6eb15958e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 744004628}
+  canvas: {fileID: 0}
   maxHp: 10
   hp: 0
   speed: 7

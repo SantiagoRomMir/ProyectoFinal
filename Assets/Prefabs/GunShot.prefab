@@ -103,7 +103,7 @@ MonoBehaviour:
   lifeTime: 5
   damage: 5
   direction: 1
-  speed: 1
+  speed: 5
 --- !u!50 &1417375783209771575
 Rigidbody2D:
   serializedVersion: 4

@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 1563685790647439062}
   - component: {fileID: 4550924922601125432}
   - component: {fileID: 5144145635501172288}
+  - component: {fileID: 1999791305746295993}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Enemy
@@ -137,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20d5d2e9633d4f48a548cb193c1a80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 40
+  health: 50
   internalDamage: 0
   player: {fileID: 0}
   healInternalDamageDelay: 5
@@ -152,6 +153,7 @@ MonoBehaviour:
   drop: []
   posbilidades: 
   move: 1
+  shield: 0
   triggerInternalDamage: 0
   HPBar: {fileID: 6685210761838766510}
   InternalBar: {fileID: 9091280331867410675}
@@ -159,6 +161,7 @@ MonoBehaviour:
   hideHPBarDelay: 3
   money: {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
   moneyMultiplier: 0
+  footStepsAudio: {fileID: 0}
 --- !u!50 &2656649464401055363
 Rigidbody2D:
   serializedVersion: 4
@@ -245,11 +248,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chase: 0
   weapon: {fileID: 5571277652618528766}
-  shield: {fileID: 0}
-  damage: 5
+  damage: 8
   attackCooldown: 3.5
   attackRange: 1.5
-  attackDelay: 1.75
+  attackDelay: 1.5
 --- !u!95 &5144145635501172288
 Animator:
   serializedVersion: 5
@@ -271,6 +273,102 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &1999791305746295993
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241916384989833788}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 50
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5571277652618528766
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +398,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.7, y: 0.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2875, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4929634884605587672}

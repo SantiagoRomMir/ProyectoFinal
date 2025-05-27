@@ -18,6 +18,9 @@ TagManager:
   - Copy
   - Vase
   - EventsManager
+  - Plataforma
+  - MenuMusic
+  - Loro
   layers:
   - Default
   - TransparentFX

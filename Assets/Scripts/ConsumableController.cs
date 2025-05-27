@@ -11,6 +11,7 @@ public class ConsumableController : MonoBehaviour
     private float spawnTime;
     private float speed;
     public RuntimeAnimatorController moneyAnimator;
+    public Sprite spriteDatil, spriteHierbabuena, spritePera;
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -31,9 +32,24 @@ public class ConsumableController : MonoBehaviour
                     break;
             }
         }
+        if (collision.gameObject.CompareTag("Loro"))
+        {
+            switch (consumable)
+            {
+                case Consumable.TypeConsumable.Ron:
+                    collision.transform.parent.GetComponent<PlayerController>().ReplenishRon(numRon);
+                    gameObject.SetActive(false);
+                    break;
+                default:
+                    collision.transform.parent.GetComponent<PlayerController>().AddConsumable(this);
+                    gameObject.SetActive(false);
+                    break;
+            }
+        }
     }
     private void Awake()
     {
+        SetSpriteConsumable(GetSpriteConsumable(consumable));
         if (consumable.Equals(Consumable.TypeConsumable.Money))
         {
             GetComponent<SpriteRenderer>().enabled = false;
@@ -47,6 +63,23 @@ public class ConsumableController : MonoBehaviour
             speed = 10f;
         }
     }
+    private void SetSpriteConsumable(Sprite sprite)
+    {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
+    public Sprite GetSpriteConsumable(Consumable.TypeConsumable c)
+    {
+        switch (c)
+        {
+            case Consumable.TypeConsumable.Datil:
+                return spriteDatil;
+            case Consumable.TypeConsumable.Pera:
+                return spritePera;
+            case Consumable.TypeConsumable.Hierbabuena:
+                return spriteHierbabuena;
+        }
+        return null;
+    }
     private void Start()
     {
         GetComponent<SpriteRenderer>().enabled = true;
@@ -57,7 +90,7 @@ public class ConsumableController : MonoBehaviour
         {
             Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
             transform.position = Vector2.MoveTowards(transform.position, playerPos, Time.deltaTime * (speed - speedDifference + 1 * Vector2.Distance(transform.position, playerPos) * 2f));
-            if (Time.time > spawnTime + 5f)
+            if (Time.time > spawnTime + 1.5f)
             {
                 speedDifference = 0;
                 speed *= 1.5f;

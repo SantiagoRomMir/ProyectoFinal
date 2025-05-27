@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class TileTrap : MonoBehaviour
 {
+    public enum TypeTrap{
+        SPIKES,
+        WATER,
+        NONE
+    }
     private PlayerController player;
     public int damage;
+    public TypeTrap typeTrap;
     private void OnTriggerEnter2D(Collider2D collision){
 	// comentario desde maquina virtual 
        if(collision!=null && collision.gameObject.CompareTag("Player")){
-            Debug.Log("Trampa");
+            if (typeTrap.Equals(TypeTrap.WATER))
+            {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().waterSplash);
+            } else if (typeTrap.Equals(TypeTrap.SPIKES))
+            {
+                GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().playerHurt);
+            }
+            //Debug.Log("Trampa");
             collision.gameObject.GetComponent<PlayerController>().HurtPlayer(damage,transform.position, true, false);
 
             // Posicion Segura alejada de la trampa -> Si el jugador cae de la izquierda lo mover� -1 y viceversa

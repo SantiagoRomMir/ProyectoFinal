@@ -10,8 +10,8 @@ public class Consumable
     {
         Datil,
         Ron,
-        LifeRegen,
-        DefenseBuff,
+        Pera,
+        Hierbabuena,
         Money
     }
     public TypeConsumable consumable;
@@ -19,15 +19,16 @@ public class Consumable
     private float effectDuration;
     public int remainingAmount;
     GameObject player;
+    public Sprite spriteDatil, spritePera, spriteHierbabuena;
     public Consumable(ConsumableController c)
     {
-        remainingAmount = 1;
+        remainingAmount = 0;
         player = GameObject.FindGameObjectWithTag("Player");
         consumable = c.consumable;
     }
     public Consumable(Consumable c)
     {
-        remainingAmount = 1;
+        remainingAmount = 0;
         player = GameObject.FindGameObjectWithTag("Player");
         consumable = c.consumable;
     }
@@ -39,7 +40,11 @@ public class Consumable
     }
     public void OnUseAction()
     {
-        Debug.Log("Used: " + consumable);
+        if (remainingAmount<=0)
+        {
+            return;
+        }
+        //Debug.Log("Used: " + consumable);
 
         switch (consumable)
         {
@@ -47,22 +52,17 @@ public class Consumable
                 effectDuration = 10f;
                 player.GetComponent<PlayerController>().StartDamageBuff(effectDuration);
                 break;
-            case TypeConsumable.LifeRegen:
+            case TypeConsumable.Pera:
                 effectDuration = 5f;
                 player.GetComponent<PlayerController>().StartHpRegen(effectDuration);
                 break;
-            case TypeConsumable.DefenseBuff:
+            case TypeConsumable.Hierbabuena:
                 effectDuration = 7f;
                 player.GetComponent<PlayerController>().StartDefenseBuff(effectDuration);
                 break;
         }
 
         remainingAmount--;
-
-        if (remainingAmount <= 0)
-        {
-            player.GetComponent<PlayerController>().RemoveConsumable(this);
-        }
     }
     public static TypeConsumable GetConsumableTypeByName(string name)
     {

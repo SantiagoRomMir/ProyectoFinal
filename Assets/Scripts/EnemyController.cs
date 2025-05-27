@@ -45,6 +45,8 @@ public class EnemyController : MonoBehaviour
     [Header("MoneyDrop")]
     public GameObject money;
     public float moneyMultiplier;
+    [Header("FootSteps")]
+    public AudioSource footStepsAudio;
     private void Awake()
     {
         money.GetComponent<ConsumableController>().consumable = Consumable.TypeConsumable.Money;
@@ -75,6 +77,10 @@ public class EnemyController : MonoBehaviour
         }
         phisics = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
+
+        footStepsAudio = GetComponent<AudioSource>();
+        footStepsAudio.volume = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().volume;
+        StartCoroutine("FootStepsSound");
     }
     private void Update()
     {
@@ -179,6 +185,7 @@ public class EnemyController : MonoBehaviour
     }
     public void HurtEnemy(int damage)
     {
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().enemyHurt);
         if (BGBar.GetComponent<Image>().color.a == 0)
         {
             BGBar.GetComponent<Animator>().SetBool("FadeOut", false);
@@ -186,14 +193,34 @@ public class EnemyController : MonoBehaviour
         }
         StopCoroutine("HealInternalDamage");
         health -= damage;
-        Debug.Log("EnemyHurt: " + damage);
+        //Debug.Log("EnemyHurt: " + damage);
         lastTimeHurt = Time.time;
         isHealingInternalDamage = false;
 
         if (health <= 0)
         {
+            PlayDeathSound();
             GetComponent<Animator>().SetTrigger("Death");
             StartCoroutine("Dead");
+        }
+    }
+    private void PlayDeathSound()
+    {
+        SoundController soundController = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>();
+        AudioClip sound = soundController.enemyDeath[Random.Range(0,soundController.enemyDeath.Length-1)];
+        soundController.GetSoundSource().PlayOneShot(sound);
+    }
+    IEnumerator FootStepsSound()
+    {
+        while (true)
+        {
+            if (Mathf.Abs(phisics.velocity.x) > 0f)
+            {
+                SoundController soundController = GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>();
+                AudioClip sound = soundController.footSteps[UnityEngine.Random.Range(0, soundController.footSteps.Length - 1)];
+                footStepsAudio.PlayOneShot(sound);
+            }
+            yield return new WaitForSeconds(0.25f);
         }
     }
 
@@ -260,6 +287,14 @@ public class EnemyController : MonoBehaviour
     }
     IEnumerator Dead()
     {
+        if (GetComponent<MeleeController>()!=null)
+        {
+            GetComponent<MeleeController>().StopAllCoroutines();
+        }
+        if (GetComponent<ArcherController>() != null)
+        {
+            GetComponent<ArcherController>().StopAllCoroutines();
+        }
         move  = false;
         health = 0;
         internalDamage = 0;

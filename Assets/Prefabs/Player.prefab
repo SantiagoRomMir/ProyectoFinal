@@ -328,6 +328,7 @@ GameObject:
   - component: {fileID: 7055466838874575744}
   - component: {fileID: 6190909645017711452}
   - component: {fileID: 766705077464122782}
+  - component: {fileID: 4392214691855133994}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -468,7 +469,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.14477539, y: -0.05940056}
+  m_Offset: {x: 0.14477539, y: -0.07196188}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -479,7 +480,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6266632, y: 1.4441967}
+  m_Size: {x: 0.6266632, y: 1.549264}
   m_EdgeRadius: 0
 --- !u!114 &2256908072802819124
 MonoBehaviour:
@@ -508,15 +509,18 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 0
-  jumpforce: 8
-  jumpTime: 0.25
+  jumpforce: 10
+  jumpTime: 0.35
   maxHp: 100
   maxRon: 5
+  isGrounded: 0
+  isFalling: 0
   usingLoro: 0
   Slowed: 1
   invulnerableTime: 1.5
   hookSpeed: 1.5
   isResting: 0
+  isFastFall: 0
   weapon: {fileID: 7360584914260071356}
   damage: 4
   attackNumberChain: 3
@@ -526,12 +530,14 @@ MonoBehaviour:
   attackCounter: 0
   parry: {fileID: 790013648112493509}
   parryCooldown: 1
-  parryDuration: 20
-  perfectParryTimeWindow: 20
+  parryDuration: 3
+  perfectParryTimeWindow: 0.5
+  parryCancelDelay: 0.2
   internalDamage: 0
-  healInternalDamageDelay: 5
+  healInternalDamageDelay: 12
+  isParrying: 0
   bulletPrefab: {fileID: 9052627422862849176, guid: 5e22268d933dd8c41a50c1d5b4906158, type: 3}
-  reloadTime: 3
+  reloadTime: 1
   canShoot: 0
   isReloading: 0
   dodgeDuration: 0.2
@@ -551,10 +557,13 @@ MonoBehaviour:
   consumableCooldown: 1
   addedDamage: 0
   money: 0
+  isRegeneratingHealth: 0
   consumables: []
   clearPersistenceData: 0
   animator: {fileID: 0}
   movementDirAbs: 0
+  killPlayer: 0
+  footStepsAudio: {fileID: 0}
 --- !u!61 &2568527220261335284
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -587,7 +596,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.14477539, y: -0.43}
+  m_Offset: {x: 0.14477539, y: -0.46422654}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -598,7 +607,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6266632, y: 0.7}
+  m_Size: {x: 0.6266632, y: 0.768453}
   m_EdgeRadius: 0
 --- !u!120 &7055466838874575744
 LineRenderer:
@@ -825,38 +834,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e7c1884f-98ce-4707-ac95-7e42b1db9700
     m_ActionName: PlayerInputs/Heal[/Keyboard/leftCtrl]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2256908072802819124}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SelectNextConsumable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 2a9275bc-1304-4f1e-b1b5-f6f3a8a8bd0e
-    m_ActionName: PlayerInputs/NextConsumable[/Keyboard/y]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2256908072802819124}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SelectPreviousConsumable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: b89dee2e-217b-456c-8fa3-9fb6da245aac
-    m_ActionName: PlayerInputs/PreviousConsumable[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerInputs
@@ -883,6 +860,102 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &4392214691855133994
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035798770915311793}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4820029413588193849
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +981,7 @@ Transform:
   m_GameObject: {fileID: 4820029413588193849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.86, z: 0}
+  m_LocalPosition: {x: 0, y: -0.812, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -958,9 +1031,10 @@ GameObject:
   - component: {fileID: 3302513127545228298}
   - component: {fileID: 7143392708132309139}
   - component: {fileID: 1231774778807463703}
+  - component: {fileID: 1758470687145730068}
   m_Layer: 7
   m_Name: Loro
-  m_TagString: Untagged
+  m_TagString: Loro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1074,7 +1148,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1231774778807463703
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1120,6 +1194,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &1758470687145730068
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7162860091656091652}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 09028ee6bace0de44a95e2d5db78f5f8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7360584914260071356
 GameObject:
   m_ObjectHideFlags: 0
