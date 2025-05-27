@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PuertaFinal : MonoBehaviour
 {
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -13,9 +14,4 @@ public class PuertaFinal : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
