@@ -135,3 +135,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skill: 0
   hideSprite: 0
+  gunSprite: {fileID: 497432767, guid: 9d13bf70e96026747844046e831a9c61, type: 3}
+  hookSprite: {fileID: 623629250, guid: d29fde446736d17438b54e8ad16bd34e, type: 3}
+  parrotSprite: {fileID: -551319420, guid: 08ffa994a5a23f14f8dcfbb32d6d5b8e, type: 3}

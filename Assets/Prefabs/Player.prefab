@@ -497,6 +497,7 @@ MonoBehaviour:
   aim: {fileID: 0}
   loro: {fileID: 7162860091656091652}
   canvas: {fileID: 3658891080791090058}
+  hudControl: {fileID: 0}
   ganchos: []
   speed: 7
   feetPos: {fileID: 5335835818963992726}
@@ -1282,7 +1283,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.13917488, y: 0.0078114867}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1293,7 +1294,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.6902696, y: 1.6717848}
   m_EdgeRadius: 0
 --- !u!114 &4328418756650277909
 MonoBehaviour:

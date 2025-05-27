@@ -59,7 +59,7 @@ public class Persistence
         bool canShoot = Boolean.Parse(PlayerPrefs.GetString("canShoot"));
         int money = PlayerPrefs.GetInt("money");
 
-        Debug.Log("PersistenceLoaded");
+        //Debug.Log("PersistenceLoaded");
 
         return new Persistence(hp, ron, internalDamage, selectedConsumable, addedDamage, defense, hasHook, hasParrot, hasGun, canShoot, money);
     }
@@ -77,7 +77,7 @@ public class Persistence
         PlayerPrefs.SetString("canShoot", canShoot.ToString());
         PlayerPrefs.SetInt("money", money);
 
-        Debug.Log("PersistenceSaved");
+        //Debug.Log("PersistenceSaved");
     }
 
     public static void SavePersistenceEnemiesDead(string currentSceneName, List<int> indexes)
@@ -147,7 +147,7 @@ public class Persistence
         {
             items = items.Substring(0, items.Length - 1);
         }
-        Debug.Log(items);
+        //Debug.Log(items);
         PlayerPrefs.SetString("inventory",items);
     }
     public static List<Consumable> LoadPersistenceInventory()
