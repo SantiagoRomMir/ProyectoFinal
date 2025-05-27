@@ -207,7 +207,10 @@ public class PlayerController : MonoBehaviour
         hasParrot = false;
 
         LoadPersistenceData();
-
+        hudControl.UpdatePlayerLife(hp/maxHp);
+        hudControl.UpdateInternalDamage(hp / maxHp);
+        hudControl.UpdateMoney(money);
+        UpdateInventory();
         StartCoroutine("AttackUpwards");
         StartCoroutine("StopParry");
         StartCoroutine("CheckFastFall");

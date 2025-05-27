@@ -20,7 +20,7 @@ public class Door : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-
+            
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 PlayerPrefs.SetString("accion", "puerta");
