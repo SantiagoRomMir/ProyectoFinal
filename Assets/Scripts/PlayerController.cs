@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("clearPersistenceData")==1)
         {
+            PlayerPrefs.SetString("posicionViaje", null);
             PlayerPrefs.SetInt("clearPersistenceData", 0);
             clearPersistenceData = true;
         }
