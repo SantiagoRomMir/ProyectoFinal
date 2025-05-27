@@ -427,6 +427,7 @@ public class PlayerController : MonoBehaviour
             hasParrot = persistence.hasParrot;
             hasGun = persistence.hasGun;
             canShoot = persistence.canShoot;
+            money = persistence.money;
         } else
         {
             SavePersistenceData();
