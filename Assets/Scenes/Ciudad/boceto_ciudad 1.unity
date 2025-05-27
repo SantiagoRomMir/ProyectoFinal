@@ -3620,12 +3620,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedIndex: 13
+  selectedIndex: 12
   sceneList:
   - MainMenu
-  - Inicio
-  - Edificio
-  - boceto_playa
+  - Playa
   - boceto_ciudad 1
   - boceto_casa1
   - boceto_casa2
@@ -3635,7 +3633,8 @@ MonoBehaviour:
   - boceto_casa6
   - Credits
   - Controls
-  - Muralla
+  - Muralla-backup
+  - mapa_subterraneo
 --- !u!1 &880243211
 GameObject:
   m_ObjectHideFlags: 0
@@ -3854,7 +3853,7 @@ Transform:
   m_GameObject: {fileID: 886927929}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.045946, y: 13.93441, z: -9.775106}
+  m_LocalPosition: {x: -9.2377205, y: 13.93441, z: -9.775106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
