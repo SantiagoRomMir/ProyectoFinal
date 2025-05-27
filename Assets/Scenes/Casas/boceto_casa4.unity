@@ -497,8 +497,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 313913386}
   m_SourcePrefab: {fileID: 100100000, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+--- !u!1 &313913385 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+  m_PrefabInstance: {fileID: 313913384}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &313913386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313913385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Playa
+  - boceto_ciudad 1
+  - boceto_casa1
+  - boceto_casa2
+  - boceto_casa3
+  - boceto_casa4
+  - boceto_casa5
+  - boceto_casa6
+  - Credits
+  - Controls
+  - Muralla
+  - mapa_subterraneo
 --- !u!1 &375105357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,7 +1668,7 @@ Transform:
   m_GameObject: {fileID: 886927929}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.428188, y: 12.4234705, z: -9.775106}
+  m_LocalPosition: {x: -10.220591, y: 12.4234705, z: -9.775106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1718,6 +1753,67 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1001 &1047064982
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.09574
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.1011415
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579442484896522645, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7324599517846424133, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
+      propertyPath: m_Name
+      value: FondoCasas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ac7c04fb7d4079e49966db39412a5f3b, type: 3}
 --- !u!1 &1067926174
 GameObject:
   m_ObjectHideFlags: 0
@@ -4146,7 +4242,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4b5fa77c84d507c42a10a919d99b8f67, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4671,8 +4767,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1891234373}
   m_SourcePrefab: {fileID: 100100000, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+--- !u!1 &1891234372 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+  m_PrefabInstance: {fileID: 1891234371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1891234373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891234372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Playa
+  - boceto_ciudad 1
+  - boceto_casa1
+  - boceto_casa2
+  - boceto_casa3
+  - boceto_casa4
+  - boceto_casa5
+  - boceto_casa6
+  - Credits
+  - Controls
+  - Muralla
+  - mapa_subterraneo
 --- !u!1 &1891853405
 GameObject:
   m_ObjectHideFlags: 0
@@ -4997,3 +5128,4 @@ SceneRoots:
   - {fileID: 1891234371}
   - {fileID: 313913384}
   - {fileID: 693052881}
+  - {fileID: 1047064982}

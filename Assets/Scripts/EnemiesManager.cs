@@ -32,7 +32,7 @@ public class EnemiesManager : MonoBehaviour
         enemiesDead = new List<int>();
         for (int i=0; i<transform.childCount; i++)
         {
-            Debug.Log(transform.childCount+" "+ transform.GetChild(i).GetComponent<EnemyRespawner>());
+            //Debug.Log(transform.childCount+" "+ transform.GetChild(i).GetComponent<EnemyRespawner>());
             if (transform.GetChild(i).GetComponent<EnemyRespawner>().GetRealEnemy()==null)
             {
                 enemiesDead.Add(i);

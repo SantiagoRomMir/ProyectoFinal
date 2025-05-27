@@ -443,6 +443,7 @@ MonoBehaviour:
   posbilidades: 
   move: 1
   shield: 0
+  isStatic: 1
   triggerInternalDamage: 0
   HPBar: {fileID: 5440046276070376078}
   InternalBar: {fileID: 7607417375631866835}
