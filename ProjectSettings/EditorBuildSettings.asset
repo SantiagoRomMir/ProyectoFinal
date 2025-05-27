@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Muralla/Muralla.unity
     guid: 0809aa42a3ec1664595e6e04ee6f32d8
+  - enabled: 1
+    path: Assets/Scenes/Subterraneo/mapa_subterraneo.unity
+    guid: 5e6360f58f3dc4344a06a5eb6d106d53
   m_configObjects: {}

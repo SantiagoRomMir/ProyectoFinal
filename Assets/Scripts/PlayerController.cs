@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private LineRenderer line;
     public Canvas canvas;
-    private HudControl hudControl;
+    public HudControl hudControl;
     public List<Transform> ganchos;
     public float speed;
     private float direction;
@@ -220,6 +220,11 @@ public class PlayerController : MonoBehaviour
         AddConsumable(new Consumable(0, Consumable.TypeConsumable.Hierbabuena));
 
         UpdateInventory();
+
+        if (hasGun)
+        {
+            hudControl.ActiveGunPowder();
+        }
     }
 
     void FixedUpdate()
@@ -313,11 +318,11 @@ public class PlayerController : MonoBehaviour
             HurtPlayer(10000, transform.position, true, false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             SelectNextConsumable();
         }
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             SelectPreviousConsumable();
         }
@@ -708,10 +713,19 @@ public class PlayerController : MonoBehaviour
         }
         soundController.GetSoundSource().PlayOneShot(soundController.heal);
 
-        HealPlayer(50);
-        
+        StartCoroutine("HealAnim");
+    }
+    IEnumerator HealAnim()
+    {
+        canMove = false;
+        rb.velocity = new Vector2 (0, rb.velocity.y);
+        animator.SetTrigger("Heal");
         ron--;
-        hudControl.UpdateRon(ron/maxRon);
+        hudControl.UpdateRon(ron / maxRon);
+        yield return new WaitForSeconds(1.5f);
+        HealPlayer(50);
+        yield return new WaitForSeconds(0.5f);
+        canMove = true;
     }
     private void HealPlayer(int healAmount)
     {
@@ -719,7 +733,6 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        animator.SetTrigger("Heal");
         hp += healAmount;
         if (hp > maxHp)
         {
@@ -949,9 +962,9 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackAnim()
     {
-        if (rb.velocity.x <= 1f)
+        if (rb.velocity.x <= 1f && isGrounded && !isLookingUp)
         {
-            rb.velocity += new Vector2(2f * GetFacingDirection(), 0);
+            rb.velocity += new Vector2(1f * GetFacingDirection(), 0);
         }
         yield return new WaitForSeconds(0.1f);
         weapon.GetComponent<Collider2D>().enabled = true;

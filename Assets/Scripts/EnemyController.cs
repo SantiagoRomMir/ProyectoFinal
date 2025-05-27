@@ -35,6 +35,8 @@ public class EnemyController : MonoBehaviour
     public bool move;
     public bool shield;
 
+    public bool isStatic;
+
     [Header("Simulation")]
     public bool triggerInternalDamage;
     [Header("HP Bars")]
@@ -96,7 +98,7 @@ public class EnemyController : MonoBehaviour
             ActivateInternalDamage();
         }
 
-        else if (move)
+        else if (move && !isStatic)
         {
             Movement();
             FlipEnemy();

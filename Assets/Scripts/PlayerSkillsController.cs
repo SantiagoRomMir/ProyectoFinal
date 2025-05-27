@@ -27,6 +27,7 @@ public class PlayerSkillsController : MonoBehaviour
             {
                 case PlayerSkills.Gun:
                     collision.GetComponent<PlayerController>().hasGun = true;
+                    collision.GetComponent<PlayerController>().hudControl.ActiveGunPowder();
                     PlayerPrefs.SetString("hasGun", "true");
                     break;
                 case PlayerSkills.Hook:

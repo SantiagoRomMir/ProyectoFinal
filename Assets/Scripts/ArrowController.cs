@@ -10,25 +10,28 @@ public class ArrowController : MonoBehaviour
     public float lifeTime;
     public int damage;
     public GameObject finalPosTest;
-    private Vector2 finalPos;
-    private Vector2 direction;
+    public Vector2 finalPos;
+    public Vector2 direction;
     private float hitTargetTime;
     private bool targetHit;
     private Vector2 targetPos;
     public string hitTag;
     public bool canBeReflected;
+    public bool isFromTrap;
     private void Awake()
     {
         hitTag = "Player";
-
-        finalPos = transform.parent.GetComponent<ArcherController>().targetPos + new Vector2(0, 0);
+    }
+    private void Start()
+    {
+        if (!isFromTrap)
+        {
+            finalPos = transform.parent.GetComponent<ArcherController>().targetPos + new Vector2(0, 0);
+        }
         targetPos = finalPos;
         direction = finalPos - (Vector2)transform.position;
         hitTargetTime = Time.time;
         targetHit = false;
-    }
-    private void Start()
-    {
         float rot_z = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, -rot_z);
     }
@@ -46,13 +49,16 @@ public class ArrowController : MonoBehaviour
         }
         if (pos.Equals(transform.position) || Time.time >= hitTargetTime + lifeTime && targetHit)
         {
+            //Debug.Log(pos.Equals(transform.position));
+            //Debug.Log(Time.time >= hitTargetTime + lifeTime && targetHit);
+            //Debug.Log("ArrowFinalPos");
             Destroy(gameObject);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
-        Debug.Log(collision.gameObject.tag);
+        //Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.tag);
         if (collision != null && collision.CompareTag(hitTag))
         {
             switch (hitTag)
@@ -69,7 +75,7 @@ public class ArrowController : MonoBehaviour
         }
         if (collision != null && collision.gameObject.layer == 6)
         {
-            Debug.Log("GroundHit: "+collision.gameObject.name);
+            //Debug.Log("GroundHit: "+collision.gameObject.name);
             Destroy(gameObject);
         }
     }
