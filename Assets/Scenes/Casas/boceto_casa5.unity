@@ -990,8 +990,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 519960866}
   m_SourcePrefab: {fileID: 100100000, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+--- !u!1 &519960865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+  m_PrefabInstance: {fileID: 519960864}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &519960866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519960865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Playa
+  - boceto_ciudad 1
+  - boceto_casa1
+  - boceto_casa2
+  - boceto_casa3
+  - boceto_casa4
+  - boceto_casa5
+  - boceto_casa6
+  - Credits
+  - Controls
+  - Muralla
+  - mapa_subterraneo
 --- !u!1 &561613458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,8 +1117,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 585392836}
   m_SourcePrefab: {fileID: 100100000, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+--- !u!1 &585392835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+  m_PrefabInstance: {fileID: 585392834}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &585392836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585392835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Playa
+  - boceto_ciudad 1
+  - boceto_casa1
+  - boceto_casa2
+  - boceto_casa3
+  - boceto_casa4
+  - boceto_casa5
+  - boceto_casa6
+  - Credits
+  - Controls
+  - Muralla
+  - mapa_subterraneo
 --- !u!1001 &589628820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6160,8 +6230,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1762791710}
   m_SourcePrefab: {fileID: 100100000, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+--- !u!1 &1762791709 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+  m_PrefabInstance: {fileID: 1762791708}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1762791710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762791709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Playa
+  - boceto_ciudad 1
+  - boceto_casa1
+  - boceto_casa2
+  - boceto_casa3
+  - boceto_casa4
+  - boceto_casa5
+  - boceto_casa6
+  - Credits
+  - Controls
+  - Muralla
+  - mapa_subterraneo
 --- !u!4 &1814385676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6413597120926756506, guid: e13d113d7af3a0d40a0c1f1e7b1808c6, type: 3}

@@ -4996,8 +4996,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2136167684}
   m_SourcePrefab: {fileID: 100100000, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+--- !u!1 &2136167683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7684431357953255456, guid: 81eccd91547368f4d83e96083cdd8d18, type: 3}
+  m_PrefabInstance: {fileID: 2136167682}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2136167684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136167683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc92ad3fb4a8d84394bcdd63b6db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedIndex: 2
+  sceneList:
+  - MainMenu
+  - Playa
+  - boceto_ciudad 1
+  - boceto_casa1
+  - boceto_casa2
+  - boceto_casa3
+  - boceto_casa4
+  - boceto_casa5
+  - boceto_casa6
+  - Credits
+  - Controls
+  - Muralla
+  - mapa_subterraneo
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
