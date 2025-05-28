@@ -8,15 +8,14 @@ public class RangeAggro : MonoBehaviour
     {
         if (collision!=null && collision.CompareTag("Player"))
         {
-            transform.parent.GetComponent<ArcherController>().targetPos = collision.transform.position;
-            transform.parent.GetComponent<ArcherController>().aggro = true;
-            transform.parent.GetComponent<EnemyController>().stop = 0;
+            StartCoroutine(Aggro(collision.gameObject));
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision != null && collision.CompareTag("Player"))
         {
+            StopCoroutine("Aggro");
             transform.parent.GetComponent<ArcherController>().aggro = false;
             transform.parent.GetComponent<ArcherController>().StopCoroutine("ShootArrow");
             transform.parent.GetComponent<ArcherController>().canShoot = true;
@@ -35,5 +34,12 @@ public class RangeAggro : MonoBehaviour
                 transform.parent.GetComponent<ArcherController>().aggro = true;
             }
         }
+    }
+    IEnumerator Aggro(GameObject g)
+    {
+        yield return new WaitForSeconds(1f);
+        transform.parent.GetComponent<ArcherController>().targetPos = g.transform.position;
+        transform.parent.GetComponent<ArcherController>().aggro = true;
+        transform.parent.GetComponent<EnemyController>().stop = 0;
     }
 }

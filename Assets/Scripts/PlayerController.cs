@@ -206,11 +206,16 @@ public class PlayerController : MonoBehaviour
         hasGun = false;
         hasParrot = false;
 
+        consumables.Add(new Consumable(0, Consumable.TypeConsumable.Datil));
+        consumables.Add(new Consumable(0, Consumable.TypeConsumable.Pera));
+        consumables.Add(new Consumable(0, Consumable.TypeConsumable.Hierbabuena));
+
         LoadPersistenceData();
+
         hudControl.UpdatePlayerLife(hp/maxHp);
         hudControl.UpdateInternalDamage(hp / maxHp);
         hudControl.UpdateMoney(money);
-        UpdateInventory();
+
         StartCoroutine("AttackUpwards");
         StartCoroutine("StopParry");
         StartCoroutine("CheckFastFall");
@@ -218,10 +223,6 @@ public class PlayerController : MonoBehaviour
         footStepsAudio = GetComponent<AudioSource>();
         footStepsAudio.volume = soundController.GetSoundSource().volume;
         StartCoroutine("FootStepsSound");
-
-        AddConsumable(new Consumable(0,Consumable.TypeConsumable.Datil));
-        AddConsumable(new Consumable(0, Consumable.TypeConsumable.Pera));
-        AddConsumable(new Consumable(0, Consumable.TypeConsumable.Hierbabuena));
 
         UpdateInventory();
 
@@ -432,7 +433,6 @@ public class PlayerController : MonoBehaviour
         {
             SavePersistenceData();
         }
-
         AddConsumableList(Persistence.LoadPersistenceInventory());
     }
     private void AddConsumableList(List<Consumable> consumableList)
@@ -467,7 +467,7 @@ public class PlayerController : MonoBehaviour
     {
         foreach (Consumable c in consumables)
         {
-            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower()) && c.remainingAmount!=0) // Stack Repeated Consumables
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower())) // Stack Repeated Consumables
             {
                 c.remainingAmount++;
                 UpdateInventory();
@@ -483,7 +483,7 @@ public class PlayerController : MonoBehaviour
     {
         foreach (Consumable c in consumables)
         {
-            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower()) && c.remainingAmount != 0) // Stack Repeated Consumables
+            if (c.consumable.ToString().ToLower().Equals(consumable.consumable.ToString().ToLower()) && consumable.remainingAmount!=0) // Stack Repeated Consumables
             {
                 c.remainingAmount++;
                 UpdateInventory();
