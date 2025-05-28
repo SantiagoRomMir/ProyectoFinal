@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour
     public AudioClip musicClip;
     private void Start()
     {
-        if (GameObject.FindGameObjectWithTag("MenuMusic")==null && SceneManager.GetActiveScene().name.Equals("MainMenu"))
+        if (GameObject.FindGameObjectWithTag("MenuMusic")==null && (SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("Credits")))
         {
             GameObject music = Instantiate(menuMusic);
             music.tag = "MenuMusic";
