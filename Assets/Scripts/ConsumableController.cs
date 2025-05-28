@@ -47,22 +47,6 @@ public class ConsumableController : MonoBehaviour
             }
         }
     }
-    private void Awake()
-    {
-        SetSpriteConsumable(GetSpriteConsumable(consumable));
-        if (consumable.Equals(Consumable.TypeConsumable.Money))
-        {
-            GetComponent<SpriteRenderer>().enabled = false;
-            gameObject.AddComponent<Animator>().runtimeAnimatorController = moneyAnimator;
-            GetComponent<Animator>().SetInteger("MoneyAmount", money);
-            GetComponent<Animator>().SetTrigger("ShowMoney");
-            transform.localScale = new Vector2(transform.localScale.x - (5 - money) * 0.05f, transform.localScale.y - (5 - money) * 0.05f);
-            speedDifference = (float)money/5 * 2f;
-            //Debug.Log(speedDifference);
-            spawnTime = Time.time;
-            speed = 10f;
-        }
-    }
     private void SetSpriteConsumable(Sprite sprite)
     {
         GetComponent<SpriteRenderer>().sprite = sprite;
@@ -82,6 +66,19 @@ public class ConsumableController : MonoBehaviour
     }
     private void Start()
     {
+        SetSpriteConsumable(GetSpriteConsumable(consumable));
+        if (consumable.Equals(Consumable.TypeConsumable.Money))
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            gameObject.AddComponent<Animator>().runtimeAnimatorController = moneyAnimator;
+            GetComponent<Animator>().SetInteger("MoneyAmount", money);
+            GetComponent<Animator>().SetTrigger("ShowMoney");
+            transform.localScale = new Vector2(transform.localScale.x - (5 - money) * 0.05f, transform.localScale.y - (5 - money) * 0.05f);
+            speedDifference = (float)money / 5 * 2f;
+            //Debug.Log(speedDifference);
+            spawnTime = Time.time;
+            speed = 10f;
+        }
         GetComponent<SpriteRenderer>().enabled = true;
     }
     private void FixedUpdate()

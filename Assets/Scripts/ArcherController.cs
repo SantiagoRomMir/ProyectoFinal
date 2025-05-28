@@ -31,6 +31,10 @@ public class ArcherController : MonoBehaviour
             StartCoroutine("ShootArrow");
             aggro = false;
         }
+        if (GetComponent<EnemyController>().health <= 0)
+        {
+            StopAllCoroutines();
+        }
     }
     IEnumerator ShootArrow()
     {

@@ -29,9 +29,6 @@ public class EnemyController : MonoBehaviour
     private SpriteRenderer sprite;
     public Rigidbody2D phisics;
     private Animator anim;
-    public GameObject[] drop;
-    public int[] posbilidades;
-    private int numeroDrop;
     public bool move;
     public bool shield;
 
@@ -166,13 +163,24 @@ public class EnemyController : MonoBehaviour
     }
     public void RandomDrop()
     {
-        numeroDrop = Random.Range(0, 100);
-        for (int i = 0; i < drop.Length; i++)
+        int probability = Random.Range(0, 4);
+        if (probability==2)
         {
-            if (posbilidades[i] < numeroDrop)
+            int randomDrop = Random.Range(0, 3);
+            Consumable.TypeConsumable typeConsumable;
+            switch (randomDrop)
             {
-                Instantiate(drop[i], transform.position, Quaternion.identity);
+                case 0:
+                    typeConsumable = Consumable.TypeConsumable.Datil;
+                    break; 
+                case 1:
+                    typeConsumable = Consumable.TypeConsumable.Pera;
+                    break;
+                default:
+                    typeConsumable = Consumable.TypeConsumable.Hierbabuena;
+                    break;
             }
+            Instantiate(money, transform.position, Quaternion.identity).GetComponent<ConsumableController>().consumable = typeConsumable;
         }
     }
     private void DropMoney()
@@ -187,6 +195,10 @@ public class EnemyController : MonoBehaviour
     }
     public void HurtEnemy(int damage)
     {
+        if (health<=0)
+        {
+            return;
+        }
         GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().enemyHurt);
         if (BGBar.GetComponent<Image>().color.a == 0)
         {
@@ -203,6 +215,7 @@ public class EnemyController : MonoBehaviour
         {
             PlayDeathSound();
             GetComponent<Animator>().SetTrigger("Death");
+            StopAllCoroutines();
             StartCoroutine("Dead");
         }
     }
@@ -302,6 +315,7 @@ public class EnemyController : MonoBehaviour
         internalDamage = 0;
         phisics.velocity = new Vector2(0, phisics.velocity.y);
         yield return new WaitForSeconds(1.25f);
+        RandomDrop();
         DropMoney();
         Destroy(transform.parent.gameObject);
         Destroy(gameObject);
