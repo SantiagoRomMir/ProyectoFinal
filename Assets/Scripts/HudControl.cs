@@ -25,6 +25,7 @@ public class HudControl : MonoBehaviour
     public Sprite spritePera;
     public GameObject moneyAmount;
     public GameObject activeBuffs;
+    public GameObject buffEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +66,7 @@ public class HudControl : MonoBehaviour
         {
             rightItem.color = new Color32(255, 255, 255, 255);
         }
+        buffEffect.GetComponent<TMP_Text>().text = GetEffectConsumable(selected.consumable);
     }
     public void UpdateMoney(int money)
     {
@@ -80,6 +82,19 @@ public class HudControl : MonoBehaviour
                 return spritePera;
             case Consumable.TypeConsumable.Hierbabuena:
                 return spriteHierbabuena;
+        }
+        return null;
+    }
+    public string GetEffectConsumable(Consumable.TypeConsumable c)
+    {
+        switch (c)
+        {
+            case Consumable.TypeConsumable.Datil:
+                return "Aumento Daño";
+            case Consumable.TypeConsumable.Pera:
+                return "Regeneración Vida";
+            case Consumable.TypeConsumable.Hierbabuena:
+                return "Aumento Defensa";
         }
         return null;
     }

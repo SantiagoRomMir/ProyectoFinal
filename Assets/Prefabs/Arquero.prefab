@@ -439,8 +439,10 @@ MonoBehaviour:
   direction: 0
   movetoEnd: 1
   phisics: {fileID: 0}
-  drop: []
-  posbilidades: 
+  drop:
+  - {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
+  - {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
+  - {fileID: 5390843823504111884, guid: 8d354c119a1f02d4fa2b04f36c2500e9, type: 3}
   move: 1
   shield: 0
   isStatic: 1

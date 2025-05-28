@@ -323,11 +323,11 @@ public class PlayerController : MonoBehaviour
             HurtPlayer(10000, transform.position, true, false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             SelectNextConsumable();
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             SelectPreviousConsumable();
         }
@@ -969,7 +969,7 @@ public class PlayerController : MonoBehaviour
     {
         if (rb.velocity.x <= 1f && isGrounded && !isLookingUp)
         {
-            rb.velocity += new Vector2(1f * GetFacingDirection(), 0);
+            rb.velocity += new Vector2(0.5f * GetFacingDirection(), 0);
         }
         yield return new WaitForSeconds(0.1f);
         weapon.GetComponent<Collider2D>().enabled = true;

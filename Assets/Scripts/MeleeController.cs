@@ -31,6 +31,10 @@ public class MeleeController : MonoBehaviour
             Chase();
         }
         FlipWeapon();
+        if (GetComponent<EnemyController>().health<=0)
+        {
+            StopAllCoroutines();
+        }
     }
     private void FlipWeapon()
     {
@@ -74,8 +78,6 @@ public class MeleeController : MonoBehaviour
             GetComponent<EnemyController>().direction = -1;
         }
         GetComponent<EnemyController>().phisics.velocity = new Vector2(GetComponent<EnemyController>().direction * GetComponent<EnemyController>().speedEenemy /* PlayerPrefs.GetFloat("dificultadV")*/ * GetComponent<EnemyController>().stop, GetComponent<EnemyController>().phisics.velocity.y);
-
-
     }
     IEnumerator AttackAnim()
     {
