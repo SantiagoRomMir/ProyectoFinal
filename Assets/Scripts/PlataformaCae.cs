@@ -21,6 +21,8 @@ public class PlataformaCae : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            collision.gameObject.GetComponent<PlayerController>().canMove = false;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             Invoke("Caer", tiempoEspera);
             Invoke("Reaparece", tiempoReaparece);
         }
