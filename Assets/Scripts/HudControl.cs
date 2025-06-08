@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HudControl : MonoBehaviour
@@ -26,6 +27,8 @@ public class HudControl : MonoBehaviour
     public GameObject moneyAmount;
     public GameObject activeBuffs;
     public GameObject buffEffect;
+    public GameObject pauseMenu;
+    public GameObject textContinue;
     // Start is called before the first frame update
     void Start()
     {
@@ -139,5 +142,42 @@ public class HudControl : MonoBehaviour
     public void FadeToAlpha()
     {
         blackScreen.GetComponent<Animator>().SetTrigger("FadeToAlpha");
+    }
+    private void ShowPause()
+    {
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    private void HidePause()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    public void PauseMenu()
+    {
+        textContinue.SetActive(true);
+        if (pauseMenu.activeSelf)
+        {
+            HidePause();
+        } else
+        {
+            ShowPause();
+        }
+    }
+    public void Menu()
+    {
+        StartCoroutine("MainMenu");
+    }
+    public void Continue()
+    {
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().enemyAttack);
+        PauseMenu();
+    }
+    private IEnumerator MainMenu()
+    {
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().GetSoundSource().PlayOneShot(GameObject.FindGameObjectWithTag("SoundManager").GetComponent<SoundController>().enemyAttack);
+        Time.timeScale = 1f;
+        yield return new WaitForSeconds(0.75f);
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -334,6 +334,11 @@ public class PlayerController : MonoBehaviour
 
         hudControl.UpdateMoney(money);
         UpdateActiveBuffs();
+
+        if (Input.GetKeyDown(KeyCode.F3) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            hudControl.PauseMenu();
+        }
     }
     IEnumerator FootStepsSound()
     {
